@@ -1,0 +1,12 @@
+doctype 5
+html
+  head
+    title= title
+    link(data-require="bootstrap-css@*", data-semver="3.0.0", rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
+    link(data-require="bootstrap@*", data-semver="3.0.0", rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
+    script(data-require="bootstrap@*", data-semver="3.0.0", src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")
+    script(data-require="angular.js@*", data-semver="1.2.0-rc3-nonmin", src="http://code.angularjs.org/1.2.0-rc.3/angular.js")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/app.js')
+  body(ng-app='CartExample')
+    block content
