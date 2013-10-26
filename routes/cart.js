@@ -14,9 +14,9 @@ exports.index = function(req, res){
 
 exports.add = function(req, res){
     // Use timeout to simulate AJAX request and callback the 200
-    setTimeout(addToCart(req.body.item, function(){
-        res.json(200, { msg : 'OK'});}
-    ), 5000);
+    setTimeout(addToCart(req.body, function(){
+        res.json(200, { msg : 'OK'});
+    }), 5000);
 };
 
 function addToCart(item, cb) {

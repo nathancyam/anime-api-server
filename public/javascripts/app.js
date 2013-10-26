@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-angular.module('CartExample', [])
-    .controller('ItemController', function($scope, Cart) {
+ angular.module('CartExample', [])
+    .controller('ItemController', function($scope, $http, Cart) {
         $scope.filters = {};
         $scope.cart = [];
         $scope.items = [{
@@ -62,6 +62,19 @@ angular.module('CartExample', [])
                 item.quantity = 1;
                 $scope.cart.push(item);
             }
+        };
+
+        $scope.checkout = function(){
+            $http({
+                method: 'POST',
+                url: 'http://localhost:3000/cart/add',
+                data: $scope.cart,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function(data){
+                    $scope.success = 'Checkout Successful';
+            }).error(function(data){
+                    $scope.error = "Checkout Failed!";
+                });
         };
 
         $scope.calculateTotal = function() {
