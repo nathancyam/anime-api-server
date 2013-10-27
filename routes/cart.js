@@ -14,29 +14,31 @@ exports.index = function(req, res){
 
 exports.checkout = function(req, res){
     // Use timeout to simulate AJAX request and callback the 200
-    setTimeout(addToCart(req.body, function(){
-        res.json(200, { msg : 'OK'});
-    }), 5000);
+    setTimeout(function(){
+        addToCart(req.body);
+        cart = [];
+        res.json(200, { status: 'OK' });
+    }, 5000);
 };
 
 exports.add = function(req, res) {
-    var isFound = false;
-    for(item in res)
-    angular.forEach($scope.cart, function(elem) {
-        if (!isFound) {
-            if (elem.id === item.id) {
-                elem.quantity += 1;
-                isFound = true;
-            }
+    var newItem = req.body;
+    var hasItem = false;
+
+    // Go through the cart and check if the item already exists. If so, then increase the quantity in the cart
+    for(var i = 0; i < cart.length; i++){
+        if(cart[i].id === newItem.id) {
+            cart[i].quantity += 1;
+            hasItem = true;
+            break;
         }
-    });
-    if (!isFound) {
-        item.quantity = 1;
-        $scope.cart.push(item);
     }
+    if(!hasItem) {
+        cart.push(newItem);
+    }
+    res.json(200, { status: 'Product added' });
 };
 
-function addToCart(item, cb) {
+function addToCart(item) {
     cart.push(item);
-    cb();
 }

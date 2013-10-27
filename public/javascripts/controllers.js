@@ -14,6 +14,7 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
         $scope.filters = {};
         $scope.cart = [];
         $scope.items = Product.query();
+        $scope.spinner = true;
 
         $scope.categories = [
             {
@@ -45,17 +46,32 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
                 item.quantity = 1;
                 $scope.cart.push(item);
             }
+            $http({
+                method: 'POST',
+                url: 'http://localhost:3000/cart/add',
+                data: item,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function(data){
+                    $scope.success = 'Added "' + item.name + '" to cart!';
+                }).
+                error(function(data){
+                    $scope.error = 'Failed to add to cart';
+                });
         };
 
         $scope.checkout = function () {
+            $scope.spinner = false;
             $http({
                 method: 'POST',
                 url: 'http://localhost:3000/checkout',
                 data: $scope.cart,
                 headers: {'Content-Type': 'application/json'}
             }).success(function () {
+                    $scope.spinner = true;
                     $scope.success = 'Checkout Successful';
+                    $scope.cart = [];
                 }).error(function () {
+                    $scope.spinner = true;
                     $scope.error = "Checkout Failed!";
                 });
         };

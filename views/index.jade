@@ -41,3 +41,4 @@ block content
                             p(ng-show='cart.length > 0')
                                 b Total: {{calculateTotal() | currency}}
                         button.btn.btn-primary#checkout(ng-show='cart.length > 0', ng-click='checkout()') Checkout
+                        img.spinner(src='/assets/ajax_spinner.gif', ng-hide='spinner')
