@@ -9,12 +9,48 @@
 
 var CartControllers = angular.module('CartControllers', []);
 
-CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
-    function($scope, $http, Product){
+CartControllers.controller('BridleController', ['$scope',
+    function($scope){
+        $scope.bridle = {};
+        $scope.activeTemplate = { active: 'config' };
+    }
+]);
+
+CartControllers.controller('ProductController', ['$scope', function($scope) {
+    $scope.types = [{
+        "id": 1,
+        "name": "Type A",
+        "price" : 100
+    },{
+        "id": 2,
+        "name": "Type 1",
+        "price" : 200
+    },{
+        "id": 3,
+        "name": "Type B",
+        "price" : 400
+    },{
+        "id": 4,
+        "name": "Type C",
+        "price" : 600
+    },{
+        "id": 5,
+        "name": "Type D",
+        "price" : 1000
+    }];
+
+    $scope.productType = function(type) {
+        $scope.activeTemplate.active = 'gallery';
+    };
+}]);
+
+CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Product',
+    function($scope, $http, $timeout, Product){
         $scope.filters = {};
         $scope.cart = [];
         $scope.items = Product.query();
         $scope.spinner = true;
+        $scope.previewItem = $scope.items[0];
 
         $scope.categories = [
             {
@@ -40,8 +76,13 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
         };
 
         $scope.previewItem = $scope.items[0];
+
         $scope.addToCart = function (item) {
             var isFound = false;
+            item.isSelected = true;
+
+            // Add this item's category and selection to the JS object
+            $scope.bridle[item.categoryId] = item.id;
             angular.forEach($scope.cart, function (elem) {
                 if (!isFound) {
                     if (elem.id === item.id) {
@@ -93,7 +134,15 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
         };
 
         $scope.removeItem = function (index) {
-            $scope.cart.splice(index, 1);
+            angular.forEach($scope.items, function(elem){
+                if(elem.id == $scope.cart[index].id) {
+                    delete elem.isSelected;
+                }
+            });
+            $scope.cart[index].remove = true;
+            $timeout(function(){
+                $scope.cart.splice(index, 1);
+            }, 800);
         };
 
         $scope.preview = function (item) {

@@ -1,0 +1,10 @@
+div(ng-controller='ProductController')
+    h1 {{title}}
+    p Choose type:
+        div(ng-repeat='type in types | orderBy: price')
+            p {{type.name}}
+            p {{what}}
+            p
+                b {{type.price | currency }}
+            button.btn.btn-primary(ng-click='productType(type)') Build your own
+
