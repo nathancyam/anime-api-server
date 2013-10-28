@@ -7,6 +7,10 @@ body {
     cursor: pointer;
 }
 
+div.item-selected {
+    background-color: rgb(96, 192, 96);
+}
+
 a {
   color: #00B7FF;
 }

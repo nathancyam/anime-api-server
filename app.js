@@ -35,6 +35,7 @@ app.get('/users', user.list);
 app.get('/cart', cart.index);
 app.get('/products', product.list);
 app.post('/cart/add', cart.add);
+app.delete('/cart/:id', cart.remove);
 app.post('/checkout', cart.checkout);
 
 // === SERVER ===

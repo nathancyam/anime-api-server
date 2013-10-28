@@ -9,11 +9,18 @@
 
 var CartControllers = angular.module('CartControllers', []);
 
+CartControllers.controller('BridleController', ['$scope',
+    function($scope){
+        $scope.bridle = {};
+    }
+]);
+
 CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
     function($scope, $http, Product){
         $scope.filters = {};
         $scope.cart = [];
         $scope.items = Product.query();
+        $scope.previewItem = $scope.items[0];
 
         $scope.categories = [
             {
@@ -30,9 +37,12 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
             }
         ];
 
-        $scope.previewItem = $scope.items[0];
         $scope.addToCart = function (item) {
             var isFound = false;
+            item.isSelected = true;
+
+            // Add this item's category and selection to the JS object
+            $scope.bridle[item.categoryId] = item.id;
             angular.forEach($scope.cart, function (elem) {
                 if (!isFound) {
                     if (elem.id === item.id) {
@@ -69,6 +79,11 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
         };
 
         $scope.removeItem = function (index) {
+            angular.forEach($scope.items, function(elem){
+                if(elem.id == $scope.cart[index].id) {
+                    delete elem.isSelected;
+                }
+            });
             $scope.cart.splice(index, 1);
         };
 

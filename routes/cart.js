@@ -36,6 +36,26 @@ exports.add = function(req, res) {
     }
 };
 
+exports.remove = function(req, res) {
+    var removeId = parseInt(req.params.id);
+    var index = checkExistingItemId(removeId);
+    if(index !== false) {
+        cart.splice(index,1);
+        res.json(200, { status: 'Removed' });
+    } else {
+        res.json(200, { status: 'Item not in cart' });
+    }
+};
+
+function checkExistingItemId(itemId){
+    for(var i = 0; i < cart.length; i++) {
+        if(cart[i].id === itemId){
+            return i;
+        }
+    }
+    return false;
+}
+
 function addToCart(item, cb) {
     cart.push(item);
     cb();
