@@ -33,6 +33,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/cart', cart.index);
+app.get('/config', routes.products);
+app.get('/gallery', routes.gallery);
 app.get('/products', product.list);
 app.post('/cart/add', cart.add);
 app.delete('/cart/:id', cart.remove);

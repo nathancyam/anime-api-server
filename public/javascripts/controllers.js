@@ -12,8 +12,37 @@ var CartControllers = angular.module('CartControllers', []);
 CartControllers.controller('BridleController', ['$scope',
     function($scope){
         $scope.bridle = {};
+        $scope.activeTemplate = { active: 'config' };
     }
 ]);
+
+CartControllers.controller('ProductController', ['$scope', function($scope) {
+    $scope.types = [{
+        "id": 1,
+        "name": "Type A",
+        "price" : 100
+    },{
+        "id": 2,
+        "name": "Type 1",
+        "price" : 200
+    },{
+        "id": 3,
+        "name": "Type B",
+        "price" : 400
+    },{
+        "id": 4,
+        "name": "Type C",
+        "price" : 600
+    },{
+        "id": 5,
+        "name": "Type D",
+        "price" : 1000
+    }];
+
+    $scope.productType = function(type) {
+        $scope.activeTemplate.active = 'gallery';
+    };
+}]);
 
 CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Product',
     function($scope, $http, $timeout, Product){

@@ -4,6 +4,7 @@ block content
     h1= title
     p Welcome to #{title}
         div(ng-controller='BridleController')
+            div {{activeTemplate}}
             #example.container(ng-controller='ItemController')
                 .alert.alert-danger(ng-show="error !== undefined")
                     span {{error}}
@@ -12,33 +13,11 @@ block content
                 .row
                     ul.nav.nav-pills.clickable
                         li
+                            a(ng-click='activeTemplate.active = "config"') Choose Type
                         li(ng-repeat='category in categories')
                             a(ng-click='filters.categoryId = category.id') {{category.name}}
                         li
                             a Order Summary
                     #search-container.row
                         input(text='text', ng-model='query', placeholder='Query here')
-                    .row
-                        #product-container.col-md-3
-                            div(ng-repeat='item in items | filter:filters | filter:query', ng-class="{ 'animated pulse item-selected': item.isSelected }")
-                                h4 {{item.name}}
-                                p {{item.description}}
-                                p
-                                    b {{item.price | currency}}
-                                button.btn.btn-sm.btn-info(ng-click='preview(item)') Preview
-                        #item-preview.col-md-6(ng-model='previewItem')
-                            h2 {{previewItem.name}}
-                            p {{previewItem.description}}
-                            button.btn.btn-primary(ng-click='addToCart(previewItem)') Add To Cart
-                        .col-md-3
-                            #cart-container
-                                h3 Cart:
-                                ul#items-list
-                                    li(ng-repeat='cartItem in cart | orderBy:cart.price')
-                                        p.animated.fadeInDown(ng-class="{ 'animated fadeOutRight': cartItem.remove }")
-                                            | {{cartItem.name}} - Qty: {{cartItem.quantity}}
-                                            button.close(ng-click='removeItem($index)', aria-hidden='true') ×
-                                #total
-                                    p(ng-show='cart.length > 0')
-                                        b Total: {{calculateTotal() | currency}}
-                                button.btn.btn-primary#checkout(ng-show='cart.length > 0', ng-click='checkout()') Checkout
+                    div(ng-include="activeTemplate.active")
