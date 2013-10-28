@@ -31,6 +31,14 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
             }
         ];
 
+        $scope.anyFilters = function(){
+            var size = 0, key;
+            for (key in $scope.filters) {
+                if ($scope.filters.hasOwnProperty(key)) size++;
+            }
+            return size > 0;
+        };
+
         $scope.previewItem = $scope.items[0];
         $scope.addToCart = function (item) {
             var isFound = false;

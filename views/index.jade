@@ -2,21 +2,22 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Demonstration of a Cart Application Using Express JS, Angular JS on Node.js server
     #example.container(ng-controller='ItemController')
         .alert.alert-danger(ng-show="error !== undefined")
             span {{error}}
         .alert.alert-success(ng-show="success !== undefined")
             span {{success}}
         .row
-            ul.nav.nav-pills.clickable
-                li
-                li(ng-repeat='category in categories')
+            ul.nav.nav-pills.clickable.nav-justified
+                li(ng-class="{ 'active': !anyFilters() }")
+                    a(ng-click='filters = {}') All Items
+                li(ng-repeat='category in categories', ng-class="{'active': filters.categoryId === category.id }")
                     a(ng-click='filters.categoryId = category.id') {{category.name}}
                 li
                     a Order Summary
             #search-container.row
-                input(text='text', ng-model='query', placeholder='Query here')
+                input(text='text', ng-model='query', placeholder='Search for products')
             .row
                 #product-container.col-md-3
                     div(ng-repeat='item in items | filter:filters | filter:query')
@@ -28,7 +29,7 @@ block content
                 #item-preview.col-md-6(ng-model='previewItem')
                     h2 {{previewItem.name}}
                     p {{previewItem.description}}
-                    button.btn.btn-primary(ng-click='addToCart(previewItem)') Add To Cart
+                    button.btn.btn-primary(ng-click='addToCart(previewItem)', ng-hide='previewItem.name == undefined') Add To Cart
                 .col-md-3
                     #cart-container
                         h3 Cart:
