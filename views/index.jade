@@ -35,7 +35,7 @@ block content
                                 h3 Cart:
                                 ul#items-list
                                     li(ng-repeat='cartItem in cart | orderBy:cart.price')
-                                        p.animated.fadeInDown
+                                        p.animated.fadeInDown(ng-class="{ 'animated fadeOutRight': cartItem.remove }")
                                             | {{cartItem.name}} - Qty: {{cartItem.quantity}}
                                             button.close(ng-click='removeItem($index)', aria-hidden='true') ×
                                 #total

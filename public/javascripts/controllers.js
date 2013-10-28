@@ -15,8 +15,8 @@ CartControllers.controller('BridleController', ['$scope',
     }
 ]);
 
-CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
-    function($scope, $http, Product){
+CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Product',
+    function($scope, $http, $timeout, Product){
         $scope.filters = {};
         $scope.cart = [];
         $scope.items = Product.query();
@@ -84,7 +84,10 @@ CartControllers.controller('ItemController', ['$scope', '$http', 'Product',
                     delete elem.isSelected;
                 }
             });
-            $scope.cart.splice(index, 1);
+            $scope.cart[index].remove = true;
+            $timeout(function(){
+                $scope.cart.splice(index, 1);
+            }, 800);
         };
 
         $scope.preview = function (item) {
