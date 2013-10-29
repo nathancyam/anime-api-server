@@ -13,6 +13,7 @@ CartControllers.controller('BridleController', ['$scope',
     function($scope){
         $scope.bridle = {};
         $scope.activeTemplate = { active: 'config' };
+        $scope.hasChosenType = { chosenType: false };
     }
 ]);
 
@@ -39,8 +40,9 @@ CartControllers.controller('ProductController', ['$scope', function($scope) {
         "price" : 1000
     }];
 
-    $scope.productType = function(type) {
+    $scope.productType = function() {
         $scope.activeTemplate.active = 'gallery';
+        $scope.hasChosenType.chosenType = true;
     };
 }]);
 
@@ -67,12 +69,28 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
             }
         ];
 
+        $scope.resetFilters = function(){
+            $scope.filters = {};
+        };
+
         $scope.anyFilters = function(){
             var size = 0, key;
             for (key in $scope.filters) {
                 if ($scope.filters.hasOwnProperty(key)) size++;
             }
             return size > 0;
+        };
+
+        $scope.isActive = function(category) {
+            var isSelected = false;
+            angular.forEach($scope.filters, function(e, k) {
+                if(!isSelected) {
+                    if(k === 'categoryId' && category.id === e) {
+                        isSelected = true;
+                    }
+                }
+            });
+            return isSelected;
         };
 
         $scope.previewItem = $scope.items[0];
@@ -100,10 +118,10 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
                 url: 'http://localhost:3000/cart/add',
                 data: item,
                 headers: {'Content-Type': 'application/json'}
-            }).success(function(data){
+            }).success(function(){
                     $scope.success = 'Added "' + item.name + '" to cart!';
                 }).
-                error(function(data){
+                error(function(){
                     $scope.error = 'Failed to add to cart';
                 });
         };
@@ -119,6 +137,7 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
                     $scope.spinner = true;
                     $scope.success = 'Checkout Successful';
                     $scope.cart = [];
+                    deselectAll();
                 }).error(function () {
                     $scope.spinner = true;
                     $scope.error = "Checkout Failed!";
@@ -134,11 +153,11 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
         };
 
         $scope.removeItem = function (index) {
-            angular.forEach($scope.items, function(elem){
-                if(elem.id == $scope.cart[index].id) {
-                    delete elem.isSelected;
-                }
-            });
+            $http({
+                method: 'DELETE',
+                url: 'http://localhost:3000/cart/' + $scope.cart[index].id
+            }).success(function(data){
+                });
             $scope.cart[index].remove = true;
             $timeout(function(){
                 $scope.cart.splice(index, 1);
@@ -148,6 +167,12 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
         $scope.preview = function (item) {
             $scope.previewItem = item;
         };
+
+        function deselectAll() {
+            angular.forEach($scope.items, function(e){
+                e.isSelected = false;
+            });
+        }
 
     }]);
 
