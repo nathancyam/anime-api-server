@@ -22,3 +22,5 @@ block content
                     #search-container.row
                         input(text='text', ng-model='query', placeholder='Search Products')
                     div(ng-include="activeTemplate.active")
+                    input(text='text', ng-model='testModel')
+                    div(test-directive test='testModel')

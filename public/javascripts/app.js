@@ -6,5 +6,5 @@
  * To change this template use File | Settings | File Templates.
  */
 
-angular.module('CartExample', ['CartControllers', 'ProductResource']);
+angular.module('CartExample', ['CartControllers', 'ProductResource', 'CartDirectives']);
 
