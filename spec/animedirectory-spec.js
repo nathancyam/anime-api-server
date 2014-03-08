@@ -21,19 +21,34 @@ describe('Reading file paths', function() {
         expect(testObj.getPathStats).toHaveBeenCalled();
     });
 
-    it('should return a promise object', function() {
+    it('should return a promise object when reading the file path', function() {
         var promise = testObj.readPath();
         expect(typeof promise).toBe('object');
         expect(typeof promise.then).toBe('function');
     });
 
-    it('should return a promise object which is resolved', function(done) {
+    it('should return a resolved promise object after reading the file', function(done) {
         var orig = testObj.readPath();
         setTimeout(function() {
             expect(orig).not.toEqual(testObj.readPath());
             done();
         }, 1);
     });
+
+    it('should save the results to a memoziation object', function(done) {
+        var memoObj = testObj.memorizeCache;
+        testObj.readPath();
+        expect(typeof memoObj).toBe('object');
+        expect(memoObj).toEqual({});
+        setTimeout(function() {
+            expect(memoObj).not.toEqual({});
+            done();
+        }, 50);
+    });
+
+//    it('should receive the objects from the memorization object', function(done) {
+//
+//    });
 });
 
 describe('Anime Backbone Model', function() {
