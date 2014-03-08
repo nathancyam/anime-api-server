@@ -21,22 +21,17 @@ var AnimeCollection = Backbone.Collection.extend({
 });
 
 function AnimeDirectory() {
-    "use strict";
     this.collection = new AnimeCollection();
 }
 
 AnimeDirectory.prototype.readPath = function() {
     var self = this;
     var deferred = q.defer();
-    var files = fs.readdirSync(FILE_PATH);
-
-    files = files.map(function(item) {
-        "use strict";
+    var files = fs.readdirSync(FILE_PATH).map(function(item) {
         return FILE_PATH + "/" + item;
     });
 
     self.getPathStats(files).then(function(collection) {
-        "use strict";
         self.collection.add(collection.filter(function(element) {
             return element !== undefined;
         }));
@@ -62,13 +57,16 @@ AnimeDirectory.prototype.getPathStats = function (filePath) {
     };
 
     async.map(filePath, addToCollection, function(err, results) {
-        "use strict";
-        console.log(JSON.stringify(results));
         deferred.resolve(results);
     });
+
     return deferred.promise;
 };
 
 exports.AnimeDirectoryFactory = function() {
     return new AnimeDirectory();
+};
+
+exports.AnimeFactory = function(params) {
+    return new Anime(params);
 };
