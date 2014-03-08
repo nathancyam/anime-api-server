@@ -22,6 +22,7 @@ var AnimeCollection = Backbone.Collection.extend({
 
 function AnimeDirectory() {
     this.collection = new AnimeCollection();
+    this.memorizeCache = {};
 }
 
 AnimeDirectory.prototype.readPath = function() {
@@ -35,6 +36,7 @@ AnimeDirectory.prototype.readPath = function() {
         self.collection.add(collection.filter(function(element) {
             return element !== undefined;
         }));
+        self.memorizeCache['collection'] = self.collection;
         deferred.resolve();
     });
 
