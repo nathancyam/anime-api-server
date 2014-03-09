@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
 var cart = require('./routes/cart');
+var config = require('config');
 var product = require('./routes/product');
 var http = require('http');
 var path = require('path');

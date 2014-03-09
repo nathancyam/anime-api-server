@@ -1,4 +1,4 @@
-var FILE_PATH = '/media/nfs/pi/shows';
+var FILE_PATH = require('../config').config.media_dir;
 
 var fs = require('fs');
 var q = require('q');
