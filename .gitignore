@@ -12,6 +12,7 @@ lib-cov
 benchmarks/graphs
 testing
 node_modules/
+build/
 testing
 .coverage_data
 cover_html

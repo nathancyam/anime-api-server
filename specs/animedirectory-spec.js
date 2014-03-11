@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var animeDirectory = require('../models/anime');
+var animeDirectory = require('../src/models/anime');
 
 describe('Reading file paths', function() {
     var testObj = null;
@@ -32,23 +32,29 @@ describe('Reading file paths', function() {
         setTimeout(function() {
             expect(orig).not.toEqual(testObj.readPath());
             done();
-        }, 1);
+        }, 100);
     });
 
-    it('should save the results to a memoziation object', function(done) {
-        var memoObj = testObj.memorizeCache;
-        testObj.readPath();
-        expect(typeof memoObj).toBe('object');
-        expect(memoObj).toEqual({});
+/*    it('should return the collection immediately if it is not empty', function(done) {
+        var test = testObj;
+        test.readPath();
         setTimeout(function() {
-            expect(memoObj).not.toEqual({});
+            spyOn(test, 'getPathStats').andCallThrough();
+            test.readPath();
+            expect(testObj.getPathStats).not.toHaveBeenCalled();
             done();
-        }, 50);
-    });
+        }, 100);
+    });*/
 
-//    it('should receive the objects from the memorization object', function(done) {
-//
-//    });
+    it('should have the episode list', function(done) {
+        testObj.readPath();
+        setTimeout(function() {
+            var model = testObj.collection.at(10).get('episode_array');
+            expect(typeof model).toBe('object');
+            expect(model.length).toBeGreaterThan(0);
+            done();
+        }, 100);
+    });
 });
 
 describe('Anime Backbone Model', function() {
