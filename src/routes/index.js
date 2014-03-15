@@ -2,7 +2,9 @@
  * GET home page.
  */
 
+"use strict";
 var anime = require('../models/anime');
+var mal = require('../helpers/mal');
 var async = require('async');
 var q = require('q');
 
@@ -23,8 +25,16 @@ exports.getanime = function (req, res) {
     console.log('Got request');
 
     animeDirectory.readPath().then(function() {
-        "use strict";
         var test = animeDirectory.collection.toJSON();
         res.send(test);
     });
+};
+
+exports.getapi = function(req, res) {
+    var api = mal.MyAnimeListModule;
+    api.search('strike witches', function(err, apiResponse) {
+        if (!err) {
+            res.send(apiResponse);
+        }
+    })
 };

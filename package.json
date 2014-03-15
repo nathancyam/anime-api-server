@@ -11,7 +11,8 @@
     "async": "*",
     "q": "*",
     "jasmine-node": "*",
-    "backbone": "*"
+    "backbone": "*",
+    "xml2js": "*"
   },
   "devDependencies": {
     "grunt": "^0.4.3",
