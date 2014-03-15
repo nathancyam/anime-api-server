@@ -1,6 +1,7 @@
 "use strict";
+var app_config = require('../config');
 
-var FILE_PATH = '/media/nfs/pi/shows',
+var FILE_PATH = app_config.app_config.media_dir,
     fs = require('fs'),
     q = require('q'),
     async = require('async'),
@@ -9,10 +10,8 @@ var FILE_PATH = '/media/nfs/pi/shows',
 var Anime = Backbone.Model.extend({
     defaults: function () {
         return {
-            "subgroup": '',
-            "episode_array": [],
-            "episode_num": '',
-            "checksum": ''
+            "episode_collection": new EpisodeCollection(),
+            "filenames": []
         }
     },
     initialize: function () {
@@ -20,12 +19,49 @@ var Anime = Backbone.Model.extend({
     },
     setLowerCase: function () {
         this.set({normalizedName: this.get('name').replace(/\W/g, '').toLowerCase()});
+    },
+    fillEpisodeCollection: function () {
+        var self = this;
+        var fileNames = this.get('filenames');
+
+        fileNames.forEach(function (file) {
+            var ep = new Episode({ fileString: file });
+            self.get('episode_collection').add(ep);
+        });
     }
 });
 
-var AnimeCollection = Backbone.Collection.extend({
-    model: Anime
+var Episode = Backbone.Model.extend({
+    initialize: function () {
+        this.getSubgroup();
+        this.getEpisodeNum();
+    },
+    getSubgroup: function () {
+        var regexp = /^\[(.*?)]/gi;
+        if (this.isAnime()) {
+            var match = this.get('fileString').match(regexp);
+            if (match !== undefined && match !== null) {
+                this.set({ subGroup: match.pop() });
+            }
+        }
+    },
+    getEpisodeNum: function () {
+        var regexp = /\d\d/;
+        if (this.isAnime()) {
+            var match = this.get('fileString').match(regexp);
+            if (match !== undefined && match !== null) {
+                this.set({ episodeNum: match.pop() });
+            }
+        }
+    },
+    isAnime: function () {
+        var fileName = this.get('fileString');
+        return fileName.split('.').pop() === 'mkv' && fileName.match(/\[(.*?)]/gi) !== undefined;
+    }
 });
+
+var EpisodeCollection = Backbone.Collection.extend({ model: Episode });
+var AnimeCollection = Backbone.Collection.extend({ model: Anime });
 
 function AnimeDirectory() {
     this.collection = new AnimeCollection();
@@ -74,23 +110,36 @@ AnimeDirectory.prototype.getPathStats = function (filePath) {
     var readAnimeDirFiles = function (model, done) {
         fs.readdir(model.get('file_path'), function (err, files) {
             async.each(files, function (file, next) {
-                model.get('episode_array').push(file);
+                model.get('filenames').push(file);
                 next(null);
             }, function () {
+                model.fillEpisodeCollection();
                 done(null);
             });
         });
     };
 
-    async.map(filePath, addToCollection, function (err, models) {
-        models = models.filter(function (item) {
-            return item !== undefined;
-        });
-        async.each(models, function (model, callback) {
-            readAnimeDirFiles(model, callback);
-        }, function () {
-            deferred.resolve(models);
-        });
+    async.waterfall([
+        function (next) {
+            async.map(filePath, addToCollection, function (err, models) {
+                models = models.filter(function (item) {
+                    return item !== undefined;
+                });
+                next(null, models);
+            });
+        },
+        function (models, done) {
+            async.each(models, function (model, callback) {
+                readAnimeDirFiles(model, callback);
+            }, function () {
+                done(null, models)
+            });
+        },
+    ], function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        deferred.resolve(result);
     });
 
     return deferred.promise;
