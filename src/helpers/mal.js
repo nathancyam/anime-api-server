@@ -11,7 +11,7 @@ var MyAnimeList = (function () {
         auth: mal_user + ':' + mal_pw
     };
 
-    var cleanUpAnimeName = function(animeName) {
+    var cleanUpAnimeName = function (animeName) {
         return animeName.replace(/\W/gi, ' ').replace(/\s/gi, '+');
     };
 
@@ -24,7 +24,7 @@ var MyAnimeList = (function () {
 
             options.path = searchUri + searchFriendlyName;
 
-            var request = http.request(options, function (apiResponse) {
+            var request = http.request(options,function (apiResponse) {
                 apiResponse.setEncoding('binary');
                 apiResponse.data = '';
                 apiResponse.on('data', function (chunk) {
@@ -41,10 +41,10 @@ var MyAnimeList = (function () {
 
             request.end();
         },
-        parseMalResult: function(result) {
+        parseMalResult: function (result) {
             var parser = require('xml2js').Parser(),
                 parseResult = '';
-            parser.parseString(result, function(err, results) {
+            parser.parseString(result, function (err, results) {
                 parseResult = results;
             });
             return parseResult;
