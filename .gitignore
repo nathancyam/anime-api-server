@@ -19,4 +19,4 @@ cover_html
 test.js
 .idea
 *.iml
-config.js
+src/config.js
