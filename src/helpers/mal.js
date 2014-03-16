@@ -37,8 +37,13 @@ var MyAnimeList = (function () {
                     apiResponse.data += chunk;
                 });
                 apiResponse.on('end', function () {
-                    var jsonResult = self.parseMalResult((apiResponse.data));
-                    Cache.set(searchFriendlyName, jsonResult);
+                    var jsonResult = '';
+                    if (apiResponse.data === 'No results') {
+                        jsonResult = 'No results';
+                    } else {
+                        jsonResult = self.parseMalResult(apiResponse.data);
+                        Cache.set(searchFriendlyName, jsonResult);
+                    }
                     done(null, jsonResult);
                 });
             }).on('error', function (err) {

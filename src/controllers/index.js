@@ -5,7 +5,6 @@
 "use strict";
 var app = require('../app');
 var anime = require('../models/anime'),
-    mal = require('../helpers/mal'),
     async = require('async'),
     q = require('q');
 
@@ -31,11 +30,3 @@ exports.getanime = function (req, res) {
     });
 };
 
-exports.getapi = function(req, res) {
-    var api = mal.MyAnimeListModule;
-    api.search('strike witches', function(err, apiResponse) {
-        if (!err) {
-            res.send(apiResponse);
-        }
-    })
-};

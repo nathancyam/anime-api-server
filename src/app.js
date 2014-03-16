@@ -4,11 +4,12 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
-var cart = require('./routes/cart');
+var routes = require('./controllers');
+var user = require('./controllers/user');
+var cart = require('./controllers/cart');
+var mal = require('./controllers/mal');
 var config = require('./config');
-var product = require('./routes/product');
+var product = require('./controllers/product');
 var http = require('http');
 var path = require('path');
 
@@ -18,7 +19,6 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('MyAnimeListHelper', require('./helpers/mal').MyAnimeList);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -36,10 +36,12 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/cart', cart.index);
+
 app.get('/config', routes.products);
 app.get('/gallery', routes.gallery);
 app.get('/anime', routes.getanime);
-app.get('/testapi', routes.getapi);
+app.get('/malsearch', mal.search);
+
 app.get('/products', product.list);
 app.post('/cart/add', cart.add);
 app.delete('/cart/:id', cart.remove);

@@ -1,7 +1,7 @@
 "use strict";
-var app_config = require('../config');
+var app_config = require('../config').app_config;
 
-var FILE_PATH = app_config.app_config.media_dir,
+var FILE_PATH = app_config.media_dir,
     fs = require('fs'),
     q = require('q'),
     async = require('async'),
@@ -83,6 +83,10 @@ AnimeDirectory.prototype.readPath = function () {
     self.getPathStats(files).then(function (collection) {
         self.collection.add(collection.filter(function (element) {
             return element !== undefined;
+        }).filter(function (element) {
+            return element.get('filenames').every(function (filename) {
+                return self.isAnime(filename);
+            });
         }));
         deferred.resolve(null);
     });
@@ -143,6 +147,22 @@ AnimeDirectory.prototype.getPathStats = function (filePath) {
     });
 
     return deferred.promise;
+};
+
+AnimeDirectory.prototype.isAnime = function (string) {
+    var findSub = string.match(/^\[/i);
+    if (findSub !== null && findSub.length > 0) {
+        var fileType = string.split('.').pop();
+        switch (fileType) {
+            case 'mkv':
+            case 'mp4':
+                return true;
+            default:
+                return false;
+        }
+    } else {
+        return false;
+    }
 };
 
 exports.AnimeDirectoryFactory = function () {
