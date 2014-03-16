@@ -3,10 +3,11 @@
  */
 
 "use strict";
-var anime = require('../models/anime');
-var mal = require('../helpers/mal');
-var async = require('async');
-var q = require('q');
+var app = require('../app');
+var anime = require('../models/anime'),
+    mal = require('../helpers/mal'),
+    async = require('async'),
+    q = require('q');
 
 exports.index = function (req, res) {
     res.render('index', { title: 'Express Cart App' });
