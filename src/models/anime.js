@@ -1,5 +1,6 @@
 "use strict";
 var app_config = require('../config').app_config;
+var Cache = require('./cache').CacheModule;
 
 var FILE_PATH = app_config.media_dir,
     fs = require('fs'),
@@ -138,7 +139,7 @@ AnimeDirectory.prototype.getPathStats = function (filePath) {
             }, function () {
                 done(null, models)
             });
-        },
+        }
     ], function (err, result) {
         if (err) {
             console.log(err);

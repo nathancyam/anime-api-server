@@ -2,6 +2,7 @@
  * My Anime List API module
  */
 
+"use strict";
 var Cache = require('../models/cache').CacheModule;
 var MyAnimeList = (function () {
 
