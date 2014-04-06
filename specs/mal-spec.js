@@ -3,7 +3,7 @@
  */
 
 
-var mal = require('../src/helpers/mal').MyAnimeListModule;
+var mal = require('../src/helpers/mal.js');
 var expect = require('chai').expect;
 
 describe('MyAnimeList', function () {

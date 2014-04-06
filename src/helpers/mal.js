@@ -3,11 +3,11 @@
  */
 
 "use strict";
-var Cache = require('../models/cache').CacheModule;
+var Cache = require('../models/cache');
 var MyAnimeList = (function () {
 
-    var mal_user = require('../config').app_config.mal_username,
-        mal_pw = require('../config').app_config.mal_password;
+    var mal_user = require('../config').mal_username,
+        mal_pw = require('../config').mal_password;
     var options = {
         host: 'myanimelist.net',
         auth: mal_user + ':' + mal_pw
@@ -31,7 +31,7 @@ var MyAnimeList = (function () {
                 return;
             }
 
-            var request = http.request(options,function (apiResponse) {
+            var request = http.request(options, function (apiResponse) {
                 apiResponse.setEncoding('binary');
                 apiResponse.data = '';
                 apiResponse.on('data', function (chunk) {
@@ -66,4 +66,4 @@ var MyAnimeList = (function () {
     }
 })();
 
-exports.MyAnimeListModule = MyAnimeList;
+module.exports = MyAnimeList;

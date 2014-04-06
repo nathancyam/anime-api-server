@@ -30,4 +30,4 @@ var Cache = (function () {
     };
 })();
 
-exports.CacheModule = Cache;
+module.exports = Cache;
