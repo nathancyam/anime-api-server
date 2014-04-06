@@ -20,11 +20,17 @@ module.exports = function (app) {
 
     // ANIME ROUTES
     app.get('/anime', AnimeController.list);
+    app.get('/anime/:name', AnimeController.findByName);
+    app.get('/cleardb', AnimeController.flushAnimeCollection);
+    app.get('/anime/rebuild', AnimeController.rebuildAnimeCollection);
+
     app.get('/malsearch', MyAnimeListController.search);
 
     app.get('/products', ProductController.list);
     app.post('/cart/add', CartController.add);
     app.delete('/cart/:id', CartController.remove);
     app.post('/checkout', CartController.checkout);
+
+
 };
 

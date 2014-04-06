@@ -5,9 +5,9 @@
 var mal = require('../helpers/mal');
 
 exports.search = function (req, res) {
-    var api = mal.MyAnimeListModule,
-        animeName = req.query.name;
-    api.search(animeName, function (err, apiResponse) {
+    var animeName = req.query.name;
+
+    mal.search(animeName, function (err, apiResponse) {
         if (!err) {
             res.send(apiResponse);
         }
