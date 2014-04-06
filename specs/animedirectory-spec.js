@@ -35,17 +35,6 @@ describe('Reading file paths', function () {
         }, 100);
     });
 
-    /*    it('should return the collection immediately if it is not empty', function(done) {
-     var test = testObj;
-     test.readPath();
-     setTimeout(function() {
-     spyOn(test, 'getPathStats').andCallThrough();
-     test.readPath();
-     expect(testObj.getPathStats).not.toHaveBeenCalled();
-     done();
-     }, 100);
-     });*/
-
     it('should have the filename list', function (done) {
         testObj.readPath();
         setTimeout(function () {
@@ -57,26 +46,10 @@ describe('Reading file paths', function () {
 
     it('should have episode model collections', function (done) {
         testObj.readPath();
-        setTimeout(function() {
+        setTimeout(function () {
             var model = testObj.collection().findWhere({name: "Kill la Kill"});
             expect(model.get('episode_collection')).toBe('object');
             done();
         }, 100)
     });
-});
-
-describe('Anime Backbone Model', function () {
-    var animeObj = null;
-
-    beforeEach(function () {
-        animeObj = animeDirectory.AnimeFactory({ name: 'Test Name'});
-    });
-
-    it('should have a name attribute on construction', function () {
-        expect(animeObj.get('name')).toEqual('Test Name');
-    });
-
-    it('should have a normalised name on construction', function () {
-        expect(animeObj.get('normalizedName')).toEqual('testname');
-    })
 });

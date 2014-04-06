@@ -36,7 +36,6 @@ AnimeDirectory.prototype.readPath = function () {
                 if (err) {
                     console.log(err);
                 }
-                console.log("Saved: " + item.title);
             });
             next();
         }, function () {

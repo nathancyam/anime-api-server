@@ -24,23 +24,56 @@ exports.findByName = function (req, res) {
 
 // get one anime by ID
 
-exports.rebuildAnimeCollection = function (req, res) {
-    var AnimeDirectory = require('../models/anime_directory').AnimeDirectoryFactory;
-    var animeDirectory = new AnimeDirectory();
-    animeDirectory.readPath().then(function () {
-        console.log('Finished rebuilding, redirecting...');
+exports.readAnimeDirectory = function (req, res) {
+    Anime.readAnimeDirectory(function () {
         res.redirect('/anime');
     });
 };
 
-exports.flushAnimeCollection = function (req, res) {
-    var mongoose = require('mongoose');
-    var willRebuild = req.query.rebuild;
-    mongoose.connection.collections['animes'].drop(function (err) {
-        if (willRebuild) {
-            exports.rebuildAnimeCollection(req, res);
-        } else {
-            res.redirect('/');
+function createEpisodeModels(done) {
+    var Episode = require('../models/episode');
+    var async = require('async');
+    async.waterfall([
+        function (next) {
+            Anime.find(function (err, result) {
+                next(null, result);
+            });
+        },
+        function (results, finished) {
+            async.each(results, function (anime, cb) {
+                async.each(anime.filenames, function (ep, epCb) {
+                    var model = new Episode({
+                        filePath: anime.filepath + '/' + ep,
+                        isAnime: true,
+                        anime: anime.id
+                    });
+                    model.save(function () {
+                        epCb();
+                    });
+                }, function () {
+                    cb();
+                });
+            }, function () {
+                finished(null);
+            });
         }
-    })
+    ], function (err, results) {
+        done();
+    });
+}
+
+exports.sync = function (req, res) {
+    Anime.syncDb(function () {
+        res.redirect('/anime');
+    });
 };
+
+exports.createEps = function (req, res) {
+    createEpisodeModels(function () {
+        var Episode = require('../models/episode');
+        Episode.find(function (err, results) {
+            res.send(results);
+        });
+    });
+};
+

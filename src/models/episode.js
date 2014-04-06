@@ -2,19 +2,16 @@
  * Created by nathan on 3/20/14.
  */
 
-var Mongoose = require('mongoose'),
-    Schema = Mongoose.Schema;
+var Mongoose = require('mongoose');
+var Schema = Mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var EpisodeSchema = new Schema({
-    subgroup: String,
+    anime: ObjectId,
     number: Number,
     filePath: String,
     isAnime: Boolean
 });
 
-EpisodeSchema.statics.checkAnime = function () {
-    this.isAnime = this.filePath.split('.').pop() === 'mkv' && this.filePath.match(/\[(.*?)]/gi) !== undefined;
-};
-
-module.exports = Mongoose.model('EpisodeSchema', EpisodeSchema);
+module.exports = Mongoose.model('Episode', EpisodeSchema);
 
