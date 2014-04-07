@@ -30,38 +30,6 @@ exports.readAnimeDirectory = function (req, res) {
     });
 };
 
-function createEpisodeModels(done) {
-    var Episode = require('../models/episode');
-    var async = require('async');
-    async.waterfall([
-        function (next) {
-            Anime.find(function (err, result) {
-                next(null, result);
-            });
-        },
-        function (results, finished) {
-            async.each(results, function (anime, cb) {
-                async.each(anime.filenames, function (ep, epCb) {
-                    var model = new Episode({
-                        filePath: anime.filepath + '/' + ep,
-                        isAnime: true,
-                        anime: anime.id
-                    });
-                    model.save(function () {
-                        epCb();
-                    });
-                }, function () {
-                    cb();
-                });
-            }, function () {
-                finished(null);
-            });
-        }
-    ], function (err, results) {
-        done();
-    });
-}
-
 exports.sync = function (req, res) {
     Anime.syncDb(function () {
         res.redirect('/anime');
@@ -69,7 +37,8 @@ exports.sync = function (req, res) {
 };
 
 exports.createEps = function (req, res) {
-    createEpisodeModels(function () {
+    var helper = require('../helpers/episode');
+    helper.createEpisodeModels(function () {
         var Episode = require('../models/episode');
         Episode.find(function (err, results) {
             res.send(results);

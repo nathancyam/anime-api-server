@@ -13,10 +13,9 @@ var AnimeSchema = new Schema({
     filenames: Array
 });
 
-function readAnimeDirectory() {
-    var AnimeDirectory = require('./anime_directory').AnimeDirectoryFactory;
-    var animeDirectory = new AnimeDirectory();
-    return animeDirectory.readPath();
+function readAnimeDirectory(done) {
+    var AnimeDirectory = require('./anime_directory');
+    return AnimeDirectory.generateModels(done)
 }
 
 function flushCollection() {
@@ -25,8 +24,10 @@ function flushCollection() {
         if (err) {
             console.log(err);
         }
-        Cache.flush();
-        deferred.resolve(null);
+        var Episode = require('./episode');
+        Episode.sync(function () {
+            deferred.resolve(null);
+        });
     });
     return deferred.promise;
 }

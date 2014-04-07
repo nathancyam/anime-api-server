@@ -8,6 +8,7 @@ var CartController = require('./controllers/cart');
 
 var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
+    EpisodeController = require('./controllers/episode'),
     ProductController = require('./controllers/product');
 
 module.exports = function (app) {
@@ -24,6 +25,11 @@ module.exports = function (app) {
     app.get('/anime/search', AnimeController.findByName);
     app.get('/malsearch', MyAnimeListController.search);
     app.get('/geteps', AnimeController.createEps);
+
+    // EPISODE ROUTES
+    app.get('/episodes', EpisodeController.list);
+    app.get('/episodes/sync', EpisodeController.sync);
+    app.get('/episodes/anime/:id', EpisodeController.getEpisodesByAnime);
 
     app.get('/products', ProductController.list);
     app.post('/cart/add', CartController.add);
