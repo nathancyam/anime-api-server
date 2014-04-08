@@ -88,6 +88,12 @@ function createEpisodeModels(animeModel, done) {
     });
 }
 
+/**
+ * Checks a directory's contents and goes through each file to verify they are all anime
+ * TODO: This doesn't work with Girls Und Panzer. I blame cuttlefish
+ * @param directory
+ * @param callback
+ */
 function isAnime(directory, callback) {
     fs.readdir(directory, function (err, files) {
         async.every(files, isAnimeFilename, callback);

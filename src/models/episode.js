@@ -44,5 +44,12 @@ EpisodeSchema.methods.getEpisodeNumber = function () {
     }
 };
 
+EpisodeSchema.pre('save', function (next) {
+    if (this.isAnime) {
+        this.getEpisodeNumber();
+    }
+    next();
+});
+
 module.exports = Mongoose.model('Episode', EpisodeSchema);
 
