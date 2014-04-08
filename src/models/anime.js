@@ -1,9 +1,9 @@
 "use strict";
-var Cache = require('./cache');
 var Mongoose = require('mongoose');
 var Schema = Mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var q = require('q');
+var Cache = require('./cache');
+var Episode = require('./episode');
 
 var AnimeSchema = new Schema({
     title: String,
@@ -18,18 +18,15 @@ function readAnimeDirectory(done) {
     return AnimeDirectory.generateModels(done)
 }
 
-function flushCollection() {
-    var deferred = q.defer();
+function flushCollection(done) {
     Mongoose.connection.collections['animes'].drop(function (err) {
         if (err) {
             console.log(err);
         }
-        var Episode = require('./episode');
         Episode.sync(function () {
-            deferred.resolve(null);
+            done();
         });
     });
-    return deferred.promise;
 }
 
 AnimeSchema.methods.setLowerCase = function () {
@@ -37,10 +34,8 @@ AnimeSchema.methods.setLowerCase = function () {
 };
 
 AnimeSchema.statics.syncDb = function (done) {
-    flushCollection().then(function () {
-        return readAnimeDirectory();
-    }).then(function () {
-        done();
+    flushCollection(function () {
+        readAnimeDirectory(done);
     });
 };
 

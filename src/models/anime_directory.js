@@ -73,12 +73,21 @@ function createEpisodeModels(animeModel, done) {
                 filePath: animeModel.filepath + '/' + file,
                 anime: animeModel.id
             });
-            episode.save(function () {
-                next(null);
+            isAnime(animeModel.filepath, function (result) {
+                if (result) episode.isAnime = true;
+                episode.save(function () {
+                    next(null);
+                });
             });
         }, function () {
             done(null);
         });
+    });
+}
+
+function isAnime(directory, callback) {
+    fs.readdir(directory, function (err, files) {
+        async.every(files, isAnimeFilename, callback);
     });
 }
 
@@ -87,19 +96,21 @@ function createEpisodeModels(animeModel, done) {
  * @param string
  * @returns {boolean}
  */
-function isAnimeFilename(string) {
+function isAnimeFilename(string, done) {
     var findSub = string.match(/^\[/i);
     if (findSub !== null && findSub.length > 0) {
         var fileType = string.split('.').pop();
         switch (fileType) {
             case 'mkv':
             case 'mp4':
-                return true;
+                done(true);
+                break;
             default:
-                return false;
+                done(false);
+                break;
         }
     } else {
-        return false;
+        done(false);
     }
 }
 
