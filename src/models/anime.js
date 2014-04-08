@@ -18,6 +18,10 @@ function readAnimeDirectory(done) {
     return AnimeDirectory.generateModels(done)
 }
 
+/**
+ * Flushes the collection of Anime on the Mongo DB
+ * @param done
+ */
 function flushCollection(done) {
     Mongoose.connection.collections['animes'].drop(function (err) {
         if (err) {

@@ -74,7 +74,10 @@ function createEpisodeModels(animeModel, done) {
                 anime: animeModel.id
             });
             isAnime(animeModel.filepath, function (result) {
-                if (result) episode.isAnime = true;
+                if (result) {
+                    episode.isAnime = true;
+                    episode.getEpisodeNumber();
+                }
                 episode.save(function () {
                     next(null);
                 });

@@ -23,6 +23,8 @@ var EpisodeHelper = (function () {
                                 isAnime: true,
                                 anime: anime.id
                             });
+                            var epNumber = model.getEpisodeNumber();
+                            if (epNumber !== null) model.number = epNumber;
                             model.save(function () {
                                 next();
                             });

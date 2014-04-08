@@ -31,5 +31,18 @@ EpisodeSchema.statics.sync = function (done) {
     });
 };
 
+/**
+ * Set the episode number using regex on the episode filename
+ */
+EpisodeSchema.methods.getEpisodeNumber = function () {
+    var episodeFilename = this.filePath.split('/').pop(),
+        results = episodeFilename.match(/\d{2}/i);
+
+    if (results !== undefined && results !== null) {
+        var epNumber = parseInt(results.shift());
+        if (epNumber < 30) this.number = epNumber;
+    }
+};
+
 module.exports = Mongoose.model('Episode', EpisodeSchema);
 
