@@ -9,7 +9,7 @@
 var productResource = angular.module('ProductResource', ['ngResource']);
 
 productResource.factory('Product', ['$resource',
-    function($resource){
+    function ($resource) {
         return $resource('products', {}, {
             query: {
                 method: 'GET',
@@ -18,3 +18,25 @@ productResource.factory('Product', ['$resource',
         });
     }
 ]);
+
+var animeResource = angular.module('AnimeResource', ['ngResource']);
+
+animeResource.factory('Anime', ['$resource', function ($resource) {
+    return $resource('/anime', {}, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    });
+}]);
+
+var episodeResource = angular.module('EpisodeResource', ['ngResource']);
+
+episodeResource.factory('Episode', ['$resource', function ($resource) {
+    return $resource('/episodes/anime/:animeId', { animeId: '@id' }, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    });
+}]);

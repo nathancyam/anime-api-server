@@ -176,3 +176,22 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
 
     }]);
 
+var AnimeControllers = angular.module('AnimeControllers', []);
+
+AnimeControllers.controller('AnimeController', ['$scope', 'Anime', 'Episode',
+    function ($scope, Anime, Episode) {
+        $scope.anime = [];
+        $scope.episodes = [];
+
+        $scope.getAnime = function () {
+            $scope.anime = Anime.query();
+        };
+
+        $scope.getEpisodes = function (id) {
+            Episode.query({ animeId: id}, function (results) {
+                $scope.episodes = results;
+            });
+        };
+
+    }
+]);

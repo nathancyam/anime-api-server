@@ -1,0 +1,58 @@
+$anime-list-color: #666666;
+
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.spinner {
+  padding-left: 10px;
+}
+
+div.item-selected {
+  background-color: rgb(96, 192, 96);
+}
+
+a {
+  color: #00B7FF;
+}
+
+.anime-app {
+  .anime-list {
+    background-color: $anime-list-color;
+    ul {
+      padding: 0;
+    }
+    li {
+      @include transition(background-color, 0.2s, ease);
+      background-color: inherit;
+      color: white;
+      padding: 15px 0px;
+      cursor: pointer;
+      list-style-type: none;
+
+      &:hover {
+        background-color: lightgrey;
+      }
+    }
+  }
+
+  .anime-filter {
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+

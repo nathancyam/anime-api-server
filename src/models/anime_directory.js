@@ -49,15 +49,14 @@ function createAnimeModels(item, callback) {
  * @param callback
  */
 function saveAnimeModel(animeModel, callback) {
-    var isAnime = animeModel.filenames.every(function (filename) {
-        return isAnimeFilename(filename);
+    isAnime(animeModel.filepath, function (anime) {
+        if (anime) {
+            animeModel.isAnime = true;
+            animeModel.save(function () {
+                callback();
+            });
+        }
     });
-    if (isAnime) {
-        animeModel.isAnime = true;
-        animeModel.save(function () {
-            callback();
-        });
-    }
 }
 
 /**
