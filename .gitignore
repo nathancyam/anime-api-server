@@ -21,3 +21,4 @@ test.js
 *.iml
 src/config.js
 .sass-cache/
+*.css
