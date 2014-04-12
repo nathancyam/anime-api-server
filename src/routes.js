@@ -9,6 +9,7 @@ var CartController = require('./controllers/cart');
 var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
+    SubgroupController = require('./controllers/subgroup'),
     ProductController = require('./controllers/product');
 
 module.exports = function (app) {
@@ -30,6 +31,9 @@ module.exports = function (app) {
     app.get('/episodes', EpisodeController.list);
     app.get('/episodes/sync', EpisodeController.sync);
     app.get('/episodes/anime/:id', EpisodeController.getEpisodesByAnime);
+
+    // SUBGROUP ROUTES
+    app.get('/subgroups', SubgroupController.list);
 
     app.get('/products', ProductController.list);
     app.post('/cart/add', CartController.add);

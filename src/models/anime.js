@@ -18,6 +18,11 @@ function readAnimeDirectory(done) {
     AnimeDirectory.generateModels(done)
 }
 
+function getSubGroups(done) {
+    var SubGroups = require('./subgroup');
+    SubGroups.build(done);
+}
+
 /**
  * Flushes the collection of Anime on the Mongo DB
  * @param done
@@ -39,7 +44,15 @@ AnimeSchema.methods.setLowerCase = function () {
 
 AnimeSchema.statics.syncDb = function (done) {
     flushCollection(function () {
-        readAnimeDirectory(done);
+        readAnimeDirectory(function () {
+            getSubGroups(function (subgroups) {
+                var Subgroup = require('./subgroup');
+                Subgroup.create(subgroups, function (err) {
+                    if (err) console.log(err);
+                    done();
+                });
+            });
+        });
     });
 };
 
