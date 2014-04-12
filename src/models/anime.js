@@ -15,7 +15,7 @@ var AnimeSchema = new Schema({
 
 function readAnimeDirectory(done) {
     var AnimeDirectory = require('./anime_directory');
-    return AnimeDirectory.generateModels(done)
+    AnimeDirectory.generateModels(done)
 }
 
 /**

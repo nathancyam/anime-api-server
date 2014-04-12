@@ -8,11 +8,6 @@ $anime-list-color: #666666;
   transition: $transition-property $transition-time $method;
 }
 
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
 .clickable {
   cursor: pointer;
 }
@@ -30,21 +25,39 @@ a {
 }
 
 .anime-app {
+  width: 100%;
+
+  .anime-list-section {
+    padding: 0;
+  }
+
+  .anime-search {
+    background-color: #5f9ea0;
+    padding: 2.5% 5%;
+  }
+
   .anime-list {
     background-color: $anime-list-color;
     ul {
       padding: 0;
     }
     li {
-      @include transition(background-color, 0.2s, ease);
+      @include transition(all, 0.2s, ease);
       background-color: inherit;
       color: white;
-      padding: 15px 0px;
+      padding: 3.5% 5px;
       cursor: pointer;
       list-style-type: none;
+      text-indent: 5%;
 
       &:hover {
         background-color: lightgrey;
+        color: black;
+      }
+
+      .active {
+        background-color: lightgrey;
+        color: black;
       }
     }
   }

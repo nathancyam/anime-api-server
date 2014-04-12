@@ -13,8 +13,8 @@ html
         script(src='/javascripts/directives.js')
         script(src='/javascripts/resources.js')
     body(ng-app='CartExample')
-        nav.navbar.navbar-default
+        nav.navbar.navbar-default.navbar-static-top(role="navigation")
             div.navbar-header
-                a.navbar-brand(href="#") Anime App
-        div.container
+                a.navbar-brand(href="#") Anime Episode Application
+        div.container.anime-app
             block content

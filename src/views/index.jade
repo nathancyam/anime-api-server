@@ -1,41 +1,21 @@
 extends layout
 
 block content
-    h1= title
-    p Demonstration of a Cart Application Using Express JS, Angular JS on Node.js server
-    div(ng-controller='BridleController', style="display: none;")
-        #example.container(ng-controller='ItemController')
-            .alert.alert-danger(ng-show="error !== undefined")
-                span {{error}}
-            .alert.alert-success(ng-show="success !== undefined")
-                span {{success}}
-            .row
-                ul.nav.nav-pills.clickable
-                    li
-                        a(ng-click='activeTemplate.active = "config"') Choose Type
-                    li(ng-show="hasChosenType.chosenType", ng-class="{ 'active': !anyFilters() }")
-                        a(ng-click='resetFilters()') Show All
-                    li(ng-repeat='category in categories', ng-show='hasChosenType.chosenType', ng-class="{ 'active': isActive(category) }")
-                        a(ng-click='filters.categoryId = category.id') {{category.name}}
-                    li
-                        a Order Summary
-                #search-container.row
-                    input(text='text', ng-model='query', placeholder='Search Products')
-                div(ng-include="activeTemplate.active")
-                input(text='text', ng-model='testModel')
-                div(test-directive test='testModel')
-    div.anime-app
-        h2 AnimeStuff
-        div.row(ng-controller="AnimeController")
-            div.col-md-4.anime-list
-                form.form-inline(role="form")
-                    div.form-group.anime-filter
-                        input.form-control(text="text", ng-model="animeFilter", placeholder="Filter anime")
-                    button.btn.btn-default(ng-click="getAnime()") Get Anime
-                div
+    div
+        div.row(ng-controller="AnimeController", ng-init="init()")
+            div.col-md-4.anime-list-section
+                div.anime-search
+                    form.form-inline(role="form")
+                        div.form-group.anime-filter
+                            input.form-control(text="text", ng-model="animeFilter", placeholder="Filter anime")
+                        button.btn.btn-default(ng-click="getAnime()")
+                            span.glyphicon.glyphicon-refresh
+                            | Get Anime
+                div.anime-list
                     ul
-                        li.anime-title(ng-repeat="test in anime | filter: animeFilter", ng-click="getEpisodes(test._id)") {{test.title}}
+                        li.anime-title(ng-repeat="test in anime | filter: animeFilter", ng-click="getEpisodes(test)", ng-class="{ active: isSelected(test) }") {{test.title}}
             div.col-md-8
+                h2 {{selectedAnime.title}}
                 ul(ng-repeat="episode in episodes")
                     li {{episode.filePath}}
 

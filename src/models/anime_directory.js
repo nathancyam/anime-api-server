@@ -51,10 +51,13 @@ function createAnimeModels(item, callback) {
 function saveAnimeModel(animeModel, callback) {
     isAnime(animeModel.filepath, function (anime) {
         if (anime) {
+            console.log(animeModel.title);
             animeModel.isAnime = true;
             animeModel.save(function () {
                 callback();
             });
+        } else {
+            callback();
         }
     });
 }
@@ -105,21 +108,20 @@ function isAnime(directory, callback) {
  * @returns {boolean}
  */
 function isAnimeFilename(string, done) {
-    var findSub = string.match(/^\[/i);
+    var findSub = string.match(/^\[/i),
+        isAnime = false;
     if (findSub !== null && findSub.length > 0) {
         var fileType = string.split('.').pop();
         switch (fileType) {
             case 'mkv':
             case 'mp4':
-                done(true);
+                isAnime = true;
                 break;
             default:
-                done(false);
                 break;
         }
-    } else {
-        done(false);
     }
+    done(isAnime);
 }
 
 /**

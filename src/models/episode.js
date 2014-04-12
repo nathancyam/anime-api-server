@@ -11,6 +11,8 @@ var EpisodeSchema = new Schema({
     anime: ObjectId,
     number: Number,
     filePath: String,
+    fileName: String,
+    subGroup: ObjectId,
     isAnime: Boolean
 });
 
@@ -46,6 +48,7 @@ EpisodeSchema.methods.getEpisodeNumber = function () {
 
 EpisodeSchema.pre('save', function (next) {
     if (this.isAnime) {
+        this.fileName = this.filePath.split("/").pop();
         this.getEpisodeNumber();
     }
     next();
