@@ -185,14 +185,24 @@ CartControllers.controller('ItemController', ['$scope', '$http', '$timeout', 'Pr
 var AnimeControllers = angular.module('AnimeControllers', []),
     EpisodeControllers = angular.module('EpisodeControllers', []);
 
-AnimeControllers.controller('AnimeController', ['$scope', 'Anime', 'Episode',
-    function ($scope, Anime, Episode) {
-        $scope.anime = [];
+AnimeControllers.controller('AnimeController', ['$scope', '$http', 'Anime', 'Episode',
+    function ($scope, $http, Anime, Episode) {
+        $scope.animeList = [];
         $scope.selectedAnime = null;
         $scope.episodes = [];
+        $scope.clickLoad = false;
 
-        $scope.getAnime = function () {
-            $scope.anime = Anime.query();
+        $scope.refresh = function () {
+            $scope.clickLoad = !$scope.clickLoad;
+            $http({ method: 'GET', url: '/anime/sync'})
+                .success(function (data, status) {
+                    $scope.animeList = Anime.query();
+                    $scope.clickLoad = !$scope.clickLoad;
+                })
+                .error(function (data, status) {
+                    console.log('Failed');
+                    $scope.clickLoad = !$scope.clickLoad;
+                });
         };
 
         $scope.getEpisodes = function (anime) {
@@ -203,11 +213,7 @@ AnimeControllers.controller('AnimeController', ['$scope', 'Anime', 'Episode',
         };
 
         $scope.init = function () {
-            $scope.anime = Anime.query();
-        };
-
-        $scope.isSelected = function (anime) {
-            return anime._id === $scope.selectedAnime._id;
+            $scope.animeList = Anime.query();
         };
     }
 ]);

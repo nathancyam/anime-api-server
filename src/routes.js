@@ -10,6 +10,7 @@ var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
     SubgroupController = require('./controllers/subgroup'),
+    AnimeNewsNetworkController = require('./controllers/ann'),
     ProductController = require('./controllers/product');
 
 module.exports = function (app) {
@@ -24,8 +25,14 @@ module.exports = function (app) {
     app.get('/anime', AnimeController.list);
     app.get('/anime/sync', AnimeController.sync);
     app.get('/anime/search', AnimeController.findByName);
-    app.get('/malsearch', MyAnimeListController.search);
     app.get('/geteps', AnimeController.createEps);
+
+    // MYANIMELIST ROUTES
+    app.get('/mal/search', MyAnimeListController.search);
+
+    // ANIME NEWS NETWORK ROUTES
+    app.get('/ann/search', AnimeNewsNetworkController.search);
+    app.get('/ann/:id', AnimeNewsNetworkController.searchById);
 
     // EPISODE ROUTES
     app.get('/episodes', EpisodeController.list);

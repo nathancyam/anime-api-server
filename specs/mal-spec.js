@@ -23,9 +23,9 @@ describe('MyAnimeList', function () {
             });
         });
     });
-    describe('#parseMalResult()', function () {
+    describe('#parseXMLResult()', function () {
         it('should parse some XML', function () {
-            var result = mal.parseMalResult('<example>Test</example>');
+            var result = mal.parseXMLResult('<example>Test</example>');
             expect(result).to.be.a('object');
             expect(result).to.have.property('example');
             expect(result.example).to.equal('Test');

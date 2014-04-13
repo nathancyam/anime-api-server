@@ -8,12 +8,12 @@ block content
                     form.form-inline(role="form")
                         div.form-group.anime-filter
                             input.form-control(text="text", ng-model="animeFilter", placeholder="Filter anime")
-                        button.btn.btn-default(ng-click="getAnime()")
+                        button.btn.btn-default(ng-click="refresh()", ng-model="clickLoad")
                             span.glyphicon.glyphicon-refresh
-                            | Get Anime
-                div.anime-list
+                div.anime-list(ng-class="{ 'anime-list-loading': clickLoad }")
                     ul
-                        li.anime-title(ng-repeat="test in anime | filter: animeFilter", ng-click="getEpisodes(test)", ng-class="{ active: isSelected(test) }") {{test.title}}
+                        li.anime-title(ng-repeat="test in animeList | filter: animeFilter", ng-click="getEpisodes(test)")
+                            span(ng-click="getEpisodes(test)") {{test.title}}
             div.col-md-8
                 h2 {{selectedAnime.title}}
                 ul(ng-repeat="episode in episodes")

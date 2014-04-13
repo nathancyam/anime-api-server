@@ -32,8 +32,18 @@ exports.readAnimeDirectory = function (req, res) {
 
 exports.sync = function (req, res) {
     Anime.syncDb(function (err) {
-        if (err) console.log(err);
-        res.redirect('/anime');
+        var result = {};
+        if (err) {
+            result.status = 'FAILED';
+            result.message = err;
+            console.log(err);
+        } else {
+            result.status = 'SUCCESS';
+            result.message = 'SUCCESS';
+        }
+        setTimeout(function () {
+            res.json(result);
+        }, 5000);
     });
 };
 

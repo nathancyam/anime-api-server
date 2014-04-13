@@ -36,6 +36,10 @@ a {
     padding: 2.5% 5%;
   }
 
+  .anime-list-loading {
+    opacity: 0.2;
+  }
+
   .anime-list {
     background-color: $anime-list-color;
     ul {
@@ -45,10 +49,9 @@ a {
       @include transition(all, 0.2s, ease);
       background-color: inherit;
       color: white;
-      padding: 3.5% 5px;
+      padding: 3.5% 0px;
       cursor: pointer;
       list-style-type: none;
-      text-indent: 5%;
 
       &:hover {
         background-color: lightgrey;
@@ -58,6 +61,10 @@ a {
       .active {
         background-color: lightgrey;
         color: black;
+      }
+
+      span {
+        margin-left: 5%;
       }
     }
   }

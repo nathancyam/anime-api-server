@@ -13,8 +13,6 @@
         "mocha": "*",
         "chai": "*",
         "underscore": "*",
-        "jasmine-node": "*",
-        "backbone": "*",
         "mongoose": "*",
         "xml2js": "*"
     },
