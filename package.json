@@ -12,6 +12,7 @@
         "q": "*",
         "mocha": "*",
         "chai": "*",
+        "sinon": "*",
         "underscore": "*",
         "mongoose": "*",
         "xml2js": "*"

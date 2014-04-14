@@ -51,7 +51,6 @@ function createAnimeModels(item, callback) {
 function saveAnimeModel(animeModel, callback) {
     isAnime(animeModel.filepath, function (anime) {
         if (anime) {
-            console.log(animeModel.title);
             animeModel.isAnime = true;
             animeModel.save(function () {
                 callback();
