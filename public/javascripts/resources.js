@@ -6,19 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var productResource = angular.module('ProductResource', ['ngResource']);
-
-productResource.factory('Product', ['$resource',
-    function ($resource) {
-        return $resource('products', {}, {
-            query: {
-                method: 'GET',
-                isArray: true
-            }
-        });
-    }
-]);
-
 var animeResource = angular.module('AnimeResource', ['ngResource']);
 
 animeResource.factory('Anime', ['$resource', function ($resource) {
