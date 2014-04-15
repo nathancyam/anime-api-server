@@ -1,0 +1,12 @@
+<div>
+    <table class="table">
+        <tr>
+            <td><strong>File Name</strong></td>
+            <td><strong>Episode Number</strong></td>
+        </tr>
+        <tr ng-repeat="episode in episodes | orderBy:number">
+            <td>{{episode.fileName}}</td>
+            <td>{{episode.number}}</td>
+        </tr>
+    </table>
+</div>

@@ -16,7 +16,6 @@ block content
                             span(ng-click="getEpisodes(test)") {{test.title}}
             div.col-md-8
                 h2 {{selectedAnime.title}}
-                ul(ng-repeat="episode in episodes")
-                    li {{episode.filePath}}
+                div(episode-list episodes="episodes")
 
 

@@ -5,7 +5,6 @@
 
 var express = require('express');
 var config = require('./config');
-var product = require('./controllers/product');
 var http = require('http');
 var path = require('path');
 

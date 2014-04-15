@@ -10,8 +10,10 @@ angular.module('AnimeApp',
     [
         'ui.bootstrap',
         'AnimeControllers',
+        'AnimeDirectives',
         'AnimeResource',
-        'EpisodeResource'
+        'EpisodeResource',
+        'SubgroupResource'
     ]
 );
 

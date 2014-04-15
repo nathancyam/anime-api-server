@@ -3,23 +3,17 @@
  */
 
 var routes = require('./controllers');
-var user = require('./controllers/user');
-var CartController = require('./controllers/cart');
 
 var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
     SubgroupController = require('./controllers/subgroup'),
-    AnimeNewsNetworkController = require('./controllers/ann'),
-    ProductController = require('./controllers/product');
+    AnimeNewsNetworkController = require('./controllers/ann');
 
 module.exports = function (app) {
-    app.get('/', routes.index);
-    app.get('/users', user.list);
-    app.get('/cart', CartController.index);
 
-    app.get('/config', routes.products);
-    app.get('/gallery', routes.gallery);
+    // INDEX
+    app.get('/', routes.index);
 
     // ANIME ROUTES
     app.get('/anime', AnimeController.list);
@@ -41,10 +35,7 @@ module.exports = function (app) {
 
     // SUBGROUP ROUTES
     app.get('/subgroups', SubgroupController.list);
-
-    app.get('/products', ProductController.list);
-    app.post('/cart/add', CartController.add);
-    app.delete('/cart/:id', CartController.remove);
-    app.post('/checkout', CartController.checkout);
+    app.get('/subgroup/search', SubgroupController.search);
+    app.get('/subgroups/sync', SubgroupController.sync);
 };
 

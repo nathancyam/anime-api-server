@@ -27,3 +27,13 @@ episodeResource.factory('Episode', ['$resource', function ($resource) {
         }
     });
 }]);
+
+var subGroupResource = angular.module('SubgroupResource', ['ngResource']);
+
+subGroupResource.factory('Subgroup', ['$resource', function($resource) {
+    return $resource('/subgroup/:subGroupId', { subGroupId: '@id' }, {
+        query: {
+            method: 'GET'
+        }
+    });
+}]);
