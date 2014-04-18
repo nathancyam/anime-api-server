@@ -10,8 +10,10 @@ exports.search = function (req, res) {
 
     ann.searchByName(animeName, function (err, apiResponse) {
         if (!err) {
-            Cache.set(req.url, apiResponse);
-            res.send(apiResponse);
+            ann.hasOneResult(apiResponse, function(err, result) {
+                Cache.set(req.url, result);
+                res.send(result);
+            });
         }
     })
 };

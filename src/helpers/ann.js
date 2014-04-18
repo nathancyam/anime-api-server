@@ -20,6 +20,10 @@ var options = {
 
 var AnimeNewsNetwork = require('./anime_api')(options);
 
+var getResultId = function(results) {
+    return parseInt(results.report.item.pop().id.pop());
+};
+
 AnimeNewsNetwork.searchById = function (id, done) {
     var options = {
         host: 'cdn.animenewsnetwork.com',
@@ -36,8 +40,18 @@ AnimeNewsNetwork.searchById = function (id, done) {
     apiRequest.search(options, done);
 };
 
-AnimeNewsNetwork.queryURL = function () {
-
+AnimeNewsNetwork.hasOneResult = function(results, done) {
+    if (results.report.item.length == 1) {
+        var id = getResultId(results);
+        if (done) {
+            this.searchById(id, done);
+        } else {
+            return true;
+        }
+    } else {
+        done(null, results);
+    }
 };
+
 
 module.exports = AnimeNewsNetwork;

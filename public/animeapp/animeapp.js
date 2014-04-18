@@ -13,7 +13,8 @@ angular.module('AnimeApp',
         'AnimeDirectives',
         'AnimeResource',
         'EpisodeResource',
-        'SubgroupResource'
+        'SubgroupResource',
+        'AnnResource'
     ]
 );
 
