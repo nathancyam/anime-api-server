@@ -5,6 +5,7 @@
 
 var express = require('express');
 var config = require('./config');
+var Cache = require('./models/cache');
 var http = require('http');
 var path = require('path');
 
@@ -23,6 +24,14 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '../public')));
+
+app.use(function(req, res, next) {
+    if (Cache.has(req.url)) {
+        res.send(Cache.get(req.url));
+    } else {
+        next();
+    }
+});
 
 app.configure('development', function () {
     app.use(express.errorHandler());

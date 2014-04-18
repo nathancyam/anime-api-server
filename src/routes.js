@@ -2,8 +2,10 @@
  * Created by nathan on 4/6/14.
  */
 
-var routes = require('./controllers');
+var routes = require('./controllers'),
+    Cache = require('./models/cache');
 
+// CONTROLLERS
 var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
@@ -11,13 +13,11 @@ var MyAnimeListController = require('./controllers/mal'),
     AnimeNewsNetworkController = require('./controllers/ann');
 
 module.exports = function (app) {
-
     // INDEX
     app.get('/', routes.index);
 
     // ANIME ROUTES
     app.get('/anime', AnimeController.list);
-    app.get('/anime/sync', AnimeController.sync);
     app.get('/anime/search', AnimeController.findByName);
     app.get('/geteps', AnimeController.createEps);
 
@@ -30,12 +30,15 @@ module.exports = function (app) {
 
     // EPISODE ROUTES
     app.get('/episodes', EpisodeController.list);
-    app.get('/episodes/sync', EpisodeController.sync);
     app.get('/episodes/anime/:id', EpisodeController.getEpisodesByAnime);
 
     // SUBGROUP ROUTES
     app.get('/subgroups', SubgroupController.list);
     app.get('/subgroup/search', SubgroupController.search);
-    app.get('/subgroups/sync', SubgroupController.sync);
+
+    // SYNC ROUTES
+    app.get('/sync/anime', AnimeController.sync);
+    app.get('/sync/subgroups', SubgroupController.sync);
+    app.get('/sync/episodes', EpisodeController.sync);
 };
 
