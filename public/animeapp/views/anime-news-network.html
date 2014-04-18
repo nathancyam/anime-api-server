@@ -1,0 +1,29 @@
+<div ng-model="anime">
+    <div>{{anime}}</div>
+    <button class="btn btn-default" ng-click="getAnime(anime)">
+        Start ANN request
+    </button>
+    <div class="ann-results">
+        <div ng-if="isLoading">
+            <img id="loadSpinner" src="assets/ajax_spinner_large.gif" alt="loading" />
+        </div>
+        <table class="table results" ng-class="{ loading: isLoading }">
+            <tr>
+                <td>Genres:</td>
+                <td>
+                    <span ng-repeat="genre in results.genres">
+                        <span class="label label-primary">{{genre}}</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Themes:</td>
+                <td>
+                    <span ng-repeat="theme in results.themes">
+                        <span class="label label-primary">{{theme}}</span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -24,10 +24,13 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
             anime: '='
         },
         controller: function ($scope) {
-            $scope.name = null;
+            $scope.isLaoding = false;
+            $scope.results = 'No Results';
             $scope.getAnime = function (name) {
+                $scope.isLoading = !$scope.isLoading;
                 ANN.get({ name: name }, function (results) {
-                    $scope.name = results;
+                    $scope.isLoading = !$scope.isLoading;
+                    $scope.results = results;
                 });
             };
         },

@@ -7,7 +7,7 @@ block content
                 form.form-inline(role="form")
                     div.form-group.anime-filter
                         input.form-control(text="text", ng-model="animeFilter", placeholder="Filter anime")
-            div.anime-list(ng-class="{ 'anime-list-loading': clickLoad }")
+            div.anime-list(ng-class="{ 'loading': clickLoad }")
                 ul
                     li.anime-title(ng-repeat="test in animeList | filter: animeFilter", ng-click="getEpisodes(test)")
                         span(ng-click="getEpisodes(test)") {{test.title}}
@@ -21,6 +21,6 @@ block content
                         accordion-group(heading="Test", is-open="true")
                             div test
                 div.col-md-4
-                    div
+                    div.row(anime-news-network anime="selectedAnime.title")
 
 

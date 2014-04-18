@@ -79,9 +79,13 @@ a {
         }
       }
     }
+    #loadSpinner {
+      opacity: 1.0;
+      margin: 0 auto;
+    }
   }
 
-  .anime-list-loading {
+  .loading {
     opacity: 0.2;
   }
 

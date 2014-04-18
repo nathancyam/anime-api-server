@@ -6,7 +6,7 @@
 var Cache = require('../models/cache'),
     qs = require('querystring');
 
-var AnimeAPI = function (options) {
+var AnimeAPI = function (options, parsers) {
 
     var cleanUpAnimeName = function (animeName) {
         return animeName.replace(/\W/gi, ' ');
@@ -33,6 +33,11 @@ var AnimeAPI = function (options) {
                         jsonResult = 'No results';
                     } else {
                         jsonResult = self.parseXMLResult(apiResponse.data);
+                        if (parsers !== undefined) {
+                            parsers.map(function(element) {
+                                element.apply(jsonResult);
+                            });
+                        }
                     }
                     done(null, jsonResult);
                 });
