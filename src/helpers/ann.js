@@ -3,8 +3,6 @@
  */
 
 "use strict";
-var Cache = require('../models/cache');
-
 var options = {
     host: 'www.animenewsnetwork.com',
     path: '/encyclopedia/reports.xml?',

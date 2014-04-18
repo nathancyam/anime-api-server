@@ -3,7 +3,7 @@
  */
 
 var routes = require('./controllers'),
-    Cache = require('./models/cache');
+    CacheHelper = require('./helpers/cache');
 
 // CONTROLLERS
 var MyAnimeListController = require('./controllers/mal'),
@@ -17,16 +17,16 @@ module.exports = function (app) {
     app.get('/', routes.index);
 
     // ANIME ROUTES
-    app.get('/anime', AnimeController.list);
+    app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
     app.get('/anime/search', AnimeController.findByName);
     app.get('/geteps', AnimeController.createEps);
 
     // MYANIMELIST ROUTES
-    app.get('/mal/search', MyAnimeListController.search);
+    app.get('/mal/search', CacheHelper.getCacheResponse, MyAnimeListController.search);
 
     // ANIME NEWS NETWORK ROUTES
-    app.get('/ann/search', AnimeNewsNetworkController.search);
-    app.get('/ann/:id', AnimeNewsNetworkController.searchById);
+    app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
+    app.get('/ann/:id', CacheHelper.getCacheResponse, AnimeNewsNetworkController.searchById);
 
     // EPISODE ROUTES
     app.get('/episodes', EpisodeController.list);

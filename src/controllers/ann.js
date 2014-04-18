@@ -2,13 +2,15 @@
  * Created by nathan on 3/16/14.
  */
 
-var ann = require('../helpers/ann');
+var ann = require('../helpers/ann'),
+    Cache= require('../models/cache');
 
 exports.search = function (req, res) {
     var animeName = req.query.name;
 
     ann.searchByName(animeName, function (err, apiResponse) {
         if (!err) {
+            Cache.set(req.url, apiResponse);
             res.send(apiResponse);
         }
     })
@@ -19,6 +21,7 @@ exports.searchById = function (req, res) {
 
     ann.searchById(id, function (err, apiResponse) {
         if (!err) {
+            Cache.set(req.url, apiResponse);
             res.json(apiResponse);
         }
     })

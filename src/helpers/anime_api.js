@@ -4,25 +4,13 @@
 
 "use strict";
 var Cache = require('../models/cache'),
-    qs = require('querystring'),
-    EventEmitter = require('events').EventEmitter;
+    qs = require('querystring');
 
 var AnimeAPI = function (options) {
-    var eventEmitter = new EventEmitter();
 
     var cleanUpAnimeName = function (animeName) {
         return animeName.replace(/\W/gi, ' ');
     };
-
-    var setCacheTag = function (name) {
-        if (options.cache !== undefined && options.cache.tag !== undefined) {
-            return name + ' ' + options.cache.tag;
-        }
-    };
-
-    eventEmitter.on('set_cache', function (value) {
-        Cache.set(options.cache.key, value);
-    });
 
     return {
         search: function (options, done) {
@@ -31,11 +19,6 @@ var AnimeAPI = function (options) {
 
             if (options.query !== undefined) {
                 options.path += qs.stringify(options.query);
-            }
-
-            if (Cache.has(options.cache.key)) {
-                done(null, Cache.get(options.cache.key));
-                return;
             }
 
             var request = http.request(options, function (apiResponse) {
@@ -50,7 +33,6 @@ var AnimeAPI = function (options) {
                         jsonResult = 'No results';
                     } else {
                         jsonResult = self.parseXMLResult(apiResponse.data);
-                        eventEmitter.emit('set_cache', jsonResult);
                     }
                     done(null, jsonResult);
                 });
@@ -65,11 +47,9 @@ var AnimeAPI = function (options) {
         searchByName: function (animeName, done) {
             var searchFriendlyName = cleanUpAnimeName(animeName),
                 nameQuery = options.search.name,
-                cacheKey = setCacheTag(searchFriendlyName),
                 self = this;
 
             options.query[nameQuery] = searchFriendlyName;
-            options.cache.key = cacheKey;
 
             self.search(options, done);
         },
@@ -83,7 +63,5 @@ var AnimeAPI = function (options) {
         }
     }
 };
-
-require('util').inherits(AnimeAPI, EventEmitter);
 
 module.exports = AnimeAPI;

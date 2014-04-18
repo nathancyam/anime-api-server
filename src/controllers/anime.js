@@ -1,35 +1,44 @@
 /**
  * Created by nathan on 4/6/14.
  */
-
-var Anime = require('../models/anime');
+"use strict";
+var Anime = require('../models/anime'),
+    Cache = require('../models/cache');
 
 // GET
 
-// get a list of all the anime
+/**
+ * Gets a list of all tne anime model stored on the DB.
+ * Sets a cached response
+ * @param req
+ * @param res
+ */
 exports.list = function (req, res) {
     Anime.find(function (err, results) {
+        Cache.set(req.url, results);
         res.send(results);
     });
 };
 
-// get one anime by name
-// TODO: Should this one redirect you to the ID one at some point?
+/**
+ * Finds an anime on the DB by their name.
+ * Sets a cached response.
+ * @param req
+ * @param res
+ */
 exports.findByName = function (req, res) {
     var normalizedQueryName = req.params.name.replace(/\W/g, '').toLowerCase();
     Anime.find({normalizedName: normalizedQueryName}, function (err, animes) {
+        Cache.set(req.url, results);
         res.send(animes);
     });
 };
 
-// get one anime by ID
-
-exports.readAnimeDirectory = function (req, res) {
-    Anime.readAnimeDirectory(function () {
-        res.redirect('/anime');
-    });
-};
-
+/**
+ * Clears the DB of the anime collection and rebuilds them from the file system
+ * @param req
+ * @param res
+ */
 exports.sync = function (req, res) {
     Anime.syncDb(function (err) {
         var result = {};
