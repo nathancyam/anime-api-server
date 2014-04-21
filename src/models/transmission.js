@@ -2,6 +2,7 @@
  * Created by nathanyam on 21/04/2014.
  */
 
+/*jslint node: true */
 var Transmission = require('transmission'),
     async = require('async');
 

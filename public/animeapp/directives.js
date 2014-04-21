@@ -12,7 +12,7 @@ directives.directive('episodeList', function () {
         controller: function ($scope) {
             $scope.getSubGroup = function (fileName) {
                 return fileName.match(/\[(.*?)\]/i).pop();
-            }
+            };
         },
         templateUrl: 'animeapp/views/episode-list.html'
     }
