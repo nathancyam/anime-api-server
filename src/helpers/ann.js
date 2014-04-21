@@ -20,20 +20,29 @@ var options = {
 };
 
 var parsers = [
-    function() {
-        dollarParser('src','images')(this);
+    function () {
+        dollarParser('src', 'images')(this);
     },
-    function() {
+    function () {
         underscoreParser('Genres')(this);
     },
-    function() {
+    function () {
         underscoreParser('Themes')(this);
     },
-    function() {
+    function () {
         underscoreParser('Number of episodes')(this);
     },
-    function() {
+    function () {
         underscoreParser('Plot Summary')(this);
+    },
+    function () {
+        voiceActParser(this);
+    },
+    function () {
+        underscoreParser('Opening Theme')(this);
+    },
+    function () {
+        underscoreParser('Ending Theme')(this);
     }
 ];
 
@@ -72,17 +81,17 @@ AnimeNewsNetwork.hasOneResult = function (results, done) {
     }
 };
 
-function dollarParser (key, attribute) {
-    return function(info) {
+function dollarParser(key, attribute) {
+    return function (info) {
         var animeInfo = info.ann.anime[0].info[0],
             animeInfoArray = [];
 
         function recur() {
-            Object.keys(animeInfo).map(function(element) {
+            Object.keys(animeInfo).map(function (element) {
                 if (animeInfo[element].length !== undefined) {
-                    animeInfo[element].filter(function(arrayElement) {
+                    animeInfo[element].filter(function (arrayElement) {
                         return arrayElement.$[key] !== undefined;
-                    }).forEach(function(e) {
+                    }).forEach(function (e) {
                         animeInfoArray.push(e.$[key]);
                     });
                 }
@@ -93,6 +102,7 @@ function dollarParser (key, attribute) {
                 }
             });
         }
+
         recur();
 
         info[attribute] = animeInfoArray;
@@ -100,15 +110,33 @@ function dollarParser (key, attribute) {
 }
 
 function underscoreParser(type) {
-    return function(data) {
-        var animeInfo = data.ann.anime[0].info;
-        data[type.toLowerCase().replace(/\s/g, '_')] = animeInfo.reduce(function(prev, curr) {
-            if (curr.$.type !== undefined && curr.$.type === type) {
+    var key = type.toLowerCase().replace(/\s/g, '_');
+    return function (data) {
+        var animeInfo = data.ann.anime[0].info,
+            resultArray = animeInfo.reduce(function (prev, curr) {
+                if (curr.$.type && curr.$.type === type) {
                 prev.push(curr._);
             }
             return prev;
         }, []);
+
+        data[key] = resultArray.length === 1 ? resultArray[0] : resultArray;
     }
+}
+
+function voiceActParser(data) {
+    var castInfo = data.ann.anime[0].cast;
+
+    data.cast = castInfo.filter(function (e) {
+        return e.$.lang === 'JA';
+    }).reduce(function (prev, cur) {
+        prev.push({
+            character: cur.role.length == 1 ? cur.role[0] : cur.role,
+            seiyuu: cur.person[0]._,
+            seiyuu_id: cur.person[0].$.id
+        });
+        return prev;
+    }, []);
 }
 
 module.exports = AnimeNewsNetwork;

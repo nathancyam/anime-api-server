@@ -10,8 +10,8 @@
 var AnimeControllers = angular.module('AnimeControllers', []),
     EpisodeControllers = angular.module('EpisodeControllers', []);
 
-AnimeControllers.controller('AnimeController', ['$scope', '$http', 'Anime', 'Episode',
-    function ($scope, $http, Anime, Episode) {
+AnimeControllers.controller('AnimeController', ['$scope', '$rootScope', '$http', 'Anime', 'Episode',
+    function ($scope, $rootScope, $http, Anime, Episode) {
         $scope.animeList = [];
         $scope.selectedAnime = null;
         $scope.episodes = [];

@@ -24,15 +24,16 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
             anime: '='
         },
         controller: function ($scope) {
-            $scope.isLaoding = false;
+            $scope.isLoading = false;
             $scope.results = 'No Results';
-            $scope.getAnime = function (name) {
-                $scope.isLoading = !$scope.isLoading;
-                ANN.get({ name: name }, function (results) {
-                    $scope.isLoading = !$scope.isLoading;
+
+            $scope.$watch('anime', function (newValue) {
+                $scope.isLoading = true;
+                ANN.get({ name: newValue }, function (results) {
+                    $scope.isLoading = false;
                     $scope.results = results;
                 });
-            };
+            });
         },
         templateUrl: 'animeapp/views/anime-news-network.html'
     }

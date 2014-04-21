@@ -40,5 +40,8 @@ module.exports = function (app) {
     app.get('/sync/anime', AnimeController.sync);
     app.get('/sync/subgroups', SubgroupController.sync);
     app.get('/sync/episodes', EpisodeController.sync);
+
+    // TORRENT ROUTES
+    app.get('/torrent/add', require('./models/torrent_client').addTorrent);
 };
 

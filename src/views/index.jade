@@ -20,7 +20,10 @@ block content
                             div(episode-list episodes="episodes")
                         accordion-group(heading="Test", is-open="true")
                             div test
+                    input(type="text", placeholder="Enter torrent URL here", ng-model="torrentUrl")
+                    button.btn.btn-default(ng-click="addToTorrentClient()") Add to Transmission
+                    p(ng-model="torrentStatus")
                 div.col-md-4
-                    div.row(anime-news-network anime="selectedAnime.title")
+                    div(anime-news-network anime="selectedAnime.title")
 
 
