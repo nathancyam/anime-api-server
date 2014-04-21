@@ -1,12 +1,12 @@
 /**
-* Created by nathanyam on 13/04/2014.
+ * Created by nathanyam on 13/04/2014.
  */
 
 "use strict";
 var Cache = require('../models/cache'),
     qs = require('querystring');
 
-var AnimeAPI = function (options, parsers) {
+var AnimeAPI = module.exports = function (options, parsers) {
 
     var cleanUpAnimeName = function (animeName) {
         return animeName.replace(/\W/gi, ' ');
@@ -34,7 +34,7 @@ var AnimeAPI = function (options, parsers) {
                     } else {
                         jsonResult = self.parseXMLResult(apiResponse.data);
                         if (parsers !== undefined) {
-                            parsers.map(function(element) {
+                            parsers.map(function (element) {
                                 element.apply(jsonResult);
                             });
                         }
@@ -68,5 +68,3 @@ var AnimeAPI = function (options, parsers) {
         }
     }
 };
-
-module.exports = AnimeAPI;

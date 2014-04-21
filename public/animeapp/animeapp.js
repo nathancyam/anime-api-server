@@ -14,7 +14,8 @@ angular.module('AnimeApp',
         'AnimeResource',
         'EpisodeResource',
         'SubgroupResource',
-        'AnnResource'
+        'AnnResource',
+        'NyaaResource'
     ]
 );
 

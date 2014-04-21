@@ -15,7 +15,9 @@
         "sinon": "*",
         "underscore": "*",
         "mongoose": "*",
-        "xml2js": "*"
+        "xml2js": "*",
+        "transmission": "*",
+        "nyaatorrents": "*"
     },
     "devDependencies": {
         "grunt": "^0.4.3",

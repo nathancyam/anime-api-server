@@ -10,7 +10,8 @@ var MyAnimeListController = require('./controllers/mal'),
     AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
     SubgroupController = require('./controllers/subgroup'),
-    AnimeNewsNetworkController = require('./controllers/ann');
+    AnimeNewsNetworkController = require('./controllers/ann'),
+    TorrentController = require('./controllers/torrents');
 
 module.exports = function (app) {
     // INDEX
@@ -42,6 +43,7 @@ module.exports = function (app) {
     app.get('/sync/episodes', EpisodeController.sync);
 
     // TORRENT ROUTES
-    app.get('/torrent/add', require('./models/torrent_client').addTorrent);
+    app.get('/nyaatorrents/search', TorrentController.search);
+    app.post('/torrent/add', TorrentController.addTorrent);
 };
 

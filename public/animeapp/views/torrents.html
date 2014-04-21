@@ -1,0 +1,33 @@
+<div id="torrents-view">
+    <div ng-if="message">
+        {{message}}
+    </div>
+    <div>
+        <input type="text" placeholder="Search Name" ng-model="searchTorrentName"/>
+        <button type="button" class="btn btn-info" ng-click="addMultipleTorrents()">Add selected torrents</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th ng-click="predicate = 'name'; reverse=!reverse"><strong>Name</strong></th>
+            <th ng-click="predicate = 'size'; reverse=!reverse"><strong>Size</strong></th>
+            <th ng-click="predicate = 'seeds'; reverse=!reverse"><strong>Seeds</strong></th>
+            <th ng-click="predicate = 'leeches'; reverse=!reverse"><strong>Leeches</strong></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="torrent in torrentList | filter: searchTorrentName | orderBy:predicate:reverse">
+            <td>{{torrent.name}}</td>
+            <td>{{torrent.readableSize}}</td>
+            <td>{{torrent.seeds}}</td>
+            <td>{{torrent.leeches}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch
+                        on="torrent.isLoading">
+                    <span ng-switch-default class="glyphicon glyphicon-transfer"></span>
+                    <span ng-switch-when="torrent.isLoading" class="glyphicon glyphicon-refresh"></span>
+                </button>
+            </td>
+            <td><input type="checkbox" ng-model="torrent.isSelected"></td>
+        </tr>
+    </table>
+</div>
