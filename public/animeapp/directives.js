@@ -84,3 +84,12 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
         templateUrl: 'animeapp/views/torrents.html'
     }
 }]);
+
+directives.directive('backImg', function () {
+    return function (scope, element, attrs) {
+        var url = attrs.backImg;
+        element.css({
+            'background-image': 'url(' + url + ')'
+        });
+    }
+});
