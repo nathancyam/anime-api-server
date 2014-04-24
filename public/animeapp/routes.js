@@ -8,10 +8,11 @@ routes.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
         when('/list', {
             templateUrl: 'animeapp/views/list.html',
-            controller: 'AnimeController'
+            controller: 'ListController'
         }).
         when('/anime/:animeId', {
-            templateUrl: 'animeapp/views/anime.html'
+            templateUrl: 'animeapp/views/anime.html',
+            controller: 'AnimeController'
         }).
         otherwise({
             redirectTo: '/list'

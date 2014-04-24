@@ -10,6 +10,7 @@ angular.module('AnimeApp',
     [
         'ui.bootstrap',
         'AppRoutes',
+        'ListControllers',
         'AnimeControllers',
         'AnimeDirectives',
         'AnimeResource',

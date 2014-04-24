@@ -8,13 +8,17 @@
  */
 
 var AnimeControllers = angular.module('AnimeControllers', []),
-    EpisodeControllers = angular.module('EpisodeControllers', []);
+    ListControllers = angular.module('ListControllers', []);
 
-AnimeControllers.controller('AnimeController', ['$scope', '$rootScope', '$http', 'Anime', 'Episode',
-    function ($scope, $rootScope, $http, Anime, Episode) {
+AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http', 'Anime', 'Episode',
+    function ($scope, $routeParams, $http, Anime, Episode) {
+        $scope.animeId = $routeParams.animeId;
+    }
+]);
+
+ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
+    function ($scope, $http, Anime) {
         $scope.animeList = [];
-        $scope.selectedAnime = null;
-        $scope.episodes = [];
         $scope.clickLoad = false;
 
         $scope.refresh = function () {
@@ -30,20 +34,8 @@ AnimeControllers.controller('AnimeController', ['$scope', '$rootScope', '$http',
                 });
         };
 
-        $scope.getEpisodes = function (anime) {
-            $scope.selectedAnime = anime;
-            Episode.query({ animeId: anime._id}, function (results) {
-                $scope.episodes = results;
-            });
-        };
-
-        $scope.init = function () {
+        $scope.init = function() {
             $scope.animeList = Anime.query();
         };
-    }
-]);
-
-EpisodeControllers.controller('EpisodeController', ['$scope', 'Episode',
-    function ($scope, Episode) {
     }
 ]);

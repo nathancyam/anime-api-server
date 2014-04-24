@@ -1,3 +1,8 @@
-<div>
-    <p>This is a test</p>
+<div ng-init="init()">
+    <p>I am a list</p>
+    <div ng-repeat="anime in animeList">
+        <a href="#/anime/{{anime._id}}">
+            <p>{{anime.title}}</p>
+        </a>
+    </div>
 </div>
