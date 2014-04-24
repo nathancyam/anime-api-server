@@ -9,6 +9,7 @@
 angular.module('AnimeApp',
     [
         'ui.bootstrap',
+        'AppRoutes',
         'AnimeControllers',
         'AnimeDirectives',
         'AnimeResource',
