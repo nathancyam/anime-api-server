@@ -24,9 +24,7 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
 ]);
 
 SettingControllers.controller('SettingsController', ['$scope',
-    function ($scope) {
-        $scope.settings = {};
-    }
+    function ($scope) {}
 ]);
 
 ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
