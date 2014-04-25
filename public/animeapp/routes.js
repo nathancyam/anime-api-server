@@ -14,6 +14,10 @@ routes.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'animeapp/views/anime.html',
             controller: 'AnimeController'
         }).
+        when('/settings', {
+            templateUrl: 'animeapp/views/settings.html',
+            controller: 'SettingController'
+        }).
         otherwise({
             redirectTo: '/list'
         });

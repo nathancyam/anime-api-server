@@ -8,7 +8,9 @@
  */
 
 var AnimeControllers = angular.module('AnimeControllers', []),
-    ListControllers = angular.module('ListControllers', []);
+    ListControllers = angular.module('ListControllers', []),
+    SettingController = angular.module('SettingController', []);
+
 
 AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http', 'Anime', 'Episode',
     function ($scope, $routeParams, $http, Anime, Episode) {
@@ -18,6 +20,12 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
                 $scope.episodes = result;
             });
         });
+    }
+]);
+
+SettingController.controller('SettingController', ['$scope',
+    function ($scope) {
+        $scope.settings = {};
     }
 ]);
 
@@ -39,7 +47,7 @@ ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
                 });
         };
 
-        $scope.init = function() {
+        $scope.init = function () {
             $scope.animeList = Anime.query();
         };
     }

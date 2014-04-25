@@ -6,18 +6,34 @@
  * To change this template use File | Settings | File Templates.
  */
 
-angular.module('AnimeApp',
-    [
-        'ui.bootstrap',
-        'AppRoutes',
-        'ListControllers',
-        'AnimeControllers',
-        'AnimeDirectives',
-        'AnimeResource',
-        'EpisodeResource',
-        'SubgroupResource',
-        'AnnResource',
-        'NyaaResource'
-    ]
-);
+
+var setting = [
+    'ui.bootstrap'
+];
+
+var controllers = [
+    'ListControllers',
+    'AnimeControllers',
+    'SettingControllers',
+];
+
+var resources = [
+    'AnimeResource',
+    'EpisodeResource',
+    'SubgroupResource',
+    'AnnResource',
+    'NyaaResource'
+];
+
+var directives = [
+    'AnimeDirectives'
+];
+
+var routes = [
+    'AppRoutes'
+];
+
+var dependencies = [].concat(setting, controllers, resources, directives, routes);
+
+angular.module('AnimeApp', dependencies);
 
