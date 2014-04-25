@@ -101,7 +101,15 @@ AnimeNewsNetwork.handleEmptyResponse = function (response, done) {
 };
 
 AnimeNewsNetwork.isEmpty = function (result) {
-    return result.ann === undefined;
+    var noResult = false;
+    // Is this an anime ID result?
+    if (result.ann === undefined) {
+        // Is this a general API search?
+        if (result.report.item[0] === undefined) {
+            noResult = true;
+        }
+    }
+    return noResult;
 };
 
 function getResultId (results) {

@@ -14,7 +14,7 @@ var setting = [
 var controllers = [
     'ListControllers',
     'AnimeControllers',
-    'SettingControllers',
+    'SettingsControllers',
 ];
 
 var resources = [

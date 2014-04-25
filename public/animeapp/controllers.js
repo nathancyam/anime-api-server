@@ -9,7 +9,7 @@
 
 var AnimeControllers = angular.module('AnimeControllers', []),
     ListControllers = angular.module('ListControllers', []),
-    SettingController = angular.module('SettingController', []);
+    SettingControllers = angular.module('SettingsControllers', []);
 
 
 AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http', 'Anime', 'Episode',
@@ -23,7 +23,7 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
     }
 ]);
 
-SettingController.controller('SettingController', ['$scope',
+SettingControllers.controller('SettingsController', ['$scope',
     function ($scope) {
         $scope.settings = {};
     }
