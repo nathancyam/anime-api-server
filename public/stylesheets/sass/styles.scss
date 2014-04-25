@@ -38,7 +38,6 @@ a {
 
 .anime-app {
   width: 100%;
-  padding-top: 70px;
 
   .anime-list-section {
     padding-top: 10px;
@@ -50,35 +49,51 @@ a {
 
     .anime-list {
       background-color: $anime-list-color;
-      height:650px;
+      height: 650px;
       overflow: auto;
 
-      ul {
-        padding: 10px;
-      }
-
-      li {
-        @include transition(all, 0.2s, ease);
-        background-color: inherit;
-        color: white;
-        padding: 1.0% 0px;
-        cursor: pointer;
-        list-style-type: none;
-
-        &:hover {
-          background-color: lightgrey;
-          color: black;
-        }
-
-        .active {
-          background-color: lightgrey;
-          color: black;
-        }
-      }
     }
+
     #loadSpinner {
       opacity: 1.0;
       margin: 0 auto;
+    }
+
+  }
+
+  .anime-item {
+    @include transition(all, 0.2s, ease);
+    width: 16.6666667%;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+    list-style-type: none;
+    vertical-align: top;
+    height: 200px;
+
+    &:hover {
+      background-color: lightgrey;
+    }
+
+    .active {
+      background-color: lightgrey;
+    }
+    .item-container {
+      padding-top: 20px;
+      .image-holder {
+        height: 100px;
+        width: 100%;
+      }
+      .item-title {
+        display: block;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow: hidden;
+        padding: 10px 10px 0;
+      }
+      .item-footer {
+        height: 10px;
+      }
     }
   }
 

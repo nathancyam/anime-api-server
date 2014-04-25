@@ -25,14 +25,6 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(function(req, res, next) {
-    if (Cache.has(req.url)) {
-        res.send(Cache.get(req.url));
-    } else {
-        next();
-    }
-});
-
 app.configure('development', function () {
     app.use(express.errorHandler());
 });

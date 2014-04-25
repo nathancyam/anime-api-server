@@ -15,15 +15,16 @@ html(ng-app='AnimeApp')
         link(rel='stylesheet', href='/stylesheets/animate.css')
         link(rel='stylesheet', href='/stylesheets/css/styles.css')
     body
-        header
-            nav.navbar.navbar-default.navbar-static-top(role="navigation")
+        nav.navbar.navbar-default(role="navigation")
+            div.container-fluid
                 div.navbar-header
                     a.navbar-brand(href="#") Anime Episode Application
                 ul.nav.navbar-nav
                     li
                         a(href="#") Anime
+                    li
+                        a(href="#") Torrents
 
         div.container.anime-app
-            block content
-            div(ng-view)
+            div.col-md-12(ng-view)
         footer

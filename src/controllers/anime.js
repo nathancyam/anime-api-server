@@ -20,6 +20,23 @@ exports.list = function (req, res) {
     });
 };
 
+exports.search = function (req, res) {
+    Anime.find(req.query, function (err, result) {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            res.json(result);
+        }
+    });
+};
+
+exports.findById = function (req, res) {
+    Anime.findOne({ _id: req.params.id }, function (err, result) {
+        res.json(result);
+    });
+};
+
 /**
  * Finds an anime on the DB by their name.
  * Sets a cached response.

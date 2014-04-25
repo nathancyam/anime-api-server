@@ -19,15 +19,8 @@ module.exports = function (app) {
 
     // ANIME ROUTES
     app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
-    app.get('/anime/search', AnimeController.findByName);
-    app.get('/geteps', AnimeController.createEps);
-
-    // MYANIMELIST ROUTES
-    app.get('/mal/search', CacheHelper.getCacheResponse, MyAnimeListController.search);
-
-    // ANIME NEWS NETWORK ROUTES
-    app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
-    app.get('/ann/:id', CacheHelper.getCacheResponse, AnimeNewsNetworkController.searchById);
+    app.get('/anime/search', AnimeController.search);
+    app.get('/anime/:id', AnimeController.findById);
 
     // EPISODE ROUTES
     app.get('/episodes', EpisodeController.list);
@@ -41,6 +34,13 @@ module.exports = function (app) {
     app.get('/sync/anime', AnimeController.sync);
     app.get('/sync/subgroups', SubgroupController.sync);
     app.get('/sync/episodes', EpisodeController.sync);
+
+    // MYANIMELIST ROUTES
+    app.get('/mal/search', CacheHelper.getCacheResponse, MyAnimeListController.search);
+
+    // ANIME NEWS NETWORK ROUTES
+    app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
+    app.get('/ann/:id', CacheHelper.getCacheResponse, AnimeNewsNetworkController.searchById);
 
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);

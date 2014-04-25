@@ -12,7 +12,12 @@ var AnimeControllers = angular.module('AnimeControllers', []),
 
 AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http', 'Anime', 'Episode',
     function ($scope, $routeParams, $http, Anime, Episode) {
-        $scope.animeId = $routeParams.animeId;
+        Anime.get({ animeId: $routeParams.animeId }, function (result) {
+            $scope.anime = result;
+            Episode.query({ animeId: result._id }, function (result) {
+                $scope.episodes = result;
+            });
+        });
     }
 ]);
 

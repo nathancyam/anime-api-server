@@ -1,8 +1,14 @@
-<div ng-init="init()">
-    <p>I am a list</p>
-    <div ng-repeat="anime in animeList">
-        <a href="#/anime/{{anime._id}}">
-            <p>{{anime.title}}</p>
-        </a>
-    </div>
+<div class="anime-list" ng-init="init()">
+    <h1>Anime List</h1>
+    <ul>
+        <li class="anime-item" ng-repeat="anime in animeList">
+            <div class="item-container">
+                <div class="image-holder"></div>
+                <a href="#/anime/{{anime._id}}" class="item-title">
+                    {{anime.title}}
+                </a>
+                <div class="item-footer"></div>
+            </div>
+        </li>
+    </ul>
 </div>

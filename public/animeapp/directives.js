@@ -46,6 +46,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
         },
         controller: function ($scope) {
             $scope.torrentList = [];
+
             $scope.addToTorrentClient = function (torrent) {
                 torrent.isLoading = true;
                 $http.post('/torrent/add', {

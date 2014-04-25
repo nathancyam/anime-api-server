@@ -5,7 +5,7 @@
 "use strict";
 
 exports.index = function (req, res) {
-    res.render('index', { title: 'Express Cart App' });
+    res.render('index', { title: 'Anime Episdoe App' });
 };
 
 

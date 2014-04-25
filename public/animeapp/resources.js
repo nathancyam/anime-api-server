@@ -9,10 +9,14 @@
 var animeResource = angular.module('AnimeResource', ['ngResource']);
 
 animeResource.factory('Anime', ['$resource', function ($resource) {
-    return $resource('/anime', {}, {
+    return $resource('/anime/:animeId', { animeId: '@id' }, {
         query: {
             method: 'GET',
             isArray: true
+        },
+        get: {
+            method: 'GET',
+            isArray: false
         }
     });
 }]);
