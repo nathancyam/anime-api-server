@@ -4,6 +4,7 @@
 
 "use strict";
 
+var Parsers = require('./api_parsers');
 var options = {
     host: 'www.animenewsnetwork.com',
     path: '/encyclopedia/reports.xml?',
@@ -21,37 +22,32 @@ var options = {
 
 var parsers = [
     function () {
-        dollarParser('src', 'images')(this);
+        Parsers.dollarParser('src','images')(this);
     },
     function () {
-        underscoreParser('Genres')(this);
+        Parsers.underscoreParser('Genres')(this);
     },
     function () {
-        underscoreParser('Themes')(this);
+        Parsers.underscoreParser('Themes')(this);
     },
     function () {
-        numberOfEpisodeParser(this);
+        Parsers.numberOfEpisodeParser(this);
     },
     function () {
-        underscoreParser('Plot Summary')(this);
+        Parsers.underscoreParser('Plot Summary')(this);
     },
     function () {
-        voiceActParser(this);
+        Parsers.voiceActParser(this);
     },
     function () {
-        underscoreParser('Opening Theme')(this);
+        Parsers.underscoreParser('Opening Theme')(this);
     },
     function () {
-        underscoreParser('Ending Theme')(this);
+        Parsers.underscoreParser('Ending Theme')(this);
     }
 ];
 
-var AnimeNewsNetwork = require('./anime_api')(options),
-    googleapis = require('googleapis');
-
-var getResultId = function (results) {
-    return parseInt(results.report.item.pop().id.pop());
-};
+var AnimeNewsNetwork = module.exports = require('./anime_api')(options);
 
 AnimeNewsNetwork.searchById = function (id, done) {
     var options = {
@@ -108,71 +104,6 @@ AnimeNewsNetwork.isEmpty = function (result) {
     return result.ann === undefined;
 };
 
-function dollarParser(key, attribute) {
-    return function (info) {
-        var animeInfo = info.ann.anime[0].info[0],
-            animeInfoArray = [];
-
-        function recur() {
-            Object.keys(animeInfo).map(function (element) {
-                if (animeInfo[element].length !== undefined) {
-                    animeInfo[element].filter(function (arrayElement) {
-                        return arrayElement.$[key] !== undefined;
-                    }).forEach(function (e) {
-                        animeInfoArray.push(e.$[key]);
-                    });
-                }
-                if (element === '$') {
-                    if (animeInfo[element][key] !== undefined) {
-                        animeInfoArray.push(animeInfo[element][key]);
-                    }
-                }
-            });
-        }
-
-        recur();
-
-        info[attribute] = animeInfoArray;
-    };
+function getResultId (results) {
+    return parseInt(results.report.item.pop().id.pop());
 }
-
-function underscoreParser(type) {
-    var key = type.toLowerCase().replace(/\s/g, '_');
-    return function (data) {
-        var animeInfo = data.ann.anime[0].info,
-            resultArray = animeInfo.reduce(function (prev, curr) {
-                if (curr.$.type && curr.$.type === type) {
-                    prev.push(curr._);
-                }
-                return prev;
-            }, []);
-
-        data[key] = resultArray.length === 1 ? resultArray[0] : resultArray;
-    }
-}
-
-function voiceActParser(data) {
-    var castInfo = data.ann.anime[0].cast;
-
-    data.cast = castInfo.filter(function (e) {
-        return e.$.lang === 'JA';
-    }).reduce(function (prev, cur) {
-        prev.push({
-            character: cur.role.length == 1 ? cur.role[0] : cur.role,
-            seiyuu: cur.person[0]._,
-            seiyuu_id: cur.person[0].$.id
-        });
-        return prev;
-    }, []);
-}
-
-function numberOfEpisodeParser(data) {
-    if (data.ann.anime[0].episode !== undefined) {
-        data.number_of_episodes = data.ann.anime[0].episode.length;
-    } else {
-        data.number_of_episodes = 'N/A';
-    }
-}
-
-
-module.exports = AnimeNewsNetwork;

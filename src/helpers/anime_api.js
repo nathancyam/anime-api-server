@@ -50,13 +50,15 @@ var AnimeAPI = module.exports = function (options, parsers) {
             request.end();
         },
         searchByName: function (animeName, done) {
-            var searchFriendlyName = cleanUpAnimeName(animeName),
-                nameQuery = options.search.name,
-                self = this;
+            if (animeName !== undefined) {
+                var searchFriendlyName = cleanUpAnimeName(animeName),
+                    nameQuery = options.search.name,
+                    self = this;
 
-            options.query[nameQuery] = searchFriendlyName;
+                options.query[nameQuery] = searchFriendlyName;
 
-            self.search(options, done);
+                self.search(options, done);
+            }
         },
         parseXMLResult: function (result) {
             var parser = require('xml2js').Parser(),
