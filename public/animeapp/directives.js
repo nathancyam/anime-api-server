@@ -77,9 +77,11 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
             };
 
             $scope.$watch('anime', function (newValue) {
-                nt.query({ name: newValue }, function (results) {
-                    $scope.torrentList = results;
-                });
+                if (newValue !== undefined) {
+                    nt.query({ name: newValue }, function (results) {
+                        $scope.torrentList = results;
+                    });
+                }
             });
         },
         templateUrl: 'animeapp/views/torrents.html'
