@@ -8,9 +8,21 @@ var expect = require('chai').expect;
 describe('Anime News Network API', function () {
     describe('#searchByName()', function () {
         it('should search an anime and return a JSON object', function (done) {
-            ann.searchByName('Bakemonogatari', function (err, result) {
+            ann.searchByName('Kill la Kill', function (err, result) {
                 expect(result).to.be.a('object');
                 done();
+            });
+        });
+        it('should give us an anime from Google if it could not be found', function(done) {
+            ann.searchByName('Sakurasou no Pet na Kanojo', function(err, result) {
+                if (ann.isEmpty(result)) {
+                    ann.handleEmptyResponse(result, function (err, result) {
+                        expect(result).to.be.a('object');
+                        expect(result).to.have.property('ann');
+                        expect(result.ann.anime).to.be.a('array');
+                        done();
+                    });
+                }
             });
         });
     });
@@ -22,13 +34,6 @@ describe('Anime News Network API', function () {
                 expect(result.ann.anime).to.be.a('array');
                 done();
             });
-        });
-        it('should give us a warning if no anime actually exists', function(done) {
-            ann.searchById(1234567890, function(err, result) {
-                expect(result).to.be.a('object');
-                expect(result.ann).to.have.property('warning');
-                done();
-            })
         });
     });
 });
