@@ -1,13 +1,26 @@
 <div id="settings">
-    <label for="danbooru-user">Danbooru Username:</label>
-    <input type="text" id="danbooru-user" placeholder="Danbooru Username" ng-model="settings.danbooru.user" />
-    <label for="danbooru-password">Danbooru Password:</label>
-    <input type="password" id="danbooru-password" placeholder="Danbooru Password" ng-model="settings.danbooru.password" />
-    <label for="google-search-cx">Google Custom Search CX:</label>
-    <input type="text" id="google-search-cx" placeholder="Google Custom Search CX" ng-model="settings.google.custSearchCX" />
-    <label for="google-search-api">Google Custom Search API:</label>
-    <input type="text" id="google-search-api" placeholder="Google Custom Search API Key" ng-model="settings.google.custSearchAPI" />
-    <label for="anime-directory">Anime Directory:</label>
-    <input type="text" id="anime-directory" placeholder="Anime Directory" ng-model="settings.directory" />
+    <form role="form">
+        <div class="form-group">
+            <label for="danbooru-user">Danbooru Username:</label>
+            <input type="text" class="form-control" id="danbooru-user" placeholder="Danbooru Username" ng-model="settings.danbooru.user" />
+        </div>
+        <div class="form-group">
+            <label for="danbooru-password">Danbooru Password:</label>
+            <input type="password" class="form-control" id="danbooru-password" placeholder="Danbooru Password" ng-model="settings.danbooru.password" />
+        </div>
+        <div class="form-group">
+            <label for="google-search-cx">Google Custom Search CX:</label>
+            <input type="text" class="form-control" id="google-search-cx" placeholder="Google Custom Search CX" ng-model="settings.google.custSearchCX" />
+        </div>
+        <div class="form-group">
+            <label for="google-search-api">Google Custom Search API:</label>
+            <input type="text" class="form-control" id="google-search-api" placeholder="Google Custom Search API Key" ng-model="settings.google.custSearchAPI" />
+        </div>
+        <div class="form-group">
+            <label for="anime-directory">Anime Directory:</label>
+            <input type="text" class="form-control" id="anime-directory" placeholder="Anime Directory" ng-model="settings.directory" />
+        </div>
+        <button class="btn btn-primary" ng-click="submitForm()">Submit Changes</button>
+    </form>
     <pre ng-bind="settings | json"></pre>
 </div>

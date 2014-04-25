@@ -12,7 +12,8 @@ var MyAnimeListController = require('./controllers/mal'),
     SubgroupController = require('./controllers/subgroup'),
     AnimeNewsNetworkController = require('./controllers/ann'),
     TorrentController = require('./controllers/torrents'),
-    DanbooruController = require('./controllers/danbooru');
+    DanbooruController = require('./controllers/danbooru'),
+    SettingsController = require('./controllers/settings');
 
 module.exports = function (app) {
     // INDEX
@@ -35,6 +36,9 @@ module.exports = function (app) {
     app.get('/sync/anime', AnimeController.sync);
     app.get('/sync/subgroups', SubgroupController.sync);
     app.get('/sync/episodes', EpisodeController.sync);
+
+    // SETTINGS ROUTES
+    app.post('/settings', SettingsController.setSettings);
 
     // MYANIMELIST ROUTES
     app.get('/mal/search', CacheHelper.getCacheResponse, MyAnimeListController.search);

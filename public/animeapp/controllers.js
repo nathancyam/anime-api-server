@@ -23,8 +23,18 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
     }
 ]);
 
-SettingControllers.controller('SettingsController', ['$scope',
-    function ($scope) {}
+SettingControllers.controller('SettingsController', ['$scope', '$http',
+    function ($scope, $http) {
+        $scope.submitForm = function () {
+            $http.post('/settings', $scope.settings)
+                .success(function (data, status) {
+
+                })
+                .error(function (data, status) {
+                    console.log('Failed');
+                });
+        };
+    }
 ]);
 
 ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
