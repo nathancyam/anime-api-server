@@ -11,5 +11,5 @@ exports.search = function (req, res) {
         if (!err) {
             res.send(apiResponse);
         }
-    })
+    });
 };

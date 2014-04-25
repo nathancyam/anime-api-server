@@ -46,7 +46,8 @@ var parsers = [
     }
 ];
 
-var AnimeNewsNetwork = require('./anime_api')(options);
+var AnimeNewsNetwork = require('./anime_api')(options),
+    googleapis = require('googleapis');
 
 var getResultId = function (results) {
     return parseInt(results.report.item.pop().id.pop());

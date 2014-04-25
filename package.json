@@ -1,5 +1,5 @@
 {
-    "name": "Anime Episode App",
+    "name": "Anime_Episode_App",
     "version": "0.0.1",
     "private": true,
     "scripts": {
@@ -17,7 +17,7 @@
         "mongoose": "*",
         "xml2js": "*",
         "transmission": "*",
-        "nyaatorrents": "*"
+        "nyaatorrents": "*",
     },
     "devDependencies": {
         "grunt": "^0.4.3",

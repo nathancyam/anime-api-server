@@ -11,7 +11,8 @@ var MyAnimeListController = require('./controllers/mal'),
     EpisodeController = require('./controllers/episode'),
     SubgroupController = require('./controllers/subgroup'),
     AnimeNewsNetworkController = require('./controllers/ann'),
-    TorrentController = require('./controllers/torrents');
+    TorrentController = require('./controllers/torrents'),
+    DanbooruController = require('./controllers/danbooru');
 
 module.exports = function (app) {
     // INDEX
@@ -45,5 +46,8 @@ module.exports = function (app) {
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);
     app.post('/torrent/add', TorrentController.addTorrent);
+
+    // DANBOORU ROUTES
+    app.get('/danbooru/search',CacheHelper.getCacheResponse, DanbooruController.getImages);
 };
 
