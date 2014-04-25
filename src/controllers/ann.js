@@ -9,8 +9,13 @@ exports.search = function (req, res) {
     var animeName = req.query.name;
 
     ann.searchByName(animeName, function (err, apiResponse) {
-        if (!err) {
+        if (!err && !ann.isEmpty(apiResponse)) {
             ann.hasOneResult(apiResponse, function(err, result) {
+                Cache.set(req.url, result);
+                res.send(result);
+            });
+        } else if (ann.isEmpty(apiResponse)) {
+            ann.handleEmptyResponse(apiResponse, function(err, result) {
                 Cache.set(req.url, result);
                 res.send(result);
             });

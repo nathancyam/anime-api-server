@@ -30,7 +30,7 @@ var parsers = [
         underscoreParser('Themes')(this);
     },
     function () {
-        underscoreParser('Number of episodes')(this);
+        numberOfEpisodeParser(this);
     },
     function () {
         underscoreParser('Plot Summary')(this);
@@ -66,7 +66,10 @@ AnimeNewsNetwork.searchById = function (id, done) {
         }
     };
     var apiRequest = require('./anime_api')(options, parsers);
-    apiRequest.search(options, done);
+    apiRequest.search(options, function (err, results) {
+        // Here we check if the results are empty
+        done(null, results);
+    });
 };
 
 AnimeNewsNetwork.hasOneResult = function (results, done) {
@@ -80,6 +83,29 @@ AnimeNewsNetwork.hasOneResult = function (results, done) {
     } else {
         done(null, results);
     }
+};
+
+AnimeNewsNetwork.handleEmptyResponse = function (response, done) {
+    var self = this;
+    var searchTerm = response.report.args[0].name[0],
+        Google = require('./google'),
+        google = new Google();
+
+    google.searchAnime(searchTerm, function (err, result) {
+        var validResults = result.items.filter(function(e) {
+            return e.link.indexOf('anime.php?id') !== -1;
+        });
+        var firstResult = validResults[0],
+            annLink = firstResult.link;
+
+        // lol this is terrible
+        var id = require('url').parse(annLink).query.split('=').pop();
+        self.searchById(id, done);
+    });
+};
+
+AnimeNewsNetwork.isEmpty = function (result) {
+    return result.ann === undefined;
 };
 
 function dollarParser(key, attribute) {
@@ -116,10 +142,10 @@ function underscoreParser(type) {
         var animeInfo = data.ann.anime[0].info,
             resultArray = animeInfo.reduce(function (prev, curr) {
                 if (curr.$.type && curr.$.type === type) {
-                prev.push(curr._);
-            }
-            return prev;
-        }, []);
+                    prev.push(curr._);
+                }
+                return prev;
+            }, []);
 
         data[key] = resultArray.length === 1 ? resultArray[0] : resultArray;
     }
@@ -139,5 +165,14 @@ function voiceActParser(data) {
         return prev;
     }, []);
 }
+
+function numberOfEpisodeParser(data) {
+    if (data.ann.anime[0].episode !== undefined) {
+        data.number_of_episodes = data.ann.anime[0].episode.length;
+    } else {
+        data.number_of_episodes = 'N/A';
+    }
+}
+
 
 module.exports = AnimeNewsNetwork;
