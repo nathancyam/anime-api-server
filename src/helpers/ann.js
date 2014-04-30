@@ -4,17 +4,12 @@
 
 "use strict";
 
-var Parsers = require('./api_parsers');
+var Parsers = require('./api_parsers'),
+    Anime = require('../models/anime'),
+    AnimeAPI = require('./anime_api');
+
 var options = {
-    host: 'www.animenewsnetwork.com',
-    path: '/encyclopedia/reports.xml?',
-    query: {
-        id: 155,
-        type: 'anime'
-    },
-    search: {
-        name: 'name'
-    },
+    url: 'http://www.animenewsnetwork.com/encyclopedia/reports/xml?id=155&type=anime',
     cache: {
         tag: 'ann'
     }
@@ -47,22 +42,41 @@ var parsers = [
     }
 ];
 
-var AnimeNewsNetwork = module.exports = require('./anime_api')(options);
+var AnimeNewsNetwork = module.exports = new AnimeAPI(options);
+
+AnimeNewsNetwork.searchRouter = function (query, done) {
+    if (query.ann_id) {
+        this.searchById(query.ann_id, done);
+    } else {
+        if (query.name === undefined) {
+            done(null, { result: "A name is required for a search."});
+        } else {
+            this.search({ name: query.name }, done);
+        }
+    }
+};
 
 AnimeNewsNetwork.searchById = function (id, done) {
+    var self = this;
     var options = {
-        host: 'cdn.animenewsnetwork.com',
-        path: '/encyclopedia/api.xml?',
-        query: {
-            title: id
-        },
+        url: 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=' + id,
         cache: {
             key: 'ann' + id,
             tag: 'ann'
         }
     };
-    var apiRequest = require('./anime_api')(options, parsers);
-    apiRequest.search(options, function (err, results) {
+    var apiRequest = new AnimeAPI(options, parsers);
+    apiRequest.on('api_request_complete', function (data) {
+        var resultID = getANNID(data),
+            animeName = self.getSearchName();
+
+        var regexp = new RegExp(animeName, "i");
+        Anime.findOne({ title: regexp }, function (err, result) {
+            result.ann_id = resultID;
+            result.save();
+        });
+    });
+    apiRequest.search({ id: id }, function (err, results) {
         // Here we check if the results are empty
         done(null, results);
     });
@@ -114,4 +128,8 @@ AnimeNewsNetwork.isEmpty = function (result) {
 
 function getResultId (results) {
     return parseInt(results.report.item.pop().id.pop());
+}
+
+function getANNID(result) {
+    return parseInt(result.ann.anime[0].$.id);
 }

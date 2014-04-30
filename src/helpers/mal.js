@@ -3,7 +3,8 @@
  */
 
 "use strict";
-var Cache = require('../models/cache');
+var Cache = require('../models/cache'),
+    AnimeAPI = require('./anime_api');
 
 var mal_user = require('../config').mal_username,
     mal_pw = require('../config').mal_password;
@@ -21,6 +22,6 @@ var options = {
     }
 };
 
-var MyAnimeList = require('./anime_api')(options);
+var MyAnimeList = module.exports = new AnimeAPI(options);
 
 module.exports = MyAnimeList;

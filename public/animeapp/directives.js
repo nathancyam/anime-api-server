@@ -28,11 +28,17 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
             $scope.results = 'No Results';
 
             $scope.$watch('anime', function (newValue) {
-                $scope.isLoading = true;
-                ANN.get({ name: newValue }, function (results) {
-                    $scope.isLoading = false;
-                    $scope.results = results;
-                });
+                if (newValue !== undefined) {
+                    $scope.isLoading = true;
+                    var queryObj = { name: newValue.title };
+                    if (newValue.ann_id !== undefined) {
+                        queryObj.ann_id = newValue.ann_id;
+                    }
+                    ANN.get(queryObj, function (results) {
+                        $scope.isLoading = false;
+                        $scope.results = results;
+                    });
+                }
             });
         },
         templateUrl: 'animeapp/views/anime-news-network.html'
@@ -79,7 +85,12 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
             $scope.$watch('anime', function (newValue) {
                 if (newValue !== undefined) {
                     nt.query({ name: newValue }, function (results) {
-                        $scope.torrentList = results;
+                        // TODO: Add an icon to indicate the torrent is on the torrent server
+                        // Add the isLoading property initially
+                        $scope.torrentList = results.map(function (e) {
+                            e.isLoading = false;
+                            return e;
+                        });
                     });
                 }
             });

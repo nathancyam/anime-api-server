@@ -10,7 +10,8 @@ var AnimeSchema = new Schema({
     normalizedName: String,
     episodes: ObjectId,
     filepath: String,
-    filenames: Array
+    filenames: Array,
+    ann_id: Number
 });
 
 function readAnimeDirectory(done) {

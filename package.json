@@ -18,6 +18,7 @@
         "xml2js": "*",
         "transmission": "*",
         "nyaatorrents": "*",
+        "google": "*"
     },
     "devDependencies": {
         "grunt": "^0.4.3",

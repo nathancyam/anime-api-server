@@ -1,7 +1,7 @@
 "use strict";
 var crypto = require('crypto');
 
-var Cache = (function () {
+var Cache = module.exports = (function () {
     var contents = {};
 
     var hasher = function (string) {
@@ -29,5 +29,3 @@ var Cache = (function () {
         }
     };
 })();
-
-module.exports = Cache;

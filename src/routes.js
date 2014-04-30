@@ -38,6 +38,7 @@ module.exports = function (app) {
     app.get('/sync/episodes', EpisodeController.sync);
 
     // SETTINGS ROUTES
+    app.get('/settings', SettingsController.getSettings);
     app.post('/settings', SettingsController.setSettings);
 
     // MYANIMELIST ROUTES
@@ -45,13 +46,12 @@ module.exports = function (app) {
 
     // ANIME NEWS NETWORK ROUTES
     app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
-    app.get('/ann/:id', CacheHelper.getCacheResponse, AnimeNewsNetworkController.searchById);
 
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);
     app.post('/torrent/add', TorrentController.addTorrent);
 
     // DANBOORU ROUTES
-    app.get('/danbooru/search',CacheHelper.getCacheResponse, DanbooruController.getImages);
+    app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);
 };
 

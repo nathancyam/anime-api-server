@@ -25,6 +25,13 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
 
 SettingControllers.controller('SettingsController', ['$scope', '$http',
     function ($scope, $http) {
+        $http.get('/settings')
+            .success(function (data, status) {
+                $scope.settings = data;
+            })
+            .error(function (data, status) {
+                console.log(data);
+            });
         $scope.submitForm = function () {
             $http.post('/settings', $scope.settings)
                 .success(function (data, status) {

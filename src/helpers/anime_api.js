@@ -4,69 +4,84 @@
 
 "use strict";
 var Cache = require('../models/cache'),
-    qs = require('querystring');
+    events = require('events'),
+    util = require('util'),
+    url = require('url'),
+    qs = require('querystring'),
+    http = require('http'),
+    _ = require('underscore');
 
 var AnimeAPI = module.exports = function (options, parsers) {
+    events.EventEmitter.call(this);
 
-    var cleanUpAnimeName = function (animeName) {
-        return animeName.replace(/\W/gi, ' ');
-    };
+    this.options = options || {};
+    this.parsers = parsers || [];
+};
 
-    return {
-        search: function (options, done) {
-            var self = this,
-                http = require('http');
+util.inherits(AnimeAPI, events.EventEmitter);
 
-            if (options.query !== undefined) {
-                options.path += qs.stringify(options.query);
+AnimeAPI.prototype.search = function (searchObj, done) {
+    if (this.options.url === undefined) {
+        done({ message: 'You need to specify a search URL'}, null);
+    }
+    var self = this,
+        parsers = this.parsers,
+        searchUrlObj = url.parse(this.options.url);
+
+    searchUrlObj.query = _.extend(searchUrlObj.query, searchObj);
+
+    var request = http.request(searchUrlObj, function (apiResponse) {
+        apiResponse.setEncoding('binary');
+        apiResponse.data = '';
+        apiResponse.on('data', function (chunk) {
+            apiResponse.data += chunk;
+        });
+        apiResponse.on('end', function () {
+            var jsonResult = '';
+            if (apiResponse.data === 'No results') {
+                jsonResult = 'No results';
+            } else {
+                jsonResult = self.parseXMLResult(apiResponse.data);
+                if (parsers !== undefined) {
+                    parsers.map(function (element) {
+                        element.apply(jsonResult);
+                    });
+                }
             }
+            self.emit('api_request_complete', jsonResult);
+            done(null, jsonResult);
+        });
+    }).on('error', function (err) {
+        console.log(err.message);
+        console.log(err.stack);
+        done(err, null);
+    });
 
-            var request = http.request(options, function (apiResponse) {
-                apiResponse.setEncoding('binary');
-                apiResponse.data = '';
-                apiResponse.on('data', function (chunk) {
-                    apiResponse.data += chunk;
-                });
-                apiResponse.on('end', function () {
-                    var jsonResult = '';
-                    if (apiResponse.data === 'No results') {
-                        jsonResult = 'No results';
-                    } else {
-                        jsonResult = self.parseXMLResult(apiResponse.data);
-                        if (parsers !== undefined) {
-                            parsers.map(function (element) {
-                                element.apply(jsonResult);
-                            });
-                        }
-                    }
-                    done(null, jsonResult);
-                });
-            }).on('error', function (err) {
-                console.log(err.message);
-                console.log(err.stack);
-                done(err, null);
-            });
+    request.end();
+};
 
-            request.end();
-        },
-        searchByName: function (animeName, done) {
-            if (animeName !== undefined) {
-                var searchFriendlyName = cleanUpAnimeName(animeName),
-                    nameQuery = options.search.name,
-                    self = this;
-
-                options.query[nameQuery] = searchFriendlyName;
-
-                self.search(options, done);
-            }
-        },
-        parseXMLResult: function (result) {
-            var parser = require('xml2js').Parser(),
-                parseResult = '';
-            parser.parseString(result, function (err, results) {
-                parseResult = results;
-            });
-            return parseResult;
-        }
+AnimeAPI.prototype.searchByName = function (animeName, done) {
+    if (animeName !== undefined) {
+        var nameQuery = this.options.search.name;
+        this.options.query[nameQuery] = cleanUpAnimeName(animeName);
+        this.search(this.options, done);
     }
 };
+
+AnimeAPI.prototype.getSearchName = function () {
+    var nameQuery = this.options.search.name;
+    return this.options.query[nameQuery];
+};
+
+AnimeAPI.prototype.parseXMLResult = function (result) {
+    var parser = require('xml2js').Parser(),
+        parseResult = '';
+    parser.parseString(result, function (err, results) {
+        parseResult = results;
+    });
+    return parseResult;
+};
+
+function cleanUpAnimeName(animeName) {
+    return animeName.replace(/\W/gi, ' ');
+}

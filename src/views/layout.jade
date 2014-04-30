@@ -12,6 +12,7 @@ html(ng-app='AnimeApp')
         script(src='/animeapp/resources.js')
         script(src='/animeapp/routes.js')
         link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css")
+        link(rel="stylesheet" href="/stylesheets/font-awesome-4.0.3/css/font-awesome.min.css")
         link(rel='stylesheet', href='/stylesheets/animate.css')
         link(rel='stylesheet', href='/stylesheets/css/styles.css')
     body
@@ -19,11 +20,12 @@ html(ng-app='AnimeApp')
             div.container-fluid
                 div.navbar-header
                     a.navbar-brand(href="#") Anime Episode Application
-                ul.nav.navbar-nav
+                ul.nav.navbar-nav.navbar-left
                     li
                         a(href="#") Anime
                     li
                         a(href="#") Torrents
+                ul.nav.navbar-nav.navbar-right
                     li
                         a(href="#/settings") Settings
 

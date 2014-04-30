@@ -1,16 +1,17 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express');
-var config = require('./config');
-var Cache = require('./models/cache');
-var http = require('http');
-var path = require('path');
+var express = require('express'),
+    http = require('http'),
+    path = require('path'),
+    mongoose = require('mongoose');
+
+var config = require('./config'),
+    Settings = require('./models/settings');
 
 var app = express();
-var mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost/anime:27017');
 
 // all environments
@@ -32,6 +33,8 @@ app.configure('development', function () {
 require("./routes")(app);
 
 // === SERVER ===
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Initialising settings...');
+    Settings.init(config);
+    console.log('Express server listening on port ' + app.get('port'));
 });

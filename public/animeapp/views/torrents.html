@@ -1,5 +1,6 @@
 <div id="torrents-view">
     <h2>Nyaa Torrents</h2>
+
     <div ng-if="message">
         {{message}}
     </div>
@@ -31,12 +32,11 @@
             <td>{{torrent.readableSize}}</td>
             <td>{{torrent.seeds}}</td>
             <td>{{torrent.leeches}}</td>
-            <td>
-                <button type="button" class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch
-                        on="torrent.isLoading">
-                    <span ng-switch-default class="glyphicon glyphicon-transfer"></span>
-                    <span ng-switch-when="torrent.isLoading" class="glyphicon glyphicon-refresh"></span>
-                </button>
+            <td ng-model="torrent.isLoading">
+                <a class="btn btn-primary" ng-click="addToTorrentClient(torrent)">
+                    <i class="fa"
+                       ng-class="{ 'fa-plus': !torrent.isLoading, 'fa-refresh': torrent.isLoading, 'fa-spin': torrent.isLoading }"></i>
+                </a>
             </td>
             <td><input type="checkbox" ng-model="torrent.isSelected"></td>
         </tr>
