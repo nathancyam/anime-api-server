@@ -21,32 +21,34 @@ var AnimeAPI = module.exports = function (options, parsers) {
 util.inherits(AnimeAPI, events.EventEmitter);
 
 AnimeAPI.prototype.search = function (searchObj, done) {
+    var self = this,
+        parsers = this.parsers,
+        searchUrlObj = '';
+
     if (this.options.url === undefined) {
         done({ message: 'You need to specify a search URL'}, null);
     }
-    var self = this,
-        parsers = this.parsers,
-        searchUrlObj = url.parse(this.options.url);
+    if (this.options.url.indexOf('?') !== -1) {
+        searchUrlObj = url.parse(this.options.url + '&' + qs.stringify(searchObj));
+    } else {
+        searchUrlObj = url.parse(this.options.url + '?' + qs.stringify(searchObj));
+    }
 
-    searchUrlObj.query = _.extend(searchUrlObj.query, searchObj);
+    if (!searchUrlObj.query) {
+        searchUrlObj.query = searchObj;
+    }
 
     var request = http.request(searchUrlObj, function (apiResponse) {
-        apiResponse.setEncoding('binary');
-        apiResponse.data = '';
+        var responseStr = '';
         apiResponse.on('data', function (chunk) {
-            apiResponse.data += chunk;
+            responseStr += chunk;
         });
         apiResponse.on('end', function () {
-            var jsonResult = '';
-            if (apiResponse.data === 'No results') {
-                jsonResult = 'No results';
-            } else {
-                jsonResult = self.parseXMLResult(apiResponse.data);
-                if (parsers !== undefined) {
-                    parsers.map(function (element) {
-                        element.apply(jsonResult);
-                    });
-                }
+            var jsonResult = self.parseXMLResult(responseStr);
+            if (parsers) {
+                parsers.map(function (element) {
+                    element.apply(jsonResult);
+                });
             }
             self.emit('api_request_complete', jsonResult);
             done(null, jsonResult);

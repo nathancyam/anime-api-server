@@ -6,14 +6,10 @@
 
 var Parsers = require('./api_parsers'),
     Anime = require('../models/anime'),
-    AnimeAPI = require('./anime_api');
+    AnimeAPI = require('./anime_api'),
+    ANN_GENERAL_URI = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime',
+    ANN_SPECIFIC_URI = 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml';
 
-var options = {
-    url: 'http://www.animenewsnetwork.com/encyclopedia/reports/xml?id=155&type=anime',
-    cache: {
-        tag: 'ann'
-    }
-};
 
 var parsers = [
     function () {
@@ -42,60 +38,57 @@ var parsers = [
     }
 ];
 
-var AnimeNewsNetwork = module.exports = new AnimeAPI(options);
-
-AnimeNewsNetwork.searchRouter = function (query, done) {
-    if (query.ann_id) {
-        this.searchById(query.ann_id, done);
-    } else {
-        if (query.name === undefined) {
-            done(null, { result: "A name is required for a search."});
-        } else {
-            this.search({ name: query.name }, done);
-        }
-    }
-};
-
-AnimeNewsNetwork.searchById = function (id, done) {
-    var self = this;
-    var options = {
-        url: 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=' + id,
+var AnimeNewsNetwork = module.exports = function() {
+    this.generalSearch = new AnimeAPI({
+        url: ANN_GENERAL_URI,
         cache: {
-            key: 'ann' + id,
             tag: 'ann'
         }
-    };
-    var apiRequest = new AnimeAPI(options, parsers);
-    apiRequest.on('api_request_complete', function (data) {
-        var resultID = getANNID(data),
-            animeName = self.getSearchName();
-
-        var regexp = new RegExp(animeName, "i");
-        Anime.findOne({ title: regexp }, function (err, result) {
-            result.ann_id = resultID;
-            result.save();
-        });
     });
-    apiRequest.search({ id: id }, function (err, results) {
-        // Here we check if the results are empty
-        done(null, results);
-    });
+    this.specificSearch = new AnimeAPI({
+        url: ANN_SPECIFIC_URI
+    }, parsers);
 };
 
-AnimeNewsNetwork.hasOneResult = function (results, done) {
-    if (results.report.item !== undefined && results.report.item.length == 1) {
-        var id = getResultId(results);
-        if (done) {
-            this.searchById(id, done);
-        } else {
-            return true;
-        }
+AnimeNewsNetwork.prototype.search = function (query, done) {
+    var self = this;
+    if (query.ann_id) {
+        this.specificSearch.search({ anime: query.ann_id }, done);
     } else {
-        done(null, results);
+        if (query.name !== undefined) {
+            this.generalSearch.search({ name: query.name }, function (err, results) {
+                if (err) throw Error(err.message);
+                self.parseGeneralResults(results, done);
+            });
+        } else {
+            done(null, { result: "A name is required for a search."});
+        }
     }
 };
 
-AnimeNewsNetwork.handleEmptyResponse = function (response, done) {
+/**
+ * Here we parse the results from the general search. It attempts to handle the different responses that you can get
+ * from the Anime News Network API
+ * @param results
+ * @param done
+ */
+AnimeNewsNetwork.prototype.parseGeneralResults = function(results, done) {
+    // are the results empty?
+    if (!isEmpty(results)) {
+        // do we have multiple results?
+        if (isMultipleResults(results)) {
+            // TODO: write logic that handles multiple results from API call
+        } else {
+            // finally, do we have the single result to parse?
+            this.specificSearch.search({ anime: getResultId(results) }, done);
+        }
+    } else {
+        // handle the empty response
+        this.handleEmptyResponse(results, done);
+    }
+};
+
+AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
     var self = this;
     var searchTerm = response.report.args[0].name[0],
         Google = require('./google'),
@@ -110,24 +103,28 @@ AnimeNewsNetwork.handleEmptyResponse = function (response, done) {
 
         // lol this is terrible
         var id = require('url').parse(annLink).query.split('=').pop();
-        self.searchById(id, done);
+        self.specificSearch.search({ anime: id }, done);
     });
 };
 
-AnimeNewsNetwork.isEmpty = function (result) {
+var isEmpty = function (result) {
     var noResult = false;
     // Is this an anime ID result?
     if (result.ann === undefined) {
         // Is this a general API search?
-        if (result.report.item[0] === undefined) {
+        if (result.report.item === undefined) {
             noResult = true;
         }
     }
     return noResult;
 };
 
+var isMultipleResults = function (results) {
+    return results.report.item !== undefined && results.report.item.length > 1;
+};
+
 function getResultId (results) {
-    return parseInt(results.report.item.pop().id.pop());
+    return parseInt(results.report.item[0].id[0]);
 }
 
 function getANNID(result) {
