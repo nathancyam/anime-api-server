@@ -105,13 +105,26 @@ directives.directive('animeOptions', [ 'Anime', function (Anime) {
             anime: '='
         },
         controller: function ($scope) {
-            $scope.save = function (subGroup) {
-                console.log('saving subgroup');
+            $scope.save = function () {
                 var anime = Anime.get({ animeId: $scope.anime._id }, function () {
-                    anime.designated_subgroup = subGroup;
+                    anime.designated_subgroup = $scope.anime.designated_subgroup;
                     anime.$save();
                 });
             };
+            $scope.changeWatchStatus = function () {
+                $scope.anime.is_watching = !$scope.anime.is_watching;
+                var anime = Anime.get({ animeId: $scope.anime._id }, function () {
+                    anime.is_watching = $scope.anime.is_watching;
+                    anime.$save();
+                });
+            };
+            $scope.changeCompleteStatus = function () {
+                $scope.anime.is_complete = !$scope.anime.is_complete;
+                var anime = Anime.get({ animeId: $scope.anime._id }, function () {
+                    anime.is_complete = $scope.anime.is_complete;
+                    anime.$save();
+                });
+            }
         },
         templateUrl: 'animeapp/views/anime-options.html'
     }

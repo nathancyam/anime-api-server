@@ -63,6 +63,7 @@ ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
         };
 
         $scope.init = function () {
+            $scope.animeList = [];
             $scope.animeList = Anime.query();
         };
     }

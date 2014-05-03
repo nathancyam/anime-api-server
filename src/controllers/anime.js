@@ -3,19 +3,17 @@
  */
 "use strict";
 var Anime = require('../models/anime'),
-    Cache = require('../models/cache');
-
-// GET
+    Cache = require('../models/cache'),
+    _ = require('underscore');
 
 /**
- * Gets a list of all tne anime model stored on the DB.
+ * Gets a list of all the anime model stored on the DB.
  * Sets a cached response
  * @param req
  * @param res
  */
 exports.list = function (req, res) {
     Anime.find(function (err, results) {
-        Cache.set(req.url, results);
         res.send(results);
     });
 };
@@ -88,11 +86,16 @@ exports.save = function (req, res) {
     // If the anime's id has been specified, we can then save the anime
     if (body._id) {
         Anime.findById(body._id, function (err, result) {
-            result.designated_subgroup = body.designated_subgroup;
-            result.save(function (err, dbResult) {
-                if (err) console.log(err);
-                res.send(dbResult);
-            });
+            // Add a check to stop pointless saves
+            if (!_.isEqual(body, result)) {
+                result = _.extend(result, body);
+                result.save(function (err, dbResult) {
+                    if (err) console.log(err);
+                    res.send(dbResult);
+                });
+            } else {
+                res.send({ message: "No changes made. Not saving" });
+            }
         });
     }
 };

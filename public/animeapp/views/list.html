@@ -7,7 +7,12 @@
                 <a href="#/anime/{{anime._id}}" class="item-title">
                     {{anime.title}}
                 </a>
-                <div class="item-footer"></div>
+
+                <div class="item-footer">
+                    <i class="fa fa-eye" ng-show="anime.is_watching"></i>
+                    <i class="fa fa-check" ng-show="anime.is_complete"></i>
+                    <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
+                </div>
             </div>
         </li>
     </ul>
