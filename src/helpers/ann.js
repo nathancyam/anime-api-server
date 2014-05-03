@@ -78,6 +78,7 @@ AnimeNewsNetwork.prototype.parseGeneralResults = function(results, done) {
         // do we have multiple results?
         if (isMultipleResults(results)) {
             // TODO: write logic that handles multiple results from API call
+            this.handleMultipleResults(results, done);
         } else {
             // finally, do we have the single result to parse?
             this.specificSearch.search({ anime: getResultId(results) }, done);
@@ -105,6 +106,18 @@ AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
         var id = require('url').parse(annLink).query.split('=').pop();
         self.specificSearch.search({ anime: id }, done);
     });
+};
+
+AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
+    var results = response.report.item,
+        formattedResults = results.map(function(e) {
+            return {
+                ann_id: e.id[0],
+                title: e.name[0],
+                type: e.type[0]
+            };
+        });
+    done(null, formattedResults);
 };
 
 var isEmpty = function (result) {
