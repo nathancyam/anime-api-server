@@ -3,9 +3,9 @@
  */
 
 var expect = require('chai').expect,
-    animeApi = require('../src/helpers/anime_api')({});
+    animeApi = require('../src/resources/anime_api')({});
 
-describe('Anime API interface', function() {
+describe('Anime API interface', function () {
     describe('#parseXMLResult()', function () {
         it('should parse some XML', function () {
             var result = animeApi.parseXMLResult('<example>Test</example>');

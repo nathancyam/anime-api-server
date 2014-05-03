@@ -99,6 +99,24 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
     }
 }]);
 
+directives.directive('animeOptions', [ 'Anime', function (Anime) {
+    return {
+        scope: {
+            anime: '='
+        },
+        controller: function ($scope) {
+            $scope.save = function (subGroup) {
+                console.log('saving subgroup');
+                var anime = Anime.get({ animeId: $scope.anime._id }, function () {
+                    anime.designated_subgroup = subGroup;
+                    anime.$save();
+                });
+            };
+        },
+        templateUrl: 'animeapp/views/anime-options.html'
+    }
+}]);
+
 directives.directive('backImg', function () {
     return function (scope, element, attrs) {
         var url = attrs.backImg;

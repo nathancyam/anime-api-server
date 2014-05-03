@@ -1,11 +1,12 @@
 "use strict";
-var Mongoose = require('mongoose');
-var Schema = Mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-var Cache = require('./cache');
-var Episode = require('./episode');
+var Mongoose = require('mongoose'),
+    Schema = Mongoose.Schema,
+    ObjectId = Schema.ObjectId,
+    Cache = require('./cache'),
+    Episode = require('./episode');
 
 var AnimeSchema = new Schema({
+    designated_subgroup: String,
     title: String,
     normalizedName: String,
     episodes: ObjectId,

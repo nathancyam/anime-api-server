@@ -83,3 +83,16 @@ exports.createEps = function (req, res) {
     });
 };
 
+exports.save = function (req, res) {
+    var body = req.body;
+    // If the anime's id has been specified, we can then save the anime
+    if (body._id) {
+        Anime.findById(body._id, function (err, result) {
+            result.designated_subgroup = body.designated_subgroup;
+            result.save(function (err, dbResult) {
+                if (err) console.log(err);
+                res.send(dbResult);
+            });
+        });
+    }
+};

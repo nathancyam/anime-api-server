@@ -2,7 +2,7 @@
  * Created by nathan on 3/16/14.
  */
 
-var mal = require('../helpers/mal');
+var mal = require('../resources/mal');
 
 exports.search = function (req, res) {
     var animeName = req.query.name;

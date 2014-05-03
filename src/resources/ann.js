@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Parsers = require('./api_parsers'),
+var Parsers = require('./../helpers/api_parsers'),
     Anime = require('../models/anime'),
     AnimeAPI = require('./anime_api'),
     ANN_GENERAL_URI = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime',
@@ -13,7 +13,7 @@ var Parsers = require('./api_parsers'),
 
 var parsers = [
     function () {
-        Parsers.dollarParser('src','images')(this);
+        Parsers.dollarParser('src', 'images')(this);
     },
     function () {
         Parsers.underscoreParser('Genres')(this);
@@ -38,7 +38,7 @@ var parsers = [
     }
 ];
 
-var AnimeNewsNetwork = module.exports = function() {
+var AnimeNewsNetwork = module.exports = function () {
     this.generalSearch = new AnimeAPI({
         url: ANN_GENERAL_URI,
         cache: {
@@ -72,12 +72,11 @@ AnimeNewsNetwork.prototype.search = function (query, done) {
  * @param results
  * @param done
  */
-AnimeNewsNetwork.prototype.parseGeneralResults = function(results, done) {
+AnimeNewsNetwork.prototype.parseGeneralResults = function (results, done) {
     // are the results empty?
     if (!isEmpty(results)) {
         // do we have multiple results?
         if (isMultipleResults(results)) {
-            // TODO: write logic that handles multiple results from API call
             this.handleMultipleResults(results, done);
         } else {
             // finally, do we have the single result to parse?
@@ -92,11 +91,11 @@ AnimeNewsNetwork.prototype.parseGeneralResults = function(results, done) {
 AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
     var self = this;
     var searchTerm = response.report.args[0].name[0],
-        Google = require('./google'),
+        Google = require('./../helpers/google'),
         google = new Google();
 
     google.searchAnime(searchTerm, function (err, result) {
-        var validResults = result.items.filter(function(e) {
+        var validResults = result.items.filter(function (e) {
             return e.link.indexOf('anime.php?id') !== -1;
         });
         var firstResult = validResults[0],
@@ -110,7 +109,7 @@ AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
 
 AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
     var results = response.report.item,
-        formattedResults = results.map(function(e) {
+        formattedResults = results.map(function (e) {
             return {
                 ann_id: e.id[0],
                 title: e.name[0],
@@ -136,7 +135,7 @@ var isMultipleResults = function (results) {
     return results.report.item !== undefined && results.report.item.length > 1;
 };
 
-function getResultId (results) {
+function getResultId(results) {
     return parseInt(results.report.item[0].id[0]);
 }
 
