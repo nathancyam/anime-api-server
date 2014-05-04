@@ -18,7 +18,11 @@ exports.getEpisodesByAnime = function (req, res) {
 };
 
 exports.sync = function (req, res) {
-    Episode.sync(function () {
-        res.json({ success: true });
+    Episode.sync(function (err, result) {
+        if (err) {
+            res.json({ status: 'ERROR', message: err.message });
+        } else {
+            res.json(result);
+        }
     });
 };

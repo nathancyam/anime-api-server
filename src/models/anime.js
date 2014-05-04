@@ -47,14 +47,13 @@ AnimeSchema.methods.setLowerCase = function () {
 };
 
 AnimeSchema.statics.syncDb = function (done) {
-    flushCollection(function () {
-        readAnimeDirectory(function () {
-            getSubGroups(function (subgroups) {
-                var Subgroup = require('./subgroup');
-                Subgroup.create(subgroups, function (err) {
-                    if (err) console.log(err);
-                    done();
-                });
+    readAnimeDirectory(function (err, result) {
+        if (err) console.log(err);
+        getSubGroups(function (subgroups) {
+            var Subgroup = require('./subgroup');
+            Subgroup.create(subgroups, function (err) {
+                if (err) console.log(err);
+                done();
             });
         });
     });

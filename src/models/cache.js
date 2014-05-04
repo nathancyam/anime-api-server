@@ -26,6 +26,12 @@ var Cache = module.exports = (function () {
         },
         flush: function () {
             contents = {};
+        },
+        remove: function (key) {
+            if (this.has(key)) {
+                this.set(key, null);
+                delete contents[hasher(key)];
+            }
         }
     };
 })();

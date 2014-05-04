@@ -51,7 +51,7 @@ ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
 
         $scope.refresh = function () {
             $scope.clickLoad = !$scope.clickLoad;
-            $http({ method: 'GET', url: '/anime/sync'})
+            $http({ method: 'GET', url: '/sync/anime'})
                 .success(function (data, status) {
                     $scope.animeList = Anime.query();
                     $scope.clickLoad = !$scope.clickLoad;

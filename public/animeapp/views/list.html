@@ -1,5 +1,12 @@
 <div class="anime-list" ng-init="init()">
     <h1>Anime List</h1>
+
+    <div>
+        <a class="btn btn-primary" ng-click="refresh()">
+            <i class="fa fa-refresh"></i>
+            Sync
+        </a>
+    </div>
     <ul>
         <li class="anime-item" ng-repeat="anime in animeList">
             <div class="item-container">
@@ -7,7 +14,6 @@
                 <a href="#/anime/{{anime._id}}" class="item-title">
                     {{anime.title}}
                 </a>
-
                 <div class="item-footer">
                     <i class="fa fa-eye" ng-show="anime.is_watching"></i>
                     <i class="fa fa-check" ng-show="anime.is_complete"></i>

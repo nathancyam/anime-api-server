@@ -4,11 +4,31 @@
 
 var Episode = require('../models/episode'),
     Anime = require('../models/anime'),
-    async = require('async');
+    async = require('async'),
+    fs = require('fs');
 
 var EpisodeHelper = (function () {
     return {
+        getEpisodeFilenames: function (animeModel, done) {
+            fs.readdir(animeModel.filepath, function (err, files) {
+                async.each(files, function (file, next) {
+                    var episode = new Episode({
+                        filePath: animeModel.filepath + '/' + file,
+                        anime: animeModel.id
+                    });
+                    episode.isAnime = true;
+                    episode.getEpisodeNumber();
+                    episode.save(function () {
+                        next(null);
+                    });
+                }, function () {
+                    done(null);
+                });
+            });
+
+        },
         createEpisodeModels: function (done) {
+            var self = this;
             async.waterfall([
                 function (next) {
                     Anime.find(function (err, result) {
@@ -17,17 +37,7 @@ var EpisodeHelper = (function () {
                 },
                 function (results, finished) {
                     async.each(results, function (anime, cb) {
-                        var saveEpisodeIterator = function (ep, next) {
-                            var model = new Episode({
-                                filePath: anime.filepath + '/' + ep,
-                                isAnime: true,
-                                anime: anime.id
-                            });
-                            model.save(function () {
-                                next();
-                            });
-                        };
-                        async.each(anime.filenames, saveEpisodeIterator, function () {
+                        self.getEpisodeFilenames(anime, function () {
                             cb();
                         });
                     }, function () {
@@ -35,7 +45,11 @@ var EpisodeHelper = (function () {
                     });
                 }
             ], function (err, results) {
-                done();
+                if (err) {
+                    done(err, null);
+                } else {
+                    done(null, { status: 'SUCCESS' });
+                }
             });
         }
     }

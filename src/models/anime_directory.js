@@ -32,11 +32,13 @@ function createAnimeModels(item, callback) {
             var show = item.split("/").pop();
             var animeModel = new Anime({ title: show, filepath: item });
             animeModel.setLowerCase();
-            if (animeModel !== undefined) {
-                callback(null, animeModel);
-            } else {
-                callback(null);
-            }
+            Anime.find({ normalizedName: animeModel.normalizedName }, function (err, dbResult) {
+                if (animeModel && dbResult.length === 0) {
+                    callback(null, animeModel);
+                } else {
+                    callback(null);
+                }
+            });
         } else {
             callback();
         }
@@ -150,6 +152,11 @@ function init(filePath, callback) {
     });
 }
 
+function refreshEpisodes(callback) {
+    var Episode = require('./episode');
+    Episode.sync(callback);
+}
+
 /**
  * Generates the Anime and Episode models
  * @param callback
@@ -157,6 +164,8 @@ function init(filePath, callback) {
 exports.generateModels = function (callback) {
     var files = readDirectory();
     init(files, function (models) {
-        async.each(models, saveAnimeModel, callback);
+        async.each(models, saveAnimeModel, function () {
+            refreshEpisodes(callback);
+        });
     });
 };

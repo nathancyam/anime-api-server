@@ -122,11 +122,8 @@ AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
 var isEmpty = function (result) {
     var noResult = false;
     // Is this an anime ID result?
-    if (result.ann === undefined) {
-        // Is this a general API search?
-        if (result.report.item === undefined) {
-            noResult = true;
-        }
+    if (result.report.item === undefined) {
+        noResult = true;
     }
     return noResult;
 };

@@ -29,7 +29,13 @@ EpisodeSchema.statics.flushCollection = function (done) {
 EpisodeSchema.statics.sync = function (done) {
     var helper = require('../helpers/episode');
     this.flushCollection(function () {
-        helper.createEpisodeModels(done);
+        helper.createEpisodeModels(function (err, result) {
+            if (err) {
+                done(err, null);
+            } else {
+                done(null, result);
+            }
+        });
     });
 };
 

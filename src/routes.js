@@ -2,8 +2,8 @@
  * Created by nathan on 4/6/14.
  */
 
-var routes = require('./controllers'),
-    CacheHelper = require('./helpers/cache');
+// HELPERS
+var CacheHelper = require('./helpers/cache');
 
 // CONTROLLERS
 var MyAnimeListController = require('./controllers/mal'),
@@ -17,7 +17,9 @@ var MyAnimeListController = require('./controllers/mal'),
 
 module.exports = function (app) {
     // INDEX
-    app.get('/', routes.index);
+    app.get('/', function (req, res) {
+        res.render('index', { title: 'Anime Episode App' });
+    });
 
     // ANIME ROUTES
     app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
