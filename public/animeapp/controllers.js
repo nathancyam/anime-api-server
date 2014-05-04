@@ -47,18 +47,18 @@ SettingControllers.controller('SettingsController', ['$scope', '$http',
 ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
     function ($scope, $http, Anime) {
         $scope.animeList = [];
-        $scope.clickLoad = false;
+        $scope.isProcessing = false;
 
         $scope.refresh = function () {
-            $scope.clickLoad = !$scope.clickLoad;
+            $scope.isProcessing = !$scope.isProcessing;
             $http({ method: 'GET', url: '/sync/anime'})
                 .success(function (data, status) {
                     $scope.animeList = Anime.query();
-                    $scope.clickLoad = !$scope.clickLoad;
+                    $scope.isProcessing = !$scope.isProcessing;
                 })
                 .error(function (data, status) {
                     console.log('Failed');
-                    $scope.clickLoad = !$scope.clickLoad;
+                    $scope.isProcessing = !$scope.isProcessing;
                 });
         };
 

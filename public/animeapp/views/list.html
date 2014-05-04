@@ -1,14 +1,31 @@
 <div class="anime-list" ng-init="init()">
     <h1>Anime List</h1>
-
-    <div>
-        <a class="btn btn-primary" ng-click="refresh()">
-            <i class="fa fa-refresh"></i>
-            Sync
-        </a>
-    </div>
+    <form class="form-inline" role="form">
+        <div class="form-group" ng-model="searchFilter.$">
+            <input type="text" class="form-control" ng-model="searchFilter.title" placeholder="Filter By Name" />
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="searchFilter.is_watching"> Watching
+            </label>
+            <label>
+                <input type="checkbox" ng-model="searchFilter.is_complete"> Complete
+            </label>
+        </div>
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="searchFilter = {}">
+                Remove Filters
+            </a>
+        </div>
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="refresh()">
+                <i class="fa fa-refresh" ng-class="{ 'fa-spin': isProcessing }"></i>
+                Sync
+            </a>
+        </div>
+    </form>
     <ul>
-        <li class="anime-item" ng-repeat="anime in animeList">
+        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter">
             <div class="item-container">
                 <div class="image-holder"></div>
                 <a href="#/anime/{{anime._id}}" class="item-title">
