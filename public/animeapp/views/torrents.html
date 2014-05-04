@@ -6,8 +6,14 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <input type="text" placeholder="Filter by file name" ng-model="searchTorrentName"/>
-            <button type="button" class="btn btn-info" ng-click="addMultipleTorrents()">Add selected torrents</button>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Filter by file name" ng-model="searchTorrentName"/>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-info" ng-click="addMultipleTorrents()">Add selected torrents</button>
+                </div>
+            </form>
         </div>
     </div>
     <table class="table">
