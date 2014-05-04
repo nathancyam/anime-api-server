@@ -44,8 +44,8 @@ SettingControllers.controller('SettingsController', ['$scope', '$http',
     }
 ]);
 
-ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
-    function ($scope, $http, Anime) {
+ListControllers.controller('ListController', ['$scope', '$http', '$location', 'Anime',
+    function ($scope, $http, $location, Anime) {
         $scope.animeList = [];
         $scope.isProcessing = false;
 
@@ -60,6 +60,11 @@ ListControllers.controller('ListController', ['$scope', '$http', 'Anime',
                     console.log('Failed');
                     $scope.isProcessing = !$scope.isProcessing;
                 });
+        };
+
+        $scope.changeView = function(anime) {
+            var path = "/anime/" + anime._id;
+            $location.path(path);
         };
 
         $scope.init = function () {

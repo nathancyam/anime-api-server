@@ -26,7 +26,7 @@
     </form>
     <ul>
         <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter">
-            <div class="item-container">
+            <div class="item-container" ng-click="changeView(anime)">
                 <div class="image-holder"></div>
                 <a href="#/anime/{{anime._id}}" class="item-title">
                     {{anime.title}}
