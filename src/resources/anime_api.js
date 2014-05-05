@@ -7,6 +7,7 @@ var Cache = require('../models/cache'),
     events = require('events'),
     util = require('util'),
     url = require('url'),
+    request = require('request'),
     qs = require('querystring'),
     http = require('http'),
     _ = require('underscore');
@@ -38,28 +39,19 @@ AnimeAPI.prototype.search = function (searchObj, done) {
         searchUrlObj.query = searchObj;
     }
 
-    var request = http.request(searchUrlObj, function (apiResponse) {
-        var responseStr = '';
-        apiResponse.on('data', function (chunk) {
-            responseStr += chunk;
-        });
-        apiResponse.on('end', function () {
-            var jsonResult = self.parseXMLResult(responseStr);
-            if (parsers) {
-                parsers.map(function (element) {
-                    element.apply(jsonResult);
-                });
-            }
-            self.emit('api_request_complete', jsonResult);
-            done(null, jsonResult);
-        });
-    }).on('error', function (err) {
-        console.log(err.message);
-        console.log(err.stack);
-        done(err, null);
+    request(url.format(searchUrlObj), function (err, response, body) {
+        if (err) {
+            throw err;
+        }
+        var jsonResult = self.parseXMLResult(body);
+        if (parsers) {
+            parsers.map(function (element) {
+                element.apply(jsonResult);
+            });
+        }
+        self.emit('api_request_complete', jsonResult);
+        done(null, jsonResult);
     });
-
-    request.end();
 };
 
 AnimeAPI.prototype.searchByName = function (animeName, done) {

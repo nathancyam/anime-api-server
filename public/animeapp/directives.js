@@ -54,13 +54,14 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
             $scope.torrentList = [];
 
             $scope.addToTorrentClient = function (torrent) {
-                torrent.isLoading = true;
+                torrent.status = 'adding';
                 $http.post('/torrent/add', {
                     torrentUrl: torrent.href
-                }).success(function (data) {
-                    torrent.isLoading = false;
+                }).success(function () {
+                    torrent.status = 'added';
                     $scope.message = "Successfully added!";
                 }).error(function (err) {
+                    torrent.status = 'error';
                     console.log(err);
                 });
             };
@@ -74,7 +75,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
                         return prev;
                     }, []);
                 $http.post('/torrent/add', { torrentUrl: list })
-                    .success(function (data) {
+                    .success(function () {
                         $scope.message = "Successfully added " + list.length + " torrents";
                     })
                     .error(function (data) {
@@ -88,7 +89,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
                         // TODO: Add an icon to indicate the torrent is on the torrent server
                         // Add the isLoading property initially
                         $scope.torrentList = results.map(function (e) {
-                            e.isLoading = false;
+                            e.status = 'static';
                             return e;
                         });
                     });

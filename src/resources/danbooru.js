@@ -3,7 +3,8 @@
  */
 var http = require('http'),
     qs = require('querystring'),
-    url = require('url');
+    url = require('url'),
+    request = require('request');
 
 /**
  * Set up the main class
@@ -47,29 +48,17 @@ Danbooru.prototype.getImages = function (searchTerms, done) {
         urlObject = url.parse(requestUrl);
 
     // Make the call
-    var req = http.request({
+    request(url.format({
         hostname: urlObject.hostname,
         path: urlObject.path,
         method: 'GET',
         auth: 'kyokushin_nanaya:9Mn6iJGrupfw.HMDxhX0XKQgL2BiSKUEtif/DQSq'
-    }, function (res) {
-        var responseString = '';
-        res.on('data', function (data) {
-            responseString += data;
-        });
-        res.on('end', function () {
-            var prefix = urlObject.protocol + '//' + urlObject.hostname;
-            var images = JSON.parse(responseString).reduce(function (prev, curr) {
-                prev.push(prefix + curr.file_url);
-                return prev;
-            }, []);
-            done(null, images);
-        });
-    }).on('error', function (err) {
-        console.log(err.message);
-        console.log(err.stack);
-        done(err, null);
+    }), function (err, response, data) {
+        var prefix = urlObject.protocol + '//' + urlObject.hostname;
+        var images = JSON.parse(data).reduce(function (prev, curr) {
+            prev.push(prefix + curr.file_url);
+            return prev;
+        }, []);
+        done(null, images);
     });
-
-    req.end();
 };
