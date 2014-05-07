@@ -6,20 +6,21 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "express": "3.4.3",
-        "jade": "*",
         "async": "*",
-        "q": "*",
-        "mocha": "*",
+        "body-parser": "^1.0.2",
         "chai": "*",
-        "sinon": "*",
-        "underscore": "*",
-        "mongoose": "*",
-        "xml2js": "*",
-        "transmission": "*",
-        "nyaatorrents": "*",
+        "express": "4.*",
         "google": "*",
-        "request": "^2.34.0"
+        "jade": "*",
+        "mocha": "*",
+        "mongoose": "*",
+        "nyaatorrents": "*",
+        "q": "*",
+        "request": "^2.34.0",
+        "sinon": "*",
+        "transmission": "*",
+        "underscore": "*",
+        "xml2js": "*"
     },
     "devDependencies": {
         "grunt": "^0.4.3",
