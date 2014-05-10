@@ -95,6 +95,7 @@ AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
         google = new Google();
 
     google.searchAnime(searchTerm, function (err, result) {
+        // Get valid results from the google search by parsing the URL
         var validResults = result.items.filter(function (e) {
             return e.link.indexOf('anime.php?id') !== -1;
         });

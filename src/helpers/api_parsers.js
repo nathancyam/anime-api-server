@@ -41,7 +41,7 @@ exports.underscoreParser = function (type) {
                 return prev;
             }, []);
 
-        data[key] = resultArray.length === 1 ? resultArray[0] : resultArray;
+        data[key] = resultArray;
     }
 };
 

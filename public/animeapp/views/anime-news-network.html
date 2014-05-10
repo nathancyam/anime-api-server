@@ -17,7 +17,7 @@
                 <tr>
                     <td>Themes:</td>
                     <td>
-                    <span ng-repeat="theme in results.themes">
+                    <span ng-repeat="theme in results.themes track by $index">
                         <span class="label label-primary">{{theme}}</span>
                     </span>
                     </td>

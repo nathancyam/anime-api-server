@@ -88,7 +88,6 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
                 if (newValue !== undefined) {
                     nt.query({ name: newValue }, function (results) {
                         // TODO: Add an icon to indicate the torrent is on the torrent server
-                        // Add the isLoading property initially
                         $scope.torrentList = results.map(function (e) {
                             e.status = 'static';
                             return e;

@@ -16,6 +16,8 @@ exports.initConnection = function () {
     if (io) {
         io.sockets.on('connection', function (socket) {
             readySocket = socket;
+
+            // TODO: I really don't like having to put ALL the event listeners to one section
             socket.on('client_torrent', function (data) {
                 console.log(data);
             });
