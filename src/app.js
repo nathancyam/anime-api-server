@@ -27,5 +27,7 @@ Settings.init(config);
 require("./routes")(app);
 
 // Set the socket handler
-require("./modules/socket_handler")(server);
+var socketHandler = require('./modules/socket_handler');
+socketHandler.setServer(server);
+socketHandler.initConnection();
 

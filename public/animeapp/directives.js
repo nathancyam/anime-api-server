@@ -84,6 +84,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
             };
 
             $scope.$watch('anime', function (newValue) {
+                socket.emit('client_torrent', { loli: 'Chiaka' });
                 if (newValue !== undefined) {
                     nt.query({ name: newValue }, function (results) {
                         // TODO: Add an icon to indicate the torrent is on the torrent server

@@ -9,6 +9,6 @@ socket.on('news', function (data) {
     socket.emit('other_event', { my: 'Data' });
 });
 
-socket.on('search_torrent_start', function (data) {
+socket.on('adding_torrent', function (data) {
     console.log(data);
 });

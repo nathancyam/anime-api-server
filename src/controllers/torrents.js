@@ -3,6 +3,7 @@
  */
 
 var Transmission = require('../models/transmission'),
+    SocketHandler = require('../modules/socket_handler'),
     NyaaTorrents = require('nyaatorrents');
 
 var Client = new Transmission({

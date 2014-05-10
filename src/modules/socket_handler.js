@@ -3,13 +3,34 @@
  */
 
 // First we need to tie this with the Express app that currently running and don't create a new one needlessly
-var SocketHandler = module.exports = function (server) {
-    var io = require('socket.io').listen(server);
-    io.sockets.on('connection', function (socket) {
-        socket.emit('news', { hello: 'World' });
-        socket.on('other_event', function (data) {
-            console.log(data);
-        });
-    });
+var io = null,
+    readySocket = null;
+
+exports.setServer = function (server) {
+    if (!io) {
+        io = require('socket.io').listen(server);
+    }
 };
 
+exports.initConnection = function () {
+    if (io) {
+        io.sockets.on('connection', function (socket) {
+            readySocket = socket;
+            socket.on('client_torrent', function (data) {
+                console.log(data);
+            });
+        });
+    }
+};
+
+exports.on = function (status, cb) {
+    if (io) {
+        io.sockets.on(status, cb);
+    }
+};
+
+exports.emit = function (status, data) {
+    if (readySocket) {
+        readySocket.emit(status, data);
+    }
+};
