@@ -4,11 +4,13 @@
 
 var express = require('express'),
     bodyParser = require('body-parser'),
+    path = require('path'),
     mongoose = require('mongoose'),
     config = require('./config'),
-    Settings = require('./models/settings');
+    Settings = require('./models/settings'),
+    app = express(),
+    server = app.listen(3000);
 
-var app = express();
 mongoose.connect('mongodb://localhost/anime:27017');
 
 // all environments
@@ -18,11 +20,12 @@ app.set('view engine', 'jade');
 app.use(bodyParser());
 app.use(express.static(__dirname + '/../public'));
 
-// Set routes
-require("./routes")(app);
-
 // Initialise the settings
 Settings.init(config);
 
-// Ready for requests!
-app.listen(app.get('port'));
+// Set routes
+require("./routes")(app);
+
+// Set the socket handler
+require("./modules/socket_handler")(server);
+
