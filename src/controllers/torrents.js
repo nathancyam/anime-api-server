@@ -4,6 +4,7 @@
 
 var Transmission = require('../models/transmission'),
     SocketHandler = require('../modules/socket_handler'),
+    TorrentGetter = require('../modules/torrent_getter'),
     NyaaTorrents = require('nyaatorrents');
 
 var Client = new Transmission({
@@ -28,6 +29,12 @@ exports.search = function (req, res) {
             return item;
         }));
     });
+};
+
+exports.test = function (req, res) {
+    var tg = new TorrentGetter(),
+        promise = tg.getSearchQueries();
+    res.json('done...for now');
 };
 
 function bytesToSize(bytes) {

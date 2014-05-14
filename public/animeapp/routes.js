@@ -18,6 +18,10 @@ routes.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'animeapp/views/settings.html',
             controller: 'SettingsController'
         }).
+        when('/torrents', {
+            templateUrl: 'animeapp/views/torrents-overview.html',
+            controller: 'TorrentController'
+        }).
         otherwise({
             redirectTo: '/list'
         });

@@ -9,6 +9,7 @@
 
 var AnimeControllers = angular.module('AnimeControllers', []),
     ListControllers = angular.module('ListControllers', []),
+    TorrentControllers = angular.module('TorrentControllers', []),
     SettingControllers = angular.module('SettingsControllers', []);
 
 
@@ -62,7 +63,7 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
                 });
         };
 
-        $scope.changeView = function(anime) {
+        $scope.changeView = function (anime) {
             var path = "/anime/" + anime._id;
             $location.path(path);
         };
@@ -71,5 +72,13 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
             $scope.animeList = [];
             $scope.animeList = Anime.query();
         };
+    }
+]);
+
+TorrentControllers.controller('TorrentController', ['$scope', '$http', 'NyaaTorrents',
+    function ($scope, $http, NT) {
+        $scope.torrentList = [];
+
+        NT.query
     }
 ]);
