@@ -3,6 +3,7 @@ var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema,
     ObjectId = Schema.ObjectId,
     Cache = require('./cache'),
+    Q = require('q'),
     Episode = require('./episode');
 
 var AnimeSchema = new Schema({
@@ -46,6 +47,15 @@ AnimeSchema.methods.setLowerCase = function () {
     this.normalizedName = this.title.replace(/\W/g, '').toLowerCase();
 };
 
+/**
+ * Returns a promise of a search result
+ * @param searchParams
+ * @returns {*}
+ */
+AnimeSchema.statics.findPromise = function (searchParams) {
+    return Q.denodeify(this.find.bind(this))(searchParams);
+};
+
 AnimeSchema.statics.syncDb = function (done) {
     readAnimeDirectory(function (err, result) {
         if (err) console.log(err);
@@ -58,6 +68,7 @@ AnimeSchema.statics.syncDb = function (done) {
         });
     });
 };
+
 
 AnimeSchema.statics.readAnimeDirectory = readAnimeDirectory;
 AnimeSchema.statics.flushAnimeCollection = flushCollection;

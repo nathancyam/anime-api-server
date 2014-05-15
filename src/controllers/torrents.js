@@ -33,7 +33,7 @@ exports.search = function (req, res) {
 
 exports.test = function (req, res) {
     var tg = new TorrentGetter(),
-        promise = tg.getSearchQueries();
+        promise = tg.getSearchResults();
     res.json('done...for now');
 };
 

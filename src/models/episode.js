@@ -2,10 +2,11 @@
  * Created by nathan on 3/20/14.
  */
 
-var Mongoose = require('mongoose');
-var Schema = Mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-var Cache = require('./cache');
+var Mongoose = require('mongoose'),
+    Schema = Mongoose.Schema,
+    ObjectId = Schema.ObjectId,
+    Q = require('q'),
+    Cache = require('./cache');
 
 var EpisodeSchema = new Schema({
     anime: ObjectId,
@@ -24,6 +25,14 @@ EpisodeSchema.statics.flushCollection = function (done) {
         Cache.flush();
         done();
     });
+};
+
+/**
+ * Returns a promise of results
+ * @param searchParams
+ */
+EpisodeSchema.statics.findPromise = function (searchParams) {
+    return Q.denodeify(this.find.bind(this))(searchParams);
 };
 
 EpisodeSchema.statics.sync = function (done) {
