@@ -3,6 +3,8 @@
  */
 
 /*jslint node: true */
+"use strict";
+
 var Transmission = require('transmission'),
     async = require('async');
 

@@ -1,3 +1,4 @@
+/*jslint node: true*/
 "use strict";
 var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema,
@@ -20,7 +21,7 @@ var AnimeSchema = new Schema({
 
 function readAnimeDirectory(done) {
     var AnimeDirectory = require('./anime_directory');
-    AnimeDirectory.generateModels(done)
+    AnimeDirectory.generateModels(done);
 }
 
 function getSubGroups(done) {

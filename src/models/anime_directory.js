@@ -1,6 +1,7 @@
 /**
  * Created by nathan on 3/20/14.
  */
+/*jslint node:true*/
 "use strict";
 var FILE_PATH = require('../config').media_dir,
     Anime = require('./anime'),
@@ -16,7 +17,7 @@ var FILE_PATH = require('../config').media_dir,
  */
 function readDirectory() {
     return fs.readdirSync(FILE_PATH).map(function (item) {
-        return FILE_PATH + "/" + item
+        return FILE_PATH + "/" + item;
     });
 }
 
@@ -143,7 +144,7 @@ function init(filePath, callback) {
         },
         function (models, done) {
             async.each(models, createEpisodeModels, function () {
-                done(null, models)
+                done(null, models);
             });
         }
     ], function (err, models) {

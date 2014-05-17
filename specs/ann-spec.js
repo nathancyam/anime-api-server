@@ -9,6 +9,7 @@ var AnnResource = require('../src/resources/ann'),
 describe('Anime News Network API', function () {
     describe('#search()', function () {
         it('should search an anime by name and return a JSON object', function (done) {
+            this.timeout(5000);
             ann.search({ name: 'Kill la Kill'}, function (err, result) {
                 expect(result).to.be.a('object');
                 done();

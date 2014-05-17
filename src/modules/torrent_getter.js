@@ -9,8 +9,9 @@ var Anime = require('../models/anime'),
     request = require('request'),
     Q = require('q');
 
-var TorrentGetter = module.exports = function () {
+var TorrentGetter = module.exports = function (options) {
     this.ntWrapper = NTWrapper();
+    this.options = options || {};
 };
 
 var NTWrapper = function () {
@@ -68,7 +69,6 @@ var NTWrapper = function () {
         },
         parseData: function (id, data, cb) {
             var $ = cheerio.load(data);
-            console.log($('title').text());
             var content = $(".content")[0];
 
             // When there's an error, it's displayed as text in the spot where the page
@@ -183,7 +183,7 @@ var NTWrapper = function () {
 
             return cb(null, obj);
         }
-    }
+    };
 };
 
 TorrentGetter.prototype = {
@@ -250,19 +250,25 @@ TorrentGetter.prototype = {
     },
     /**
      * Formats a string from a search object so it can be used to search NT
+     * If we also want to get the missing episodes and not only just the most recent episodes, make the search more general
      * @param title
      * @param subgroup
      * @param ep
      * @returns {string}
      */
     formatSearchString: function (title, subgroup, ep) {
+        if (self.options.getAllMissingEpisodes) {
+            return '[' + subgroup + '] ' + title;
+        }
         return '[' + subgroup + '] ' + title + ' ' + ("0" + (parseInt(ep) + 1)).slice(-2);
     },
     /**
      * Gets the search results after making the queries to NT
      */
     getSearchResults: function () {
-        var self = this;
+        var self = this,
+            deferred = Q.defer();
+
         self.getSearchQueries()
             .then(function (results) {
                 return results.map(function (query) {
@@ -271,10 +277,10 @@ TorrentGetter.prototype = {
             }).then(function (promises) {
                 return Q.allSettled(promises);
             }).then(function (results) {
-                var filterResults = self.parseSearchResults(results);
-                results = null;
-                console.log(filterResults);
+                deferred.resolve(self.parseSearchResults(results));
             });
+
+        return deferred.promise;
     },
     /**
      * Filters the results so they are valid
@@ -298,6 +304,16 @@ TorrentGetter.prototype = {
     }
 };
 
+var Comparer = function(anime) {
+    this.anime = anime;
+};
+
+Comparer.prototype = {
+    getNyaaTorrents: function() {
+
+    }
+};
+
 /**
  * Gets the latest episode from an array of episodes
  * @param results
@@ -312,22 +328,3 @@ TorrentGetter.prototype.getLatestEpisode = function (results) {
         }
     }, { number: 0 });
 };
-
-/**
- * Modified the NT search function so we can deal with the direct torrent URLs
- * @param query
- * @param cb
- */
-TorrentGetter.prototype.ntSearch = function (query, cb) {
-};
-
-/**
- * Modified the NT get function so we can actually get the correct URL contents instead of being redirected
- * back to the home page. Check the request module as this is the cause of the error
- * @param id
- * @param cb
- */
-TorrentGetter.prototype.getSingleTorrent = function (id, cb) {
-
-};
-

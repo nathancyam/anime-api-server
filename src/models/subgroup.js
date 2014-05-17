@@ -44,7 +44,7 @@ subGroupSchema.statics.build = function (done) {
                     .map(function (element) {
                         return {
                             name: element
-                        }
+                        };
                     });
                 done(groups);
             });

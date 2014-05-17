@@ -2,6 +2,7 @@
  * My Anime List API module
  */
 
+/*jslint node: true*/
 "use strict";
 var Cache = require('../models/cache'),
     AnimeAPI = require('./anime_api');

@@ -1,6 +1,10 @@
 /**
  * Created by nathanyam on 25/04/2014.
  */
+
+/*jslint node:true*/
+"use strict";
+
 var http = require('http'),
     qs = require('querystring'),
     url = require('url'),
@@ -47,13 +51,16 @@ Danbooru.prototype.getImages = function (searchTerms, done) {
     var requestUrl = this.baseUrl + this.getImageURI + '?' + qs.stringify(queryObject),
         urlObject = url.parse(requestUrl);
 
+    var userAuth = {
+        auth: {
+            user: 'kyokushin_nanaya',
+            pass: '9Mn6iJGrupfw.HMDxhX0XKQgL2BiSKUEtif/DQSq',
+            sendImmediately: true
+        }
+    };
+
     // Make the call
-    request(url.format({
-        hostname: urlObject.hostname,
-        path: urlObject.path,
-        method: 'GET',
-        auth: 'kyokushin_nanaya:9Mn6iJGrupfw.HMDxhX0XKQgL2BiSKUEtif/DQSq'
-    }), function (err, response, data) {
+    request(urlObject, userAuth, function (err, response, data) {
         var prefix = urlObject.protocol + '//' + urlObject.hostname;
         var images = JSON.parse(data).reduce(function (prev, curr) {
             prev.push(prefix + curr.file_url);

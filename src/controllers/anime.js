@@ -1,6 +1,7 @@
 /**
  * Created by nathan on 4/6/14.
  */
+/*jslint node: true */
 "use strict";
 var Anime = require('../models/anime'),
     Cache = require('../models/cache'),
@@ -44,7 +45,7 @@ exports.findById = function (req, res) {
 exports.findByName = function (req, res) {
     var normalizedQueryName = req.params.name.replace(/\W/g, '').toLowerCase();
     Anime.find({normalizedName: normalizedQueryName}, function (err, animes) {
-        Cache.set(req.url, results);
+        Cache.set(req.url, animes);
         res.send(animes);
     });
 };

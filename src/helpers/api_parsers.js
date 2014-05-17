@@ -42,7 +42,7 @@ exports.underscoreParser = function (type) {
             }, []);
 
         data[key] = resultArray;
-    }
+    };
 };
 
 exports.voiceActParser = function (data) {

@@ -2,6 +2,9 @@
  * Created by nathanyam on 21/04/2014.
  */
 
+/*jslint node: true*/
+"use strict";
+
 var Transmission = require('../models/transmission'),
     SocketHandler = require('../modules/socket_handler'),
     TorrentGetter = require('../modules/torrent_getter'),
@@ -38,6 +41,6 @@ exports.test = function (req, res) {
 };
 
 function bytesToSize(bytes) {
-    if (bytes == 0) return '0 Bytes';
+    if (bytes === 0) return '0 Bytes';
     return Math.round(bytes / Math.pow(1024, 2), 2) + ' MB';
 }

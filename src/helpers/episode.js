@@ -44,7 +44,7 @@ var EpisodeHelper = (function () {
                         finished(null);
                     });
                 }
-            ], function (err, results) {
+            ], function (err) {
                 if (err) {
                     done(err, null);
                 } else {
@@ -52,7 +52,7 @@ var EpisodeHelper = (function () {
                 }
             });
         }
-    }
+    };
 })();
 
 module.exports = EpisodeHelper;

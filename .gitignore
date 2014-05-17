@@ -22,3 +22,4 @@ test.js
 src/config.js
 .sass-cache/
 *.css
+dist/

@@ -1,7 +1,7 @@
 /**
  * Created by nathanyam on 13/04/2014.
  */
-
+/*jslint node: true*/
 "use strict";
 
 var Parsers = require('./../helpers/api_parsers'),
