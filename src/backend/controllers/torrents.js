@@ -6,7 +6,6 @@
 "use strict";
 
 var Transmission = require('../models/transmission'),
-    SocketHandler = require('../modules/socket_handler'),
     TorrentGetter = require('../modules/torrent_getter'),
     NyaaTorrents = require('nyaatorrents');
 

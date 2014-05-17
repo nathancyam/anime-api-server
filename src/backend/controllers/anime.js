@@ -73,9 +73,9 @@ exports.sync = function (req, res) {
 };
 
 exports.createEps = function (req, res) {
-    var helper = require('../helpers/episode');
+    var helper = require('./episode');
     helper.createEpisodeModels(function () {
-        var Episode = require('../models/episode');
+        var Episode = require('./episode');
         Episode.find(function (err, results) {
             res.send(results);
         });

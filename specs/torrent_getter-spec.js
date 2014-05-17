@@ -4,8 +4,8 @@
 /*jslint node: true */
 "use strict";
 
-var TorrentGetter = require('../src/modules/torrent_getter'),
-    Anime = require('../src/models/anime'),
+var TorrentGetter = require('./torrent_getter'),
+    Anime = require('./anime'),
     mongoose = require('mongoose'),
     chai = require('chai'),
     chaiAsPromised = require('chai-as-promised'),

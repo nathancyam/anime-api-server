@@ -2,7 +2,7 @@
  * Created by nathanyam on 26/04/2014.
  */
 
-var Danbooru = require('../src/resources/danbooru'),
+var Danbooru = require('./danbooru'),
     expect = require('chai').expect;
 
 describe('Danbooru Helper', function () {

@@ -7,18 +7,30 @@ module.exports = function (grunt) {
                 separator: "//==============\n"
             },
             dist: {
-                src: ['public/animeapp/*.js'],
-                dest: 'dist/animeapp-angular.js'
+                src: ['src/frontend/*.js'],
+                dest: 'dist/animeapp.js'
             }
         },
         jshint: {
             files: ['Gruntfile.js', 'src/**/*.js']
+        },
+        symlink: {
+            views: {
+                dest: 'public/animeapp/views',
+                relativeSrc: '../../src/frontend/views',
+                options: { type: 'dir' }
+            },
+            angular: {
+                dest: 'public/js/animeapp.js',
+                relativeSrc: '../../dist/animeapp.js'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-symlink');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint','concat']);
+    grunt.registerTask('default', ['jshint','concat','symlink']);
 };

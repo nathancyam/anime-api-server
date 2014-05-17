@@ -2,6 +2,9 @@
  * Cache Helper file
  */
 
+/*jslint node: true*/
+"use strict";
+
 var Cache = require('../models/cache');
 
 exports.getCacheResponse = function (req, res, next) {
