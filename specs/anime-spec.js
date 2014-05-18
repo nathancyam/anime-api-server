@@ -2,7 +2,7 @@
  * Created by nathan on 4/6/14.
  */
 
-var Anime = require('./anime.js'),
+var Anime = require('../src/backend/models/anime'),
     expect = require('chai').expect,
     async = require('async'),
     mongoose = require('mongoose');

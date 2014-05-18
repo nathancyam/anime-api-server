@@ -2,12 +2,12 @@
  * Created by nathanyam on 26/04/2014.
  */
 
-var Danbooru = require('./danbooru'),
+var DanbooruResource = require('../src/backend/resources/danbooru'),
     expect = require('chai').expect;
 
-describe('Danbooru Helper', function () {
-    var defaultDanbooru = new Danbooru(),
-        customDanbooru = new Danbooru({ imageLimit: 3});
+describe('DanbooruResource Helper', function () {
+    var defaultDanbooru = new DanbooruResource(),
+        customDanbooru = new DanbooruResource({ imageLimit: 3});
 
     describe('#getImages()', function () {
         it('should get a list of 5 images by default', function (done) {

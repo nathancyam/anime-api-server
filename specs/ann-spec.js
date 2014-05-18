@@ -2,7 +2,7 @@
  * Created by nathanyam on 14/04/2014.
  */
 
-var AnnResource = require('./ann'),
+var AnnResource = require('../src/backend/resources/ann'),
     ann = new AnnResource(),
     expect = require('chai').expect;
 
