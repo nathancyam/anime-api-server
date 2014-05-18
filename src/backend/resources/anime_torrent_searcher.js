@@ -5,7 +5,7 @@
 "use strict";
 
 var Q = require('q'),
-    NTWrapper = require('./nyaatorrents_wrapper');
+    NT = require('nyaatorrents');
 
 var AnimeTorrentSearcher = module.exports = function(anime, options) {
     this.anime = anime;
@@ -15,10 +15,15 @@ var AnimeTorrentSearcher = module.exports = function(anime, options) {
 AnimeTorrentSearcher.prototype = {
     // Search the torrents for an anime
     search: function() {
-        var nt = new NTWrapper(),
+        var nt = new NT(),
+            deferred = Q.defer(),
             searchTerms = formSearchString(this.anime.designated_subgroup, this.anime.title);
 
-        return Q.denodeify(nt.search.bind(nt))({ terms: searchTerms });
+        nt.search({term:searchTerms}, function(err, result) {
+            deferred.resolve(result);
+        });
+
+        return deferred.promise;
     }
 };
 

@@ -6,6 +6,8 @@
 "use strict";
 var http = require('http'),
     url = require('url'),
+    request = require('request'),
+    cheerio = require('cheerio'),
     NT = require('nyaatorrents');
 
 var NTWrapper = module.exports = function () {
@@ -41,7 +43,7 @@ var NTWrapper = module.exports = function () {
                 // Check if we are on a torrent page
                 if (($('form').attr('action')).indexOf("tid") !== -1) {
                     var gid = $("form").attr("action").split("tid=").pop();
-                    return self.ntWrapper.getSingleTorrent(gid, cb);
+                    return self.getSingleTorrent(gid, cb);
                 } else {
                     return nt.search(query, cb);
                 }

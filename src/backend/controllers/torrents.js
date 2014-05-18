@@ -6,7 +6,7 @@
 "use strict";
 
 var Transmission = require('../models/transmission'),
-    TorrentGetter = require('../modules/torrent_getter'),
+    AnimeEpisodeUpdater = require('../modules/anime_episode_updater'),
     NyaaTorrents = require('nyaatorrents');
 
 var Client = new Transmission({
@@ -34,9 +34,13 @@ exports.search = function (req, res) {
 };
 
 exports.test = function (req, res) {
-    var tg = new TorrentGetter(),
-        promise = tg.getSearchResults();
-    res.json('done...for now');
+    var Anime = require('../models/anime');
+    Anime.findOne({is_watching:true}, function(err, result) {
+        var update = new AnimeEpisodeUpdater(result);
+        update.getMissingEpisodes().then(function(result) {
+            res.send(result);
+        });
+    });
 };
 
 function bytesToSize(bytes) {

@@ -33,7 +33,7 @@ describe('AnimeTorrentSearcher', function() {
         it('should return results eventually', function() {
             animeSearcher.search().then(function(results) {
                 expect(results).to.eventually.be.an('array');
-                expect(results[0]).to.eventually.have.key(['href', 'name', 'seeders']);
+                expect(results[0]).to.eventually.have.keys(['href', 'name', 'seeders']);
             });
         });
     });

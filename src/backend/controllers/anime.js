@@ -23,7 +23,6 @@ exports.search = function (req, res) {
     Anime.find(req.query, function (err, result) {
         if (err) {
             console.log(err);
-            return;
         } else {
             res.json(result);
         }
