@@ -52,7 +52,7 @@ module.exports = function (app) {
 
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);
-    app.get('/torrent/test', TorrentController.test);
+    app.get('/torrent/anime/missingepisodes', TorrentController.test);
     app.post('/torrent/add', TorrentController.addTorrent);
 
     // DANBOORU ROUTES

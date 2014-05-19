@@ -29,6 +29,9 @@
         "grunt": "^0.4.3",
         "grunt-contrib-concat": "*",
         "grunt-contrib-jshint": "*",
-        "grunt-symlink": "*"
+        "grunt-contrib-watch": "*",
+        "grunt-symlink": "*",
+        "grunt-express-server": "*",
+        "grunt-contrib-uglify": "*"
     }
 }

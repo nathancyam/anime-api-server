@@ -31,13 +31,11 @@ AnimeEpisodeUpdater.prototype = {
         var torrentArray = setTorrentEpisodeNumbers(results[1]);
         var deferred = Q.defer();
 
-        var missingEps = torrentArray.filter(function(e) {
+        deferred.resolve(torrentArray.filter(function (e) {
             if (diskArray.indexOf(e.episodeNumber) === -1) {
                 return true;
             }
-        });
-
-        deferred.resolve(missingEps);
+        }));
 
         return deferred.promise;
     }
@@ -50,7 +48,6 @@ function getDiskEpisodeNumbers(disk) {
 function setTorrentEpisodeNumbers(torrents) {
     return torrents.map(function(e) {
         var number = e.name.match(/\d{2}/i);
-        console.log(number);
         if (number !== undefined) {
             var epNumber = parseInt(number.shift());
             if (epNumber < 32) {
