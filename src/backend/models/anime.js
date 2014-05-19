@@ -34,7 +34,7 @@ function getSubGroups(done) {
  * @param done
  */
 function flushCollection(done) {
-    Mongoose.connection.collections['animes'].drop(function (err) {
+    Mongoose.connection.collections.animes.drop(function (err) {
         if (err) {
             console.log(err);
         }
@@ -58,13 +58,13 @@ AnimeSchema.statics.findPromise = function (searchParams) {
 };
 
 AnimeSchema.statics.syncDb = function (done) {
-    readAnimeDirectory(function (err, result) {
+    readAnimeDirectory(function (err) {
         if (err) console.log(err);
         getSubGroups(function (subgroups) {
             var Subgroup = require('./subgroup');
             Subgroup.create(subgroups, function (err) {
                 if (err) console.log(err);
-                done();
+                done(err, { status: 'SUCCESS', message: 'SUCCESS' });
             });
         });
     });

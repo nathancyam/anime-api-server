@@ -5,6 +5,8 @@
 "use strict";
 var Anime = require('../models/anime'),
     Cache = require('../models/cache'),
+    AnimeUpdater = require('../modules/anime_multiple_updater'),
+    Q = require('q'),
     _ = require('underscore');
 
 /**
@@ -19,6 +21,11 @@ exports.list = function (req, res) {
     });
 };
 
+/**
+ * Search for an anime
+ * @param req
+ * @param res
+ */
 exports.search = function (req, res) {
     Anime.find(req.query, function (err, result) {
         if (err) {
@@ -29,6 +36,11 @@ exports.search = function (req, res) {
     });
 };
 
+/**
+ * Search for an anime by ID
+ * @param req
+ * @param res
+ */
 exports.findById = function (req, res) {
     Anime.findOne({ _id: req.params.id }, function (err, result) {
         res.json(result);
@@ -55,19 +67,9 @@ exports.findByName = function (req, res) {
  * @param res
  */
 exports.sync = function (req, res) {
-    Anime.syncDb(function (err) {
-        var result = {};
-        if (err) {
-            result.status = 'FAILED';
-            result.message = err;
-            console.log(err);
-        } else {
-            result.status = 'SUCCESS';
-            result.message = 'SUCCESS';
-        }
-        setTimeout(function () {
-            res.json(result);
-        }, 5000);
+    Anime.syncDb(function (err, result) {
+        if (err) console.log(err);
+        res.json(result);
     });
 };
 
@@ -98,4 +100,23 @@ exports.save = function (req, res) {
             }
         });
     }
+};
+
+/**
+ * Gets a list of the latest episodes that we are currently watching
+ * @param req
+ * @param res
+ */
+exports.update = function (req, res) {
+    var updateEpisodes = Q.denodeify(Anime.syncDb);
+
+    updateEpisodes().then(function () {
+        Anime.find({is_watching: true}, function (err, results) {
+            var update = new AnimeUpdater(results);
+            update.getPromises()
+                .then(function (results) {
+                    res.send(results);
+                });
+        });
+    });
 };

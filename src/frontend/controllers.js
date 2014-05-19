@@ -27,10 +27,10 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http
 SettingControllers.controller('SettingsController', ['$scope', '$http',
     function ($scope, $http) {
         $http.get('/settings')
-            .success(function (data, status) {
+            .success(function (data) {
                 $scope.settings = data;
             })
-            .error(function (data, status) {
+            .error(function (data) {
                 console.log(data);
             });
         $scope.submitForm = function () {
@@ -38,7 +38,7 @@ SettingControllers.controller('SettingsController', ['$scope', '$http',
                 .success(function (data, status) {
 
                 })
-                .error(function (data, status) {
+                .error(function () {
                     console.log('Failed');
                 });
         };
@@ -53,11 +53,11 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
         $scope.refresh = function () {
             $scope.isProcessing = !$scope.isProcessing;
             $http({ method: 'GET', url: '/sync/anime'})
-                .success(function (data, status) {
+                .success(function () {
                     $scope.animeList = Anime.query();
                     $scope.isProcessing = !$scope.isProcessing;
                 })
-                .error(function (data, status) {
+                .error(function () {
                     console.log('Failed');
                     $scope.isProcessing = !$scope.isProcessing;
                 });
@@ -72,13 +72,5 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
             $scope.animeList = [];
             $scope.animeList = Anime.query();
         };
-    }
-]);
-
-TorrentControllers.controller('TorrentController', ['$scope', '$http', 'NyaaTorrents',
-    function ($scope, $http, NT) {
-        $scope.torrentList = [];
-
-        NT.query
     }
 ]);

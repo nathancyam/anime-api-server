@@ -18,7 +18,7 @@ var EpisodeSchema = new Schema({
 });
 
 EpisodeSchema.statics.flushCollection = function (done) {
-    Mongoose.connection.collections['episodes'].drop(function (err) {
+    Mongoose.connection.collections.episodes.drop(function (err) {
         if (err) {
             console.log(err);
         }

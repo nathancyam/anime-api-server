@@ -6,7 +6,6 @@
 "use strict";
 
 var Transmission = require('../models/transmission'),
-    AnimeEpisodeUpdater = require('../modules/anime_episode_updater'),
     NyaaTorrents = require('nyaatorrents');
 
 var Client = new Transmission({
@@ -15,12 +14,22 @@ var Client = new Transmission({
     }),
     NT = new NyaaTorrents();
 
+/**
+ * Adds a torrent to the torrent server
+ * @param req
+ * @param res
+ */
 exports.addTorrent = function (req, res) {
     Client.add(req.body.torrentUrl, function (err, result) {
         res.send(result);
     });
 };
 
+/**
+ * Searches for torrents that are english translated only from NyaaTorrents
+ * @param req
+ * @param res
+ */
 exports.search = function (req, res) {
     var search = req.query.name;
     NT.search({ term: search }, function (err, results) {
@@ -33,15 +42,6 @@ exports.search = function (req, res) {
     });
 };
 
-exports.test = function (req, res) {
-    var Anime = require('../models/anime');
-    Anime.findOne({is_watching:true}, function(err, result) {
-        var update = new AnimeEpisodeUpdater(result);
-        update.getMissingEpisodes().then(function(result) {
-            res.send(result);
-        });
-    });
-};
 
 function bytesToSize(bytes) {
     if (bytes === 0) return '0 Bytes';

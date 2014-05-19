@@ -38,11 +38,11 @@ module.exports = function (grunt) {
         watch: {
             angular: {
                 files: ['src/frontend/**/*.js'],
-                tasks: ['concat', 'uglify']
+                tasks: ['jshint', 'concat', 'uglify']
             },
-            express: {
+            backend: {
                 files: ['src/backend/**/*.js'],
-                tasks: ['express:dev']
+                tasks: ['jshint']
             }
         },
         express: {
@@ -62,6 +62,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-symlink');
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify', 'symlink']);
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'symlink']);
     grunt.registerTask('server', ['express:dev', 'watch']);
 };

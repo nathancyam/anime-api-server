@@ -17,7 +17,7 @@ subGroupSchema.statics.getSubGroupByEpisode = function (episode) {
 };
 
 subGroupSchema.statics.flushCollection = function (done) {
-    Mongoose.connection.collections['subgroups'].drop(function (err) {
+    Mongoose.connection.collections.subgroups.drop(function (err) {
         if (err) {
             console.log(err);
         }

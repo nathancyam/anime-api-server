@@ -24,6 +24,7 @@ module.exports = function (app) {
     // ANIME ROUTES
     app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
     app.get('/anime/search', AnimeController.search);
+    app.get('/anime/update', AnimeController.update);
     app.get('/anime/:id', AnimeController.findById);
     app.post('/anime', AnimeController.save);
 
@@ -52,7 +53,6 @@ module.exports = function (app) {
 
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);
-    app.get('/torrent/anime/missingepisodes', TorrentController.test);
     app.post('/torrent/add', TorrentController.addTorrent);
 
     // DANBOORU ROUTES

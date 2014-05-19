@@ -15,7 +15,7 @@ directives.directive('episodeList', function () {
             };
         },
         templateUrl: 'animeapp/views/episode-list.html'
-    }
+    };
 });
 
 directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
@@ -42,7 +42,7 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
             });
         },
         templateUrl: 'animeapp/views/anime-news-network.html'
-    }
+    };
 }]);
 
 directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, nt) {
@@ -97,7 +97,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
             });
         },
         templateUrl: 'animeapp/views/torrents.html'
-    }
+    };
 }]);
 
 directives.directive('animeOptions', [ 'Anime', function (Anime) {
@@ -125,10 +125,10 @@ directives.directive('animeOptions', [ 'Anime', function (Anime) {
                     anime.is_complete = $scope.anime.is_complete;
                     anime.$save();
                 });
-            }
+            };
         },
         templateUrl: 'animeapp/views/anime-options.html'
-    }
+    };
 }]);
 
 directives.directive('backImg', function () {
@@ -137,5 +137,5 @@ directives.directive('backImg', function () {
         element.css({
             'background-image': 'url(' + url + ')'
         });
-    }
+    };
 });
