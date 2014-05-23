@@ -3,8 +3,10 @@
 var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema,
     ObjectId = Schema.ObjectId,
-    Cache = require('./cache'),
+    Cache = require('../modules/cache'),
+    Gridfs = require('gridfs-stream'),
     Q = require('q'),
+    FS = require('fs'),
     Episode = require('./episode');
 
 var AnimeSchema = new Schema({
@@ -55,6 +57,47 @@ AnimeSchema.methods.setLowerCase = function () {
  */
 AnimeSchema.statics.findPromise = function (searchParams) {
     return Q.denodeify(this.find.bind(this))(searchParams);
+};
+
+/**
+ * Saves an image to an image given a file path
+ * @param image
+ * @param callback
+ */
+AnimeSchema.methods.setPicture = function (image, callback) {
+    var self = this;
+    var conn = Mongoose.createConnection('mongodb://localhost/anime:27017');
+
+    conn.once('open', function () {
+        var gfs = new Gridfs(conn.db, Mongoose.mongo);
+        var writeStream = gfs.createWriteStream({
+            filename: 'flsjfld' + image.split('/').pop(),
+            collection: 'animes',
+            metadata: {
+                anime: self.id
+            }
+        });
+        FS.createReadStream(image).pipe(writeStream);
+        writeStream.on('close', function (file) {
+            callback(null, file);
+        });
+    });
+};
+
+AnimeSchema.methods.getPicture = function (callback) {
+    var conn = Mongoose.createConnection('mongodb://localhost/anime:27017');
+
+    conn.once('open', function () {
+        var gfs = new Gridfs(conn.db, Mongoose.mongo);
+        var writeStream = FS.createWriteStream('/tmp/45.jpg');
+        var readStream = gfs.createReadStream({
+            filename: 'flsjfldtest.jpg'
+        });
+        readStream.pipe(writeStream);
+        writeStream.on('close', function () {
+            callback(null, '/tmp/45.jpg');
+        });
+    });
 };
 
 AnimeSchema.statics.syncDb = function (done) {

@@ -2,7 +2,7 @@
  * Created by nathanyam on 26/04/2014.
  */
 
-var Settings = require('../models/settings');
+var Settings = require('../modules/settings');
 
 exports.setSettings = function (req, res) {
     var data = req.body;

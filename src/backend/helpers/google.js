@@ -3,7 +3,7 @@
  */
 
 
-var Settings = require('../models/settings').all();
+var Settings = require('../modules/settings').all();
 var CX = Settings.google.custSearchCX;
 var API_KEY = Settings.google.custSearchAPI;
 

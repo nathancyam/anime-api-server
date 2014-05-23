@@ -25,6 +25,7 @@ module.exports = function (app) {
     app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
     app.get('/anime/search', AnimeController.search);
     app.get('/anime/update', AnimeController.update);
+    app.get('/anime/image', AnimeController.imageTest);
     app.get('/anime/:id', AnimeController.findById);
     app.post('/anime', AnimeController.save);
 

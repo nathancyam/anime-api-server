@@ -2,7 +2,7 @@
  * Created by nathan on 3/17/14.
  */
 
-var cache = require('../src/backend/models/cache');
+var cache = require('../src/backend/modules/cache');
 var expect = require('chai').expect;
 
 describe("Cache", function () {

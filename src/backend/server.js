@@ -7,7 +7,7 @@ var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
     config = require('./config'),
-    Settings = require('./models/settings'),
+    Settings = require('./modules/settings'),
     app = express(),
     server = app.listen(3000);
 

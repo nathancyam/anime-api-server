@@ -3,7 +3,7 @@
  */
 
 var AnimeNewsNetwork = require('../resources/ann'),
-    Cache = require('../models/cache');
+    Cache = require('../modules/cache');
 
 exports.search = function (req, res) {
     var ann = new AnimeNewsNetwork();

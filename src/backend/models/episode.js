@@ -6,7 +6,7 @@ var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema,
     ObjectId = Schema.ObjectId,
     Q = require('q'),
-    Cache = require('./cache');
+    Cache = require('../modules/cache');
 
 var EpisodeSchema = new Schema({
     anime: ObjectId,

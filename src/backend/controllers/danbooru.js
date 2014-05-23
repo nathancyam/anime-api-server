@@ -3,7 +3,7 @@
  */
 
 var Danbooru = require('../resources/danbooru'),
-    Cache = require('../models/cache'),
+    Cache = require('../modules/cache'),
     danbooru = new Danbooru();
 
 exports.getImages = function (req, res) {

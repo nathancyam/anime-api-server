@@ -6,9 +6,11 @@
 "use strict";
 
 var Transmission = require('transmission'),
+    config = require('../config'),
     async = require('async');
 
-var TransmissionWrapper = module.exports = function (options) {
+var TransmissionWrapper = module.exports = function TransmissionWrapper(options) {
+    options = options || config.torrentServer;
     Transmission.call(this, options);
 };
 

@@ -7,7 +7,7 @@ var Episode = require('../models/episode'),
     async = require('async'),
     fs = require('fs');
 
-var EpisodeHelper = (function () {
+var EpisodeHelper = module.exports = (function () {
     return {
         getEpisodeFilenames: function (animeModel, done) {
             fs.readdir(animeModel.filepath, function (err, files) {
@@ -51,9 +51,15 @@ var EpisodeHelper = (function () {
                     done(null, { status: 'SUCCESS' });
                 }
             });
+        },
+        getEpisodeNumberByFileName: function (fileName) {
+            var number = fileName.match(/\d{2}/i);
+            if (number !== undefined) {
+                var epNumber = parseInt(number.shift());
+                if (epNumber < 32) {
+                    return epNumber;
+                }
+            }
         }
     };
 })();
-
-module.exports = EpisodeHelper;
-

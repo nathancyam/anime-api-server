@@ -7,6 +7,7 @@
 
 var AnimeTorrentSearcher = require('../resources/anime_torrent_searcher'),
     Episode = require('../models/episode'),
+    EpisodeHelper = require('../helpers/episode'),
     Anime = require('../models/anime'),
     Q = require('q');
 
@@ -68,13 +69,7 @@ function getDiskEpisodeNumbers(disk) {
 
 function setTorrentEpisodeNumbers(torrents) {
     return torrents.map(function(e) {
-        var number = e.name.match(/\d{2}/i);
-        if (number !== undefined) {
-            var epNumber = parseInt(number.shift());
-            if (epNumber < 32) {
-                e.episodeNumber = epNumber;
-            }
-        }
+        e.episodeNumber = EpisodeHelper.getEpisodeNumberByFileName(e.name);
         return e;
     });
 }

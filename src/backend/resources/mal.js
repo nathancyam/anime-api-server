@@ -4,7 +4,7 @@
 
 /*jslint node: true*/
 "use strict";
-var Cache = require('../models/cache'),
+var Cache = require('../modules/cache'),
     AnimeAPI = require('./anime_api');
 
 var mal_user = require('../config').mal_username,

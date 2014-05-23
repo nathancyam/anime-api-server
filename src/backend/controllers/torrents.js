@@ -8,10 +8,7 @@
 var Transmission = require('../models/transmission'),
     NyaaTorrents = require('nyaatorrents');
 
-var Client = new Transmission({
-        host: 'local.rpi',
-        port: 9091
-    }),
+var Client = new Transmission(),
     NT = new NyaaTorrents();
 
 /**

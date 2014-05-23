@@ -4,7 +4,7 @@
 /*jslint node: true */
 "use strict";
 var Anime = require('../models/anime'),
-    Cache = require('../models/cache'),
+    Cache = require('../modules/cache'),
     AnimeUpdater = require('../modules/anime_multiple_updater'),
     Q = require('q'),
     _ = require('underscore');
@@ -109,14 +109,30 @@ exports.save = function (req, res) {
  */
 exports.update = function (req, res) {
     var updateEpisodes = Q.denodeify(Anime.syncDb);
-
     updateEpisodes().then(function () {
         Anime.find({is_watching: true}, function (err, results) {
-            var update = new AnimeUpdater(results);
-            update.getPromises()
-                .then(function (results) {
-                    res.send(results);
-                });
+            var updater = null;
+            if (req.query.push) {
+                updater = new AnimeUpdater(results, { pushToServer: true });
+            } else {
+                updater = new AnimeUpdater(results);
+            }
+            updater.update().then(function (results) {
+                res.json(results);
+            });
+        });
+    });
+};
+
+exports.imageTest = function (req, res) {
+    var anime = new Anime(),
+        promise = Q.denodeify(anime.getPicture.bind(anime));
+
+    var FS = require('fs');
+    promise().then(function (result) {
+        var promiseFS = Q.denodeify(FS.readFile);
+        promiseFS(result).then(function (data) {
+            res.sendfile(result);
         });
     });
 };

@@ -5,7 +5,7 @@
 var Mongoose = require('mongoose');
 var Schema = Mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var Cache = require('./cache');
+var Cache = require('../modules/cache');
 
 var subGroupSchema = new Schema({
     name: String

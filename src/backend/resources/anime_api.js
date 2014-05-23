@@ -3,7 +3,7 @@
  */
 /*jslint node: true*/
 "use strict";
-var Cache = require('../models/cache'),
+var Cache = require('../modules/cache'),
     events = require('events'),
     util = require('util'),
     url = require('url'),

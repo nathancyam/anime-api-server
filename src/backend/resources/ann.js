@@ -88,6 +88,12 @@ AnimeNewsNetwork.prototype.parseGeneralResults = function (results, done) {
     }
 };
 
+/**
+ * We search the anime name on Google to get the actual ID from AnimeNewsNetwork if their internal search
+ * fails
+ * @param response
+ * @param done
+ */
 AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
     var self = this;
     var searchTerm = response.report.args[0].name[0],
@@ -120,6 +126,9 @@ AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
     done(null, formattedResults);
 };
 
+AnimeNewsNetwork.prototype.downloadImage = function (url, done) {
+};
+
 var isEmpty = function (result) {
     var noResult = false;
     // Is this an anime ID result?
@@ -135,8 +144,4 @@ var isMultipleResults = function (results) {
 
 function getResultId(results) {
     return parseInt(results.report.item[0].id[0]);
-}
-
-function getANNID(result) {
-    return parseInt(result.ann.anime[0].$.id);
 }
