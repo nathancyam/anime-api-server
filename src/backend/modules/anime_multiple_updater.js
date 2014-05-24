@@ -65,6 +65,9 @@ AnimeMultipleUpdater.prototype = {
                 .then(function (results) {
                     deferred.resolve(results.reduce(function (prev, curr) {
                         return prev.concat(curr);
+                    }).map(function (e) {
+                        e.status = 'static';
+                        return e;
                     }));
                 });
         }

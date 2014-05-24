@@ -5,22 +5,26 @@
 "use strict";
 
 var Q = require('q'),
-    NT = require('nyaatorrents');
+    NT = require('nyaatorrents'),
+    TorrentHelper = require('../helpers/torrents');
 
-var AnimeTorrentSearcher = module.exports = function(anime, options) {
+var AnimeTorrentSearcher = module.exports = function (anime, options) {
     this.anime = anime;
     this.options = options || {};
 };
 
 AnimeTorrentSearcher.prototype = {
     // Search the torrents for an anime
-    search: function() {
+    search: function () {
         var nt = new NT(),
             deferred = Q.defer(),
             searchTerms = formSearchString(this.anime.designated_subgroup, this.anime.title);
 
-        nt.search({term:searchTerms}, function(err, result) {
-            deferred.resolve(result);
+        nt.search({term: searchTerms}, function (err, result) {
+            deferred.resolve(result.map(function (e) {
+                var tHelper = new TorrentHelper(e);
+                return tHelper.addNewAttributes();
+            }));
         });
 
         return deferred.promise;

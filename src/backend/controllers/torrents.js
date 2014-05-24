@@ -6,7 +6,8 @@
 "use strict";
 
 var Transmission = require('../models/transmission'),
-    NyaaTorrents = require('nyaatorrents');
+    NyaaTorrents = require('nyaatorrents'),
+    TorrentHelper = require('../helpers/torrents');
 
 var Client = new Transmission(),
     NT = new NyaaTorrents();
@@ -32,15 +33,9 @@ exports.search = function (req, res) {
     NT.search({ term: search }, function (err, results) {
         res.send(results.filter(function (item) {
             return item.categories.indexOf('english-translated-anime') > 0;
-        }).map(function (item) {
-            item.readableSize = bytesToSize(item.size);
-            return item;
+        }).map(function (e) {
+            var tHelper = new TorrentHelper(e);
+            return tHelper.addNewAttributes();
         }));
     });
 };
-
-
-function bytesToSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    return Math.round(bytes / Math.pow(1024, 2), 2) + ' MB';
-}
