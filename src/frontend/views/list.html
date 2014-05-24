@@ -1,7 +1,8 @@
 <div class="anime-list" ng-init="init()">
     <h1>Anime List</h1>
-    <form class="form-inline" role="form">
-        <div class="form-group" ng-model="searchFilter.$">
+
+    <form class="form-inline anime-list-filters" role="form">
+    <div class="form-group" ng-model="searchFilter.$">
             <input type="text" class="form-control" ng-model="searchFilter.title" placeholder="Filter By Name" />
         </div>
         <div class="checkbox">
@@ -24,10 +25,10 @@
             </a>
         </div>
     </form>
-    <ul>
-        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter">
-            <div class="item-container" ng-click="changeView(anime)">
-                <div class="image-holder"></div>
+    <ul class="list-container">
+        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter" ng-click="changeView(anime)">
+            <div class="item-container">
+            <div class="image-holder"></div>
                 <a href="#/anime/{{anime._id}}" class="item-title">
                     {{anime.title}}
                 </a>

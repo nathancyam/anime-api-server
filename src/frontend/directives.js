@@ -68,6 +68,10 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
 directives.directive('torrentListing', ['$http', function ($http) {
     return {
         controller: function ($scope) {
+            $scope.start = 0;
+            $scope.finish = 10;
+            $scope.currentPage = 1;
+
             $scope.addToTorrentClient = function (torrent) {
                 torrent.status = 'adding';
                 $http.post('/torrent/add', {
@@ -98,11 +102,28 @@ directives.directive('torrentListing', ['$http', function ($http) {
                     });
             };
 
+            $scope.pageChanged = function () {
+                var start = 1,
+                    finish = 10;
+
+                if ($scope.currentPage !== 1) {
+                    start = ($scope.currentPage * 10) + 1;
+                    finish = start + 9;
+                }
+
+                $scope.start = start;
+                $scope.finish = finish;
+            };
+
             $scope.$on('torrent-list-change', function (newValue) {
                 if (newValue !== undefined) {
                     $scope.torrentList = newValue.targetScope.torrentList;
                 }
             });
+
+            $scope.showRow = function (index) {
+                return index >= $scope.start && index < $scope.finish;
+            };
         },
         templateUrl: 'animeapp/views/torrents.html'
     };

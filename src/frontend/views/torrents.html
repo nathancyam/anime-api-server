@@ -1,5 +1,5 @@
 <div class="row torrent-filters">
-<div class="col-md-12">
+    <div class="col-md-12">
         <form class="form-inline" role="form">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Filter by file name" ng-model="searchTorrentName"/>
@@ -11,6 +11,7 @@
         </form>
     </div>
 </div>
+<pagination total-items="torrentList.length" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 <table class="table">
     <tr>
         <th ng-click="predicate = 'name'; reverse=!reverse">
@@ -28,7 +29,8 @@
         <th></th>
         <th></th>
     </tr>
-    <tr ng-repeat="torrent in torrentList | filter: searchTorrentName | orderBy:predicate:reverse">
+    <tr ng-repeat="torrent in torrentList | filter: searchTorrentName | orderBy:predicate:reverse"
+        ng-if="showRow($index)">
         <td>{{torrent.name}}</td>
         <td>{{torrent.readableSize}}</td>
         <td>{{torrent.seeds}}</td>
@@ -41,7 +43,7 @@
                 <i class="fa fa-refresh fa-spin"></i>
             </a>
             <a class="btn btn-success" ng-switch-when="added">
-            <i class="fa fa-check"></i>
+                <i class="fa fa-check"></i>
             </a>
             <a class="btn btn-danger" ng-click="addToTorrentClient(torrent)" ng-switch-when="error">
                 <i class="fa fa-exclamation"></i>

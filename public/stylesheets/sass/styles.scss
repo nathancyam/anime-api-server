@@ -1,4 +1,6 @@
 $anime-list-color: #666666;
+$respond-to-mobile: 'screen and (min-width: 200px) and (max-width: 720px) and (orientation: portrait)';
+$respond-to-tablet: 'screen and (min-width: 720px) and (max-width: 1024px) and (orientation: portrait)';
 
 @mixin transition($transition-property, $transition-time, $method) {
   -webkit-transition: $transition-property $transition-time $method;
@@ -39,24 +41,13 @@ a {
 .anime-app {
   width: 100%;
 
-  .anime-list-section {
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    .anime-search {
-      padding-bottom: 10px;
+  .anime-list {
+    .list-container {
+      padding-right: 45px;
     }
 
-    .anime-list {
-      background-color: $anime-list-color;
-      height: 650px;
-      overflow: auto;
-
-    }
-
-    #loadSpinner {
-      opacity: 1.0;
-      margin: 0 auto;
+    .anime-list-filters {
+      padding: 20px 0px;
     }
 
   }
@@ -64,12 +55,21 @@ a {
   .anime-item {
     @include transition(all, 0.2s, ease);
     width: 16.6666667%;
+
+    @media #{$respond-to-tablet} {
+      width: 33.3333333%;
+    }
+
+    @media #{$respond-to-mobile} {
+      width: 100%;
+    }
+
     padding: 5px;
     display: inline-block;
     cursor: pointer;
     list-style-type: none;
     vertical-align: top;
-    height: 200px;
+    height: 340px;
 
     &:hover {
       background-color: lightgrey;
@@ -80,9 +80,10 @@ a {
     }
     .item-container {
       padding-top: 20px;
+      height: 90%;
+
       .image-holder {
-        height: 100px;
-        width: 100%;
+        height: 80%;
       }
       .item-title {
         display: block;
@@ -93,6 +94,7 @@ a {
       }
       .item-footer {
         height: 10px;
+        padding: 0px 10px;
       }
     }
   }
@@ -108,6 +110,10 @@ a {
   }
 
   .torrent-filters {
+    padding: 10px 0px;
+  }
+
+  .anime-options {
     padding: 10px 0px;
   }
 }
