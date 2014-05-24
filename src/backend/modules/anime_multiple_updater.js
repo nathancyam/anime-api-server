@@ -60,9 +60,14 @@ AnimeMultipleUpdater.prototype = {
             }).then(function (results) {
                 return deferred.resolve(results);
             });
-            return deferred.promise;
         } else {
-            return this.getPromises();
+            this.getPromises()
+                .then(function (results) {
+                    deferred.resolve(results.reduce(function (prev, curr) {
+                        return prev.concat(curr);
+                    }));
+                });
         }
+        return deferred.promise;
     }
 };

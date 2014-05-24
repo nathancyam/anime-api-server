@@ -15,6 +15,7 @@ var controllers = [
     'ListControllers',
     'AnimeControllers',
     'SettingsControllers',
+    'TorrentControllers'
 ];
 
 var resources = [
@@ -25,6 +26,10 @@ var resources = [
     'NyaaResource'
 ];
 
+var factories = [
+    'TorrentFactory'
+];
+
 var directives = [
     'AnimeDirectives'
 ];
@@ -33,7 +38,7 @@ var routes = [
     'AppRoutes'
 ];
 
-var dependencies = [].concat(setting, controllers, resources, directives, routes);
+var dependencies = [].concat(setting, controllers, resources, factories, directives, routes);
 
 angular.module('AnimeApp', dependencies);
 

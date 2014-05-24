@@ -74,3 +74,24 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
         };
     }
 ]);
+
+TorrentControllers.controller('TorrentController', ['$scope', 'Torrents',
+    function ($scope, TorrentFactory) {
+        $scope.torrentList = [];
+
+        $scope.getWatchingTorrents = function () {
+            TorrentFactory.getWatchingAnimeTorrents()
+                .then(function (result) {
+                    if (Array.isArray(result)) {
+                        $scope.torrentList = result;
+                    }
+                }
+            );
+        };
+
+        $scope.init = function () {
+            $scope.torrentList = [];
+            $scope.getWatchingTorrents();
+        };
+    }
+]);

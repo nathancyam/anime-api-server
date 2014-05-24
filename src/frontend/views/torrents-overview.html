@@ -1,3 +1,14 @@
-<div>
+<div class="col-md-8" ng-init="init()">
     <h1>Torrent Overview</h1>
+
+    <div>
+        <ul>
+            <li ng-repeat="torrent in torrentList">
+                {{ torrent.href }}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-md-4">
+    <div>Words!</div>
 </div>

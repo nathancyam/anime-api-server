@@ -52,7 +52,22 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
         },
         controller: function ($scope) {
             $scope.torrentList = [];
+            $scope.$watch('anime', function (newValue) {
+                if (newValue !== undefined) {
+                    nt.query({ name: newValue }, function (results) {
+                        $scope.torrentList = results;
+                        $scope.$broadcast('torrent-list-change');
+                    });
+                }
+            });
+        },
+        templateUrl: 'animeapp/views/nyaatorrents.html'
+    };
+}]);
 
+directives.directive('torrentListing', ['$http', function ($http) {
+    return {
+        controller: function ($scope) {
             $scope.addToTorrentClient = function (torrent) {
                 torrent.status = 'adding';
                 $http.post('/torrent/add', {
@@ -83,15 +98,13 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
                     });
             };
 
-            $scope.$watch('anime', function (newValue) {
-                socket.emit('client_torrent', { loli: 'Chiaka' });
+            $scope.$on('torrent-list-change', function (newValue) {
                 if (newValue !== undefined) {
-                    nt.query({ name: newValue }, function (results) {
-                        // TODO: Add an icon to indicate the torrent is on the torrent server
-                        $scope.torrentList = results.map(function (e) {
-                            e.status = 'static';
-                            return e;
-                        });
+                    // TODO: add icon to indicate that the torrent is on the server already
+
+                    $scope.torrentList = newValue.targetScope.torrentList.map(function (e) {
+                        e.status = 'static';
+                        return e;
                     });
                 }
             });
@@ -100,7 +113,7 @@ directives.directive('nyaaTorrents', ['$http', 'NyaaTorrents', function ($http, 
     };
 }]);
 
-directives.directive('animeOptions', [ 'Anime', function (Anime) {
+directives.directive('animeOptions', ['Anime', function (Anime) {
     return {
         scope: {
             anime: '='

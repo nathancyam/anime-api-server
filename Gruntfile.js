@@ -37,11 +37,11 @@ module.exports = function (grunt) {
         },
         watch: {
             angular: {
-                files: ['src/frontend/**/*.js'],
+                files: ['src/frontend/**/*.js', 'src/frontend/views/*.html'],
                 tasks: ['jshint', 'concat', 'uglify']
             },
             backend: {
-                files: ['src/backend/**/*.js'],
+                files: ['src/backend/**/*.js', 'src/backend/**/*.html', 'src/backend/**/*.jade'],
                 tasks: ['jshint']
             }
         },

@@ -1,58 +1,52 @@
-<div id="torrents-view">
-    <h2>Nyaa Torrents</h2>
-
-    <div ng-if="message">
-        {{message}}
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Filter by file name" ng-model="searchTorrentName"/>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-info" ng-click="addMultipleTorrents()">Add selected torrents
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <form class="form-inline" role="form">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Filter by file name" ng-model="searchTorrentName"/>
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-info" ng-click="addMultipleTorrents()">Add selected torrents</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <table class="table">
-        <tr>
-            <th ng-click="predicate = 'name'; reverse=!reverse">
-                <strong>Name</strong>
-            </th>
-            <th ng-click="predicate = 'size'; reverse=!reverse">
-                <strong>Size</strong>
-            </th>
-            <th ng-click="predicate = 'seeds'; reverse=!reverse">
-                <strong>Seeds</strong>
-            </th>
-            <th ng-click="predicate = 'leeches'; reverse=!reverse">
-                <strong>Leeches</strong>
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr ng-repeat="torrent in torrentList | filter: searchTorrentName | orderBy:predicate:reverse">
-            <td>{{torrent.name}}</td>
-            <td>{{torrent.readableSize}}</td>
-            <td>{{torrent.seeds}}</td>
-            <td>{{torrent.leeches}}</td>
-            <td ng-model="torrent.isLoading" ng-switch="torrent.status">
-                <a class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch-when="static">
-                    <i class="fa fa-plus"></i>
-                </a>
-                <a class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch-when="adding">
-                    <i class="fa fa-refresh fa-spin"></i>
-                </a>
-                <a class="btn btn-success" ng-click="addToTorrentClient(torrent)" ng-switch-when="added">
-                    <i class="fa fa-check"></i>
-                </a>
-                <a class="btn btn-danger" ng-click="addToTorrentClient(torrent)" ng-switch-when="error">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </td>
-            <td><input type="checkbox" ng-model="torrent.isSelected"></td>
-        </tr>
-    </table>
 </div>
+<table class="table">
+    <tr>
+        <th ng-click="predicate = 'name'; reverse=!reverse">
+            <strong>Name</strong>
+        </th>
+        <th ng-click="predicate = 'size'; reverse=!reverse">
+            <strong>Size</strong>
+        </th>
+        <th ng-click="predicate = 'seeds'; reverse=!reverse">
+            <strong>Seeds</strong>
+        </th>
+        <th ng-click="predicate = 'leeches'; reverse=!reverse">
+            <strong>Leeches</strong>
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="torrent in torrentList | filter: searchTorrentName | orderBy:predicate:reverse">
+        <td>{{torrent.name}}</td>
+        <td>{{torrent.readableSize}}</td>
+        <td>{{torrent.seeds}}</td>
+        <td>{{torrent.leeches}}</td>
+        <td ng-model="torrent.isLoading" ng-switch="torrent.status">
+            <a class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch-when="static">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a class="btn btn-primary" ng-click="addToTorrentClient(torrent)" ng-switch-when="adding">
+                <i class="fa fa-refresh fa-spin"></i>
+            </a>
+            <a class="btn btn-success" ng-click="addToTorrentClient(torrent)" ng-switch-when="added">
+                <i class="fa fa-check"></i>
+            </a>
+            <a class="btn btn-danger" ng-click="addToTorrentClient(torrent)" ng-switch-when="error">
+                <i class="fa fa-exclamation"></i>
+            </a>
+        </td>
+        <td><input type="checkbox" ng-model="torrent.isSelected"></td>
+    </tr>
+</table>
