@@ -40,5 +40,5 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
                 Transmission.prototype.add.apply(this, [url, options, cb]);
             }
         }
-    }
+    },
 });

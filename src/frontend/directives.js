@@ -100,11 +100,7 @@ directives.directive('torrentListing', ['$http', function ($http) {
 
             $scope.$on('torrent-list-change', function (newValue) {
                 if (newValue !== undefined) {
-                    // TODO: add icon to indicate that the torrent is on the server already
-                    $scope.torrentList = newValue.targetScope.torrentList.map(function (e) {
-                        e.status = 'static';
-                        return e;
-                    });
+                    $scope.torrentList = newValue.targetScope.torrentList;
                 }
             });
         },
