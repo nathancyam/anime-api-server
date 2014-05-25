@@ -25,6 +25,7 @@ module.exports = function (app) {
     app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
     app.get('/anime/search', AnimeController.search);
     app.get('/anime/update', AnimeController.update);
+    app.post('/anime/update', AnimeController.updateConfig);
     app.get('/anime/image', AnimeController.imageTest);
     app.get('/anime/:id', AnimeController.findById);
     app.post('/anime', AnimeController.save);
@@ -58,5 +59,7 @@ module.exports = function (app) {
 
     // DANBOORU ROUTES
     app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);
+
+    app.get('/test/process', TorrentController.startProcess);
 };
 

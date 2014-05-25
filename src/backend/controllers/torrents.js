@@ -39,3 +39,9 @@ exports.search = function (req, res) {
         }));
     });
 };
+
+exports.startProcess = function (req, res) {
+    var spawn = require('child_process').spawn;
+    var watcher = spawn('node', [__dirname + '/../modules/anime_updater_process_handler.js']);
+    res.json({ status: 'SUCCESS', message: 'Process started successfully' });
+};

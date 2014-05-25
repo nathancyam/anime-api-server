@@ -91,6 +91,13 @@ TorrentControllers.controller('TorrentController', ['$scope', 'Torrents',
             );
         };
 
+        $scope.submit = function () {
+            TorrentFactory.setNewConfig($scope.torrentConfig)
+                .then(function () {
+                    console.log('Added successfully');
+                });
+        };
+
         $scope.init = function () {
             $scope.torrentList = [];
             $scope.getWatchingTorrents();

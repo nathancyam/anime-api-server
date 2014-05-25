@@ -28,6 +28,15 @@ torrentFactory.factory('Torrents', ['$http', '$q', function ($http, $q) {
                     deferred.reject(result);
                 });
             return deferred.promise;
+        },
+        setNewConfig: function (data) {
+            var deferred = $q.defer();
+
+            $http.post('/anime/update', data)
+                .success(function (res) {
+                    deferred.resolve(res);
+                });
+            return deferred.promise;
         }
     };
 }]);
