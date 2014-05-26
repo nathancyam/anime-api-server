@@ -6,8 +6,9 @@
 "use strict";
 
 var Transmission = require('../models/transmission'),
-    NyaaTorrents = require('nyaatorrents'),
-    TorrentHelper = require('../helpers/torrents');
+    TorrentHelper = require('../helpers/torrents'),
+    Cache = require('../modules/cache'),
+    NyaaTorrents = require('nyaatorrents');
 
 var Client = new Transmission(),
     NT = new NyaaTorrents();
@@ -41,7 +42,30 @@ exports.search = function (req, res) {
 };
 
 exports.startProcess = function (req, res) {
+    var time = Cache.get('animeUpdaterConfig');
+
+    if (!time) {
+        return res.json({ status: 'ERROR', message: 'No time assigned' });
+    }
+
+    var interval = time.timeInterval,
+        number = parseInt(time.timeValue),
+        multipler = 0;
+
+    switch(interval) {
+        case 'mins':
+            multipler = 60000;
+            break;
+        case 'hours':
+            multipler = 60000 * 60;
+            break;
+        default:
+            break;
+    }
+
+    var timeInterval = parseInt(multipler * number);
+
     var spawn = require('child_process').spawn;
-    var watcher = spawn('node', [__dirname + '/../modules/anime_updater_process_handler.js']);
+    spawn('node', [__dirname + '/../modules/anime_updater_process_handler.js', timeInterval]);
     res.json({ status: 'SUCCESS', message: 'Process started successfully' });
 };

@@ -9,7 +9,7 @@ var express = require('express'),
     config = require('./config'),
     Settings = require('./modules/settings'),
     app = express(),
-    server = app.listen(3000);
+    server = module.exports = app.listen(3000);
 
 mongoose.connect('mongodb://localhost/anime:27017');
 
@@ -30,4 +30,13 @@ require("./routes")(app);
 var socketHandler = require('./modules/socket_handler');
 socketHandler.setServer(server);
 socketHandler.initConnection();
+
+process.on('SIGTERM', function() {
+    console.log("Terminating server...");
+    server.close(function() {
+
+    });
+    console.log("Server terminated");
+    process.exit();
+});
 

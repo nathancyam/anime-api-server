@@ -103,12 +103,12 @@ directives.directive('torrentListing', ['$http', function ($http) {
             };
 
             $scope.pageChanged = function () {
-                var start = 1,
+                var start = 0,
                     finish = 10;
 
                 if ($scope.currentPage !== 1) {
-                    start = ($scope.currentPage * 10) + 1;
-                    finish = start + 9;
+                    start = ($scope.currentPage * 10);
+                    finish = start + 10;
                 }
 
                 $scope.start = start;

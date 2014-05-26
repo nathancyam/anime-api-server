@@ -36,3 +36,7 @@ exports.emit = function (status, data) {
         readySocket.emit(status, data);
     }
 };
+
+exports.getServer = function() {
+    return io;
+};

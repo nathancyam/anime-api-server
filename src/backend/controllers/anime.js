@@ -136,10 +136,3 @@ exports.imageTest = function (req, res) {
         });
     });
 };
-
-exports.test = function (req, res) {
-    var asdf = require('../modules/anime_updater_process_handler');
-    asdf.start(function (err, result) {
-        res.json(result);
-    });
-};
