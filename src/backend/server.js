@@ -11,7 +11,7 @@ var express = require('express'),
     app = express(),
     server = module.exports = app.listen(3000);
 
-mongoose.connect('mongodb://localhost/anime:27017');
+mongoose.connect(config.mongo);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
