@@ -15,6 +15,10 @@ var TransmissionWrapper = module.exports = function TransmissionWrapper(options)
 };
 
 TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
+    /**
+     * Adds multiple torrents to the server
+     * TODO: Fix the issue where duplicate torrents would cause the server to fail
+     */
     addMultipleTorrents: {
         value: function (torrents, done) {
             var self = this;
@@ -25,7 +29,12 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
                 });
             }, function (err) {
                 if (err) console.log(err);
-                done(null, { status: 'success' });
+                var successObj = {
+                    status: 'SUCCESS',
+                    message: 'Successfully added ' + torrents.length + ' to the torrent server',
+                    torrents: torrents
+                };
+                done(null, successObj);
             });
         }
     },
@@ -40,5 +49,5 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
                 Transmission.prototype.add.apply(this, [url, options, cb]);
             }
         }
-    },
+    }
 });

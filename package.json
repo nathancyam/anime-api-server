@@ -1,38 +1,40 @@
 {
-    "name": "Anime_Episode_App",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "async": "*",
-        "body-parser": "^1.0.2",
-        "cheerio": "^0.16.0",
-        "express": "4.*",
-        "google": "*",
-        "gridfs-stream": "^0.5.1",
-        "jade": "*",
-        "mongoose": "*",
-        "nyaatorrents": "*",
-        "q": "*",
-        "request": "^2.34.0",
-        "socket.io": "^0.9.16",
-        "transmission": "*",
-        "underscore": "*",
-        "xml2js": "*"
-    },
-    "devDependencies": {
-        "sinon": "*",
-        "mocha": "*",
-        "chai": "*",
-        "chai-as-promised": "^4.1.1",
-        "grunt": "^0.4.3",
-        "grunt-contrib-concat": "*",
-        "grunt-contrib-jshint": "*",
-        "grunt-contrib-watch": "*",
-        "grunt-symlink": "*",
-        "grunt-express-server": "*",
-        "grunt-contrib-uglify": "*"
-    }
+  "name": "Anime_Episode_App",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "*",
+    "body-parser": "^1.0.2",
+    "cheerio": "^0.16.0",
+    "express": "4.*",
+    "google": "*",
+    "gridfs-stream": "^0.5.1",
+    "jade": "*",
+    "mongoose": "*",
+    "nyaatorrents": "*",
+    "q": "*",
+    "request": "^2.34.0",
+    "socket.io": "^0.9.16",
+    "transmission": "*",
+    "underscore": "*",
+    "xml2js": "*",
+    "sqlite3": "^2.2.3",
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "sinon": "*",
+    "mocha": "*",
+    "chai": "*",
+    "chai-as-promised": "^4.1.1",
+    "grunt": "^0.4.3",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-symlink": "*",
+    "grunt-express-server": "*",
+    "grunt-contrib-uglify": "*"
+  }
 }

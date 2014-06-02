@@ -8,6 +8,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     config = require('./config'),
     Settings = require('./modules/settings'),
+    Db = require('./db/setup'),
     app = express(),
     server = module.exports = app.listen(3000);
 
