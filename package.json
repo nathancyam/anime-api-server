@@ -22,7 +22,8 @@
     "underscore": "*",
     "xml2js": "*",
     "sqlite3": "^2.2.3",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "squel": "^3.4.1"
   },
   "devDependencies": {
     "sinon": "*",
