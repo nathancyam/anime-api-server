@@ -28,7 +28,10 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
                     next();
                 });
             }, function (err) {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                    done(new Error(err), null);
+                }
                 var successObj = {
                     status: 'SUCCESS',
                     message: 'Successfully added ' + torrents.length + ' to the torrent server',

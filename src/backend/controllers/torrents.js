@@ -20,7 +20,11 @@ var Client = new Transmission(),
  */
 exports.addTorrent = function (req, res) {
     Client.add(req.body.torrentUrl, function (err, result) {
-        res.send(result);
+        if (err) {
+            res.send(500, { error: 'Could not add torrents', message: err });
+        } else {
+            res.send(result);
+        }
     });
 };
 
