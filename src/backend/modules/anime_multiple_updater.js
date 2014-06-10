@@ -59,6 +59,8 @@ AnimeMultipleUpdater.prototype = {
                 return promise(torrentLinks);
             }).then(function (results) {
                 return deferred.resolve(results);
+            }, function (err) {
+                return deferred.reject(err);
             });
         } else {
             this.getPromises()

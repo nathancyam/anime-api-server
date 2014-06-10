@@ -24,13 +24,16 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
             var self = this;
             async.each(torrents, function (item, next) {
                 self.add(item, function (err) {
-                    if (err) next(err);
-                    next();
+                    if (err) {
+                        next(err);
+                    } else {
+                        next();
+                    }
                 });
             }, function (err) {
                 if (err) {
                     console.log(err);
-                    done(new Error(err), null);
+                    return done(new Error(err), null);
                 }
                 var successObj = {
                     status: 'SUCCESS',

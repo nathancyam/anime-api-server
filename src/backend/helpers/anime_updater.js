@@ -22,6 +22,8 @@ var AnimeUpdaterHelper = module.exports = {
                 }
                 updater.update().then(function (results) {
                     return callback(null, results);
+                }, function (err) {
+                    return callback(err, null);
                 });
             });
         });

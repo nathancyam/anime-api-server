@@ -114,7 +114,11 @@ exports.update = function (req, res) {
         isUpdatingServer = true;
     }
     AnimeUpdaterHelper.updateAnimeCollection(isUpdatingServer, function (err, results) {
-        res.send(results);
+        if (err) {
+            res.json(500, { status: 'ERROR', message: err.message });
+        } else {
+            res.send(results);
+        }
     });
 };
 
