@@ -27,7 +27,8 @@ var resources = [
 ];
 
 var factories = [
-    'TorrentFactory'
+    'TorrentFactory',
+    'SocketFactory'
 ];
 
 var directives = [
