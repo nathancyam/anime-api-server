@@ -169,7 +169,7 @@ directives.directive('backImg', function () {
     };
 });
 
-directives.directive('notificationArea', ['Socket', function (socket) {
+directives.directive('notificationArea', ['$timeout', 'Socket', function ($timeout, socket) {
     return {
         controller: function ($scope) {
             /**
@@ -195,11 +195,20 @@ directives.directive('notificationArea', ['Socket', function (socket) {
             var setMessage = function (data) {
                 $scope.title = data.title;
                 $scope.message = data.message;
+                $timeout(function () {
+                    $scope.title = undefined;
+                    $scope.message = undefined;
+                }, 3000);
             };
 
             $scope.$on('destroy', function (event) {
                 socket.removeAllListeners();
             });
+
+            $scope.remove = function () {
+                $scope.title = undefined;
+                $scope.message = undefined;
+            };
         },
         templateUrl: 'animeapp/views/notification.html'
     };
