@@ -12,6 +12,13 @@ exports.setServer = function (server) {
     }
 };
 
+exports.getServer = function() {
+    if (!io) {
+        throw new Error('Socket.io has not been set');
+    }
+    return io;
+};
+
 exports.initConnection = function () {
     if (io) {
         io.sockets.on('connection', function (socket) {
@@ -32,11 +39,7 @@ exports.on = function (status, cb) {
 };
 
 exports.emit = function (status, data) {
-    if (readySocket) {
-        readySocket.emit(status, data);
+    if (io) {
+        io.emit(status, data);
     }
-};
-
-exports.getServer = function() {
-    return io;
 };

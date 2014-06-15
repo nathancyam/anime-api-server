@@ -7,6 +7,7 @@
 
 var Transmission = require('../models/transmission'),
     TorrentHelper = require('../helpers/torrents'),
+    SocketHandler = require('../modules/socket_handler'),
     Cache = require('../modules/cache'),
     NyaaTorrents = require('nyaatorrents');
 
@@ -21,8 +22,10 @@ var Client = new Transmission(),
 exports.addTorrent = function (req, res) {
     Client.add(req.body.torrentUrl, function (err, result) {
         if (err) {
+            SocketHandler.emit('torrent_add_error', err);
             res.send(500, { error: 'Could not add torrents', message: err });
         } else {
+            SocketHandler.emit('torrent_add_success', result);
             res.send(result);
         }
     });

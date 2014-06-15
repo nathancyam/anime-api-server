@@ -2,13 +2,17 @@
  * Created by nathan on 5/10/14.
  */
 
-socket = io.connect('localhost');
+var socket = io();
 
 socket.on('news', function (data) {
     console.log(data);
     socket.emit('other_event', { my: 'Data' });
 });
 
-socket.on('adding_torrent', function (data) {
+socket.on('torrent_add_success', function (data) {
+    console.log(data);
+});
+
+socket.on('torrent_add_error', function (data) {
     console.log(data);
 });
