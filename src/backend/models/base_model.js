@@ -1,6 +1,8 @@
 /**
  * Base Models
  */
+/*jslint node: true */
+"use strict";
 
 var sqlite3 = require('sqlite3').verbose();
 var _ = require('lodash'),
@@ -15,22 +17,35 @@ var BaseModel = module.exports = function BaseModel() {
     this._isLoaded = null;
     this._data = {};
 
-    var _constructStatement = function(sqlOperator, params) {
+    this.hasMany = null;
+
+    /**
+     * Constructs the parametrised statements
+     * @param params
+     * @returns Array
+     * @protected
+     */
+    this.constructStatement = function (params) {
         var keys = _.keys(params),
             values = _.values(params);
 
-        sqlOperator = sqlOperator.toUpperCase();
+        keys = keys.map(function (e) {
+            return e + ' = ?';
+        });
 
-        var whereStmt = keys.reduce(function(prev, curr) {
-            return prev + ' ' + curr + ' = ?';
-        }, sqlOperator);
+        if (keys.length > 1) {
+            keys = keys.join(" AND ");
+        } else {
+            keys = keys.toString();
+        }
 
-        return [whereStmt, values];
-    };
+        var stmtArray = [keys];
 
-    this.constructWhere = function(params) {
-        params = params || this._data;
-        return _constructStatement('WHERE', params);
+        values.forEach(function (e) {
+            stmtArray.push(e);
+        });
+
+        return stmtArray;
     };
 
     this.populateData = function() {
@@ -57,11 +72,16 @@ BaseModel.prototype = {
      * @param callback
      */
     find: function(params, callback) {
-        var whereCondition = this.constructWhere(params),
-            fields = whereCondition[0],
-            values = whereCondition[1];
+        var whereCondition = this.constructStatement(params);
 
-        return db.all('SELECT * FROM ' + this.table + ' ' + fields, values, callback);
+        var stmtObj = squel.select().from(this.table);
+        stmtObj = stmtObj.where.apply(stmtObj, whereCondition).toParam();
+
+        return db.all(stmtObj.text, stmtObj.values, callback);
+    },
+    findById: function (id, callback) {
+        id = parseInt(id);
+        this.find({ id: id }, callback);
     },
     save: function(callback) {
         this.populateData();

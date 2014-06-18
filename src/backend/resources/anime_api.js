@@ -10,7 +10,7 @@ var Cache = require('../modules/cache'),
     request = require('request'),
     qs = require('querystring'),
     http = require('http'),
-    _ = require('underscore');
+    _ = require('lodash');
 
 var AnimeAPI = module.exports = function (options, parsers) {
     events.EventEmitter.call(this);

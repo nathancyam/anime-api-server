@@ -7,7 +7,7 @@ var Anime = require('../models/anime'),
     Cache = require('../modules/cache'),
     AnimeUpdaterHelper = require('../helpers/anime_updater'),
     Q = require('q'),
-    _ = require('underscore');
+    _ = require('lodash');
 
 /**
  * Gets a list of all the anime model stored on the DB.
@@ -135,7 +135,7 @@ exports.imageTest = function (req, res) {
     var FS = require('fs');
     promise().then(function (result) {
         var promiseFS = Q.denodeify(FS.readFile);
-        promiseFS(result).then(function (data) {
+        promiseFS(result).then(function () {
             res.sendfile(result);
         });
     });

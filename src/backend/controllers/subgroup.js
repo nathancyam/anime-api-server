@@ -3,7 +3,7 @@
  */
 
 var Subgroup = require('../models/subgroup'),
-    _ = require('underscore');
+    _ = require('lodash');
 
 exports.list = function (req, res) {
     Subgroup.find(function (err, results) {
@@ -26,7 +26,7 @@ exports.search = function(req, res) {
 
 exports.sync = function(req, res) {
     Subgroup.build(function(groups) {
-        Subgroup.create(groups, function(err, result) {
+        Subgroup.create(groups, function (err) {
             if (!err) {
                 res.json({ status: 'success' });
             } else {
