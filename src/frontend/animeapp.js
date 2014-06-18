@@ -8,7 +8,8 @@
 
 
 var setting = [
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngAnimate'
 ];
 
 var controllers = [

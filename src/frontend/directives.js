@@ -172,6 +172,8 @@ directives.directive('backImg', function () {
 directives.directive('notificationArea', ['$timeout', 'Socket', function ($timeout, socket) {
     return {
         controller: function ($scope) {
+            $scope.hide = true;
+
             /**
              * Assumes the notification data is in this format:
              * {
@@ -193,11 +195,12 @@ directives.directive('notificationArea', ['$timeout', 'Socket', function ($timeo
             });
 
             var setMessage = function (data) {
+                $scope.hide = !$scope.hide;
                 $scope.title = data.title;
                 $scope.message = data.message;
+
                 $timeout(function () {
-                    $scope.title = undefined;
-                    $scope.message = undefined;
+                    $scope.hide = true;
                 }, 3000);
             };
 
