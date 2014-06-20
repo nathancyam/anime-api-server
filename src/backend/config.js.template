@@ -1,0 +1,30 @@
+/**
+ * An example config file
+ */
+
+module.exports = {
+    media_dir: '/media/nfs/pi/shows',
+    mal_username: 'mal_username',
+    mal_password: 'mal_password',
+    danbooru: {
+        username: 'danbooru_username',
+        apiKey: 'danbooru_api_key'
+    },
+    google: {
+        custSearchCX: 'google_custom_search_CX',
+        custSearchAPI: 'google_customer_search_API_key'
+    },
+    torrentServer: {
+        host: 'http://your.torrent.server',
+        port: 9091
+    },
+    updater: {
+        pushToServer: false
+    },
+    mongo: "mongodb://yourmongoserver:port/database",
+    dbConnections: {
+        sqlite: __dirname + 'sqlite/file/location',
+        mongo: "mongodb://yourmongoserver:port/database"
+    },
+    secretKey: 'YOUR_SECRET_KEY'
+};
