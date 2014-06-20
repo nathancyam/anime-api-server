@@ -7,6 +7,7 @@ var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
     config = require('./config'),
+    cookieParser = require('cookie-parser'),
     Settings = require('./modules/settings'),
     Db = require('./db/setup'),
     app = express(),
@@ -19,6 +20,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(bodyParser());
+app.use(cookieParser());
 app.use(express.static(__dirname + '/../../public'));
 
 // Initialise the settings

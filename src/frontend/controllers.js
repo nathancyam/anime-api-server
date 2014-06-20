@@ -17,10 +17,10 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$cook
     function ($scope, $routeParams, $cookieStore, Anime, Episode) {
         $scope.closeOthers = false;
         $cookieStore.remove('currentAnime');
+        $cookieStore.put('currentAnime', $routeParams.animeId);
 
         Anime.get({ animeId: $routeParams.animeId }, function (result) {
             $scope.anime = result;
-            $cookieStore.put('currentAnime', $routeParams.animeId);
             Episode.query({ animeId: result._id }, function (result) {
                 $scope.episodes = result;
             });
