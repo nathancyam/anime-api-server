@@ -11,6 +11,10 @@ var dbLocation = require('../config').dbConnections.sqlite;
 
 var db = new sqlite3.Database(dbLocation);
 
+/**
+ * Base model that gives the ability to interact with the database and their tables/models
+ * @type {BaseModel}
+ */
 var BaseModel = module.exports = function BaseModel() {
     this.table = null;
     this.schema = {};
@@ -79,10 +83,21 @@ BaseModel.prototype = {
 
         return db.all(stmtObj.text, stmtObj.values, callback);
     },
+    /**
+     * Find a model with the ID specified.
+     * @param id
+     * @param callback
+     */
     findById: function (id, callback) {
         id = parseInt(id);
-        this.find({ id: id }, callback);
+        this.load(id, callback);
     },
+    /**
+     * Save the model to the database. If the model was loaded previously, we update the fields that were changed.
+     * If the record is new, we insert the record to the database.
+     * @param callback
+     * @returns {*}
+     */
     save: function(callback) {
         this.populateData();
         var stmtObj = {};
@@ -106,6 +121,12 @@ BaseModel.prototype = {
             return db.run(stmtObj.text, stmtObj.values);
         }
     },
+    /**
+     * Loads the model from the database and assigns its properties to the model for easier access.
+     * Flags the model that this is loaded.
+     * @param id
+     * @param callback
+     */
     load: function(id, callback) {
         var self = this;
 
@@ -116,7 +137,7 @@ BaseModel.prototype = {
 
         db.get(stmtObj.text, function(err, result) {
             if (err) {
-                callback({message: 'Failed to load model'}, null);
+                return callback({message: 'Failed to load model'}, null);
             }
 
             // Inform that this model has been loaded.
