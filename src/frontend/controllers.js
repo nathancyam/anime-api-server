@@ -13,12 +13,14 @@ var AnimeControllers = angular.module('AnimeControllers', []),
     SettingControllers = angular.module('SettingsControllers', []);
 
 
-AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$http', 'Anime', 'Episode',
-    function ($scope, $routeParams, $http, Anime, Episode) {
+AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$cookieStore', 'Anime', 'Episode',
+    function ($scope, $routeParams, $cookieStore, Anime, Episode) {
         $scope.closeOthers = false;
+        $cookieStore.remove('currentAnime');
 
         Anime.get({ animeId: $routeParams.animeId }, function (result) {
             $scope.anime = result;
+            $cookieStore.put('currentAnime', $routeParams.animeId);
             Episode.query({ animeId: result._id }, function (result) {
                 $scope.episodes = result;
             });

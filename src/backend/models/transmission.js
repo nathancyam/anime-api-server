@@ -17,7 +17,6 @@ var TransmissionWrapper = module.exports = function TransmissionWrapper(options)
 TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
     /**
      * Adds multiple torrents to the server
-     * TODO: Fix the issue where duplicate torrents would cause the server to fail
      */
     addMultipleTorrents: {
         value: function (torrents, done) {
