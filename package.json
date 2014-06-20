@@ -1,6 +1,6 @@
 {
   "name": "Anime_Episode_App",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -13,14 +13,14 @@
     "google": "*",
     "gridfs-stream": "^0.5.1",
     "jade": "*",
-      "lodash": "^2.4.1",
+    "lodash": "^2.4.1",
     "mongoose": "*",
     "nyaatorrents": "*",
     "q": "*",
     "request": "^2.34.0",
     "socket.io": "^0.9.16",
-      "sqlite3": "^2.2.3",
-      "squel": "^3.4.1",
+    "sqlite3": "^2.2.3",
+    "squel": "^3.4.1",
     "transmission": "*",
     "xml2js": "*"
   },
