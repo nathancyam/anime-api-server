@@ -100,7 +100,7 @@ function createEpisodeModels(animeModel, done) {
  */
 function isAnime(directory, callback) {
     fs.readdir(directory, function (err, files) {
-        async.every(files, isAnimeFilename, callback);
+        callback(files.every(isAnimeFilename));
     });
 }
 
@@ -109,7 +109,7 @@ function isAnime(directory, callback) {
  * @param string
  * @returns {boolean}
  */
-function isAnimeFilename(string, done) {
+function isAnimeFilename(string) {
     var findSub = string.match(/^\[/i),
         isAnime = false;
     if (findSub !== null && findSub.length > 0) {
@@ -123,7 +123,7 @@ function isAnimeFilename(string, done) {
                 break;
         }
     }
-    done(isAnime);
+    return isAnime;
 }
 
 /**
@@ -170,3 +170,21 @@ exports.generateModels = function (callback) {
         });
     });
 };
+
+/**
+ * Gets the anime name from the file path
+ * @param filePath
+ */
+exports.getAnimeName = function(filePath) {
+    filePath = filePath.replace('_',' ');
+    var nameRegex = new RegExp("]\\s(.*)\\s-","g");
+    var matches = nameRegex.exec(filePath);
+
+    if (matches.length >= 1) {
+        return matches.pop();
+    }
+
+    return null;
+};
+
+exports.isAnimeFile = isAnimeFilename;

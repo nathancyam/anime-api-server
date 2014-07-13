@@ -32,6 +32,11 @@ var socketHandler = require('./modules/socket_handler');
 socketHandler.setServer(server);
 socketHandler.initConnection();
 
+// Set the file watcher
+var fileWatcher = require('./modules/file_watcher');
+fileWatcher.setOptions({ watchDir: config.watch_dir });
+fileWatcher.watchDir();
+
 process.on('SIGTERM', function() {
     console.log("Terminating server...");
     server.close(function() {
