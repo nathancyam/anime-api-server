@@ -35,19 +35,18 @@ function moveDirectory(event, filename) {
                     // If we can verify what the series was, then we should move it to the media folder
                     var animeDir = Config.media_dir + '/' + animeName;
                     var moveFile = Q.denodeify(fs.rename);
-                    var makeDir = Q.denodeify(fs.mkdir);
 
                     fileStat(animeDir).then(function(result) {
                         if (result.isDirectory()) {
                             moveFile(originalPath, animeDir + '/' + filename).done();
-                        } else {
-                            // If we don't have the folder for this anime, we have to create the folder
-                            makeDir(animeDir + '/' + animeName).then(function() {
+                        }
+                    }, function(err) {
+                        // If we don't have the folder for this anime, we have to create the folder
+                        if (err.code === 'ENOENT' && err.errno === 34) {
+                            fs.mkdir(animeDir, function() {
                                 moveFile(originalPath, animeDir + '/' + filename).done();
                             });
                         }
-                    }, function(err) {
-                        console.log(err);
                     });
                 }
             }
