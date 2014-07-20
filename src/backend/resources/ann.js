@@ -50,6 +50,11 @@ var AnimeNewsNetwork = module.exports = function () {
     }, parsers);
 };
 
+/**
+ * Main accessor to search for anime on AnimeNewsNetwork. Relegates multiple results to their appropriate handlers.
+ * @param query
+ * @param done
+ */
 AnimeNewsNetwork.prototype.search = function (query, done) {
     var self = this;
     if (query.ann_id) {
@@ -114,6 +119,11 @@ AnimeNewsNetwork.prototype.handleEmptyResponse = function (response, done) {
     });
 };
 
+/**
+ * Formats multiple result responses
+ * @param response
+ * @param done
+ */
 AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
     var results = response.report.item,
         formattedResults = results.map(function (e) {
@@ -124,9 +134,6 @@ AnimeNewsNetwork.prototype.handleMultipleResults = function (response, done) {
             };
         });
     done(null, formattedResults);
-};
-
-AnimeNewsNetwork.prototype.downloadImage = function (url, done) {
 };
 
 var isEmpty = function (result) {
