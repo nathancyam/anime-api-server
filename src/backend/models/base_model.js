@@ -95,6 +95,7 @@ BaseModel.prototype = {
     /**
      * Save the model to the database. If the model was loaded previously, we update the fields that were changed.
      * If the record is new, we insert the record to the database.
+     * TODO: Add base model save callbacks
      * @param callback
      * @returns {*}
      */
@@ -124,12 +125,14 @@ BaseModel.prototype = {
     /**
      * Loads the model from the database and assigns its properties to the model for easier access.
      * Flags the model that this is loaded.
+     * TODO: Add base model load callbacks
      * @param id
      * @param callback
      */
     load: function(id, callback) {
         var self = this;
 
+        // Load all the fields related to this entry
         var stmtObj = squel.select('*')
             .from(this.table)
             .where('id = ' + id)
