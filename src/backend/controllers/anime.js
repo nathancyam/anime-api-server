@@ -115,7 +115,6 @@ exports.save = function (req, res) {
  */
 exports.update = function (req, res) {
     var isUpdatingServer = false;
-    console.log('Got request to update');
     if (req.query.push) {
         isUpdatingServer = true;
     }

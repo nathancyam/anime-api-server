@@ -40,6 +40,12 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
                     });
                 }
             });
+
+            $scope.getImageUrl = function () {
+                if ($scope.results) {
+                    return $scope.results.images[0];
+                }
+            };
         },
         templateUrl: 'animeapp/views/anime-news-network.html'
     };

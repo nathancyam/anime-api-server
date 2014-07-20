@@ -9,7 +9,7 @@ exports.dollarParser = function (key, attribute) {
 
         function recur() {
             Object.keys(animeInfo).map(function (element) {
-                if (animeInfo[element].length !== undefined) {
+                if (animeInfo[element].length !== undefined && Array.isArray(animeInfo[element])) {
                     animeInfo[element].filter(function (arrayElement) {
                         return arrayElement.$[key] !== undefined;
                     }).forEach(function (e) {

@@ -5,6 +5,9 @@
             <img id="loadSpinner" src="assets/ajax_spinner_large.gif" alt="loading" />
         </div>
         <div ng-class="{ loading: isLoading }">
+            <div>
+                <img id="ann-image" ng-src="{{getImageUrl()}}"/>
+            </div>
             <table class="table results col-md-12" ng-class="{ loading: isLoading }">
                 <tr>
                     <td>Genres:</td>

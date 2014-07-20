@@ -52,6 +52,11 @@ a {
 
   }
 
+  #ann-image {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
   .anime-item {
     @include transition(all, 0.2s, ease);
     width: 16.6666667%;
@@ -166,11 +171,11 @@ a {
   }
 
   &.ng-hide-add.ng-hide-add-active, &.ng-hide-remove {
-    opacity:0;
+    opacity: 0;
   }
 
   &.ng-hide-add, &.ng-hide-remove.ng-hide-remove-active {
-    opacity:1;
+    opacity: 1;
   }
 }
 
