@@ -106,8 +106,11 @@ AnimeSchema.statics.syncDb = function (done) {
         getSubGroups(function (subgroups) {
             var Subgroup = require('./subgroup');
             Subgroup.create(subgroups, function (err) {
-                if (err) console.log(err);
-                done(err, { status: 'SUCCESS', message: 'SUCCESS' });
+                if (err) {
+                    done(err, null);
+                } else {
+                    done(err, { status: 'SUCCESS', message: 'Successfully synchronised with anime file directory' });
+                }
             });
         });
     });

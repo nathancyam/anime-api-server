@@ -5,6 +5,7 @@
 "use strict";
 var Anime = require('../models/anime'),
     Cache = require('../modules/cache'),
+    SocketHandler = require('../modules/socket_handler'),
     AnimeUpdaterHelper = require('../helpers/anime_updater'),
     Q = require('q'),
     _ = require('lodash');
@@ -68,8 +69,13 @@ exports.findByName = function (req, res) {
  */
 exports.sync = function (req, res) {
     Anime.syncDb(function (err, result) {
-        if (err) console.log(err);
-        res.json(result);
+        if (err) {
+            SocketHandler.emit('notification:error', { title: 'Failed to synchronise', message: err.message });
+            res.json({ status: 'ERROR', message: err.message });
+        } else {
+            SocketHandler.emit('notification:success', { title: 'Successfully synchronised', message: 'Synchronised with the file system.' });
+            res.json(result);
+        }
     });
 };
 
