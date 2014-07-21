@@ -227,14 +227,13 @@ function downloadImage(url, location) {
 
 /**
  * Generates a filename for the images that will be saved onto the application server
- * TODO: Ensure we get rid of stupid non-letter characters. Anime has such weird names.
  * @param animeName The anime name
  * @param fileName The basename of the image that will be saved
  * @returns {string}
  */
 function formatImageFileName(animeName, fileName) {
     var fileType = fileName.split('.').pop();
-    animeName = animeName.toLowerCase().replace(' ', '');
+    animeName = animeName.toLowerCase().replace(/(\s|\W)/g, '');
     return 'ann_' + animeName + '_full.' + fileType;
 }
 
