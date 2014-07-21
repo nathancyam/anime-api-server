@@ -49,8 +49,8 @@ SettingControllers.controller('SettingsController', ['$scope', '$http',
     }
 ]);
 
-ListControllers.controller('ListController', ['$scope', '$http', '$location', 'Anime',
-    function ($scope, $http, $location, Anime) {
+ListControllers.controller('ListController', ['$scope', '$http', '$location', 'Anime', 'AnimeImage',
+    function ($scope, $http, $location, Anime, AnimeImage) {
         $scope.animeList = [];
         $scope.isProcessing = false;
 
@@ -74,7 +74,15 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
 
         $scope.init = function () {
             $scope.animeList = [];
-            $scope.animeList = Anime.query();
+            $scope.animeList = Anime.query(function (data) {
+                $scope.getImages();
+            });
+        };
+
+        $scope.getImages = function () {
+            angular.forEach($scope.animeList, function (anime) {
+                anime.imageSrc = AnimeImage.get({ animeId: anime._id });
+            });
         };
     }
 ]);

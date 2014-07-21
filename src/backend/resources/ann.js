@@ -207,12 +207,25 @@ AnimeNewsNetwork.prototype.setImage = function (result, cb) {
     });
 };
 
+/**
+ * Gets the largest image's URL from an array of image URL that is provided by ANN CDN.
+ * @param images Images from ANN's CDN
+ * @returns String
+ */
 function getFullImage(images) {
     return images.filter(function (e) {
         return e.indexOf('full') !== -1 || e.indexOf('max') !== -1;
     }).pop();
 }
 
+/**
+ * Downloads an image from the URL to the file path specified as parameters.
+ * Returns a promise that is fulfilled when the download finished and is written to disk
+ *
+ * @param url Image URL to be downloaded
+ * @param location The filepath that is downloaded to
+ * @returns {exports.pending.promise|*|adapter.deferred.promise|defer.promise|promise|Q.defer.promise}
+ */
 function downloadImage(url, location) {
     var deferred = Q.defer();
     var picStream = FS.createWriteStream(location);

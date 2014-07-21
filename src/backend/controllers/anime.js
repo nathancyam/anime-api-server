@@ -133,15 +133,18 @@ exports.updateConfig = function (req, res) {
     res.json({ status: 'SUCCESS', message: 'Configuration saved' });
 };
 
-exports.imageTest = function (req, res) {
-    var anime = new Anime(),
-        promise = Q.denodeify(anime.getPicture.bind(anime));
 
-    var FS = require('fs');
-    promise().then(function (result) {
-        var promiseFS = Q.denodeify(FS.readFile);
-        promiseFS(result).then(function () {
-            res.sendfile(result);
+exports.getImage = function (req, res) {
+    var id = req.params.id;
+
+    Anime.findById(id, function (err, result) {
+        if (err) {
+            return res.send(500, 'Oops, an error occurred');
+        }
+
+        result.getPictureUrl(function (err, image) {
+            if (err) res.send(500, 'Cound not find file');
+            return res.json({ url: image });
         });
     });
 };

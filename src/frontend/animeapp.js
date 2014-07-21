@@ -22,6 +22,7 @@ var controllers = [
 
 var resources = [
     'AnimeResource',
+    'AnimeImageResource',
     'EpisodeResource',
     'SubgroupResource',
     'AnnResource',

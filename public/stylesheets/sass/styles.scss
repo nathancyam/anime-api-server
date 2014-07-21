@@ -89,6 +89,9 @@ a {
 
       .image-holder {
         height: 80%;
+        img {
+          height: 100%;
+        }
       }
       .item-title {
         display: block;

@@ -21,6 +21,12 @@ animeResource.factory('Anime', ['$resource', function ($resource) {
     });
 }]);
 
+var animeImageResource = angular.module('AnimeImageResource', ['ngResource']);
+
+animeImageResource.factory('AnimeImage', ['$resource', function ($resource) {
+    return $resource('/anime/image/:animeId', { animeId: '@id' });
+}]);
+
 var episodeResource = angular.module('EpisodeResource', ['ngResource']);
 
 episodeResource.factory('Episode', ['$resource', function ($resource) {

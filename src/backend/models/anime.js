@@ -9,6 +9,9 @@ var Mongoose = require('mongoose'),
     FS = require('fs'),
     Episode = require('./episode');
 
+var ANN_IMAGE_DIR = require('../config').image_dir,
+    PUBLIC_DIR = '/media/images';
+
 var AnimeSchema = new Schema({
     designated_subgroup: String,
     title: String,
@@ -17,6 +20,7 @@ var AnimeSchema = new Schema({
     filepath: String,
     filenames: Array,
     ann_id: Number,
+    image_url: String,
     is_watching: Boolean,
     is_complete: Boolean
 });
@@ -84,22 +88,33 @@ AnimeSchema.methods.setPicture = function (image, callback) {
     });
 };
 
-AnimeSchema.methods.getPicture = function (callback) {
-    var conn = Mongoose.createConnection('mongodb://localhost/anime:27017');
-
-    conn.once('open', function () {
-        var gfs = new Gridfs(conn.db, Mongoose.mongo);
-        var writeStream = FS.createWriteStream('/tmp/45.jpg');
-        var readStream = gfs.createReadStream({
-            filename: 'flsjfldtest.jpg'
-        });
-        readStream.pipe(writeStream);
-        writeStream.on('close', function () {
-            callback(null, '/tmp/45.jpg');
-        });
+/**
+ * Gets the image URL that contain the normalised name for the anime
+ * @param callback Callback that contains the params (err, imageFilePath)
+ */
+AnimeSchema.methods.getPictureUrl = function (callback) {
+    var self = this;
+    var readDir = Q.denodeify(FS.readdir);
+    readDir(ANN_IMAGE_DIR).then(function (files) {
+        if (files.length === 0) {
+            return callback(null, null);
+        }
+        var imageFileName =
+            files.filter(
+                function (e) {
+                    return e.indexOf(self.normalizedName) !== -1;
+                }
+            ).pop();
+        return callback(null, PUBLIC_DIR + '/' + imageFileName);
+    }, function (err) {
+        callback(err, null);
     });
 };
 
+/**
+ * Reads the anime file directory on the harddrive and saves the files onto the database.
+ * @param done Callback when the synchronisation process finishes
+ */
 AnimeSchema.statics.syncDb = function (done) {
     readAnimeDirectory(function (err) {
         if (err) console.log(err);
