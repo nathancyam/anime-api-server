@@ -12,6 +12,8 @@ var Cache = require('../modules/cache'),
     http = require('http'),
     _ = require('lodash');
 
+//TODO: Attach callbacks when a response is received from the relevant services
+
 var AnimeAPI = module.exports = function (options, parsers) {
     events.EventEmitter.call(this);
 
@@ -49,6 +51,7 @@ AnimeAPI.prototype.search = function (searchObj, done) {
                 element.apply(jsonResult);
             });
         }
+        jsonResult.searchQuery = searchObj;
         self.emit('api_request_complete', jsonResult);
         done(null, jsonResult);
     });

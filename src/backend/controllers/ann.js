@@ -7,8 +7,10 @@ var AnimeNewsNetwork = require('../resources/ann'),
 
 exports.search = function (req, res) {
     var ann = new AnimeNewsNetwork();
-    ann.search(req.query, function (err, response) {
+    ann.search(req.query).then(function(response) {
         Cache.set(req.url, response);
-        res.send(response);
+        return res.send(response);
+    }, function(err) {
+        return res.send(err);
     });
 };
