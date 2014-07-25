@@ -27,17 +27,28 @@ app.use(express.static(__dirname + '/../../public'));
 Settings.init(config);
 
 // Set routes
+console.log('Initialising URI routes...');
 require("./routes")(app);
 
 // Set the socket handler
+console.log('Initialising socket handler...');
 var socketHandler = require('./modules/socket_handler');
 socketHandler.setServer(server);
 socketHandler.initConnection();
 
 // Set the file watcher
+console.log('Initialising filesystem watchers...');
 var fileWatcher = require('./modules/file_watcher');
 fileWatcher.setOptions({ watchDir: config.watch_dir });
 fileWatcher.watchDir();
+
+// Start the regular checker
+console.log('Initialising process handlers and child process...');
+var ProcessHandler = require('./modules/anime_updater_process_handler');
+var processHandler = new ProcessHandler();
+processHandler.startProcess();
+
+console.log('Server ready for requests on port: ' + app.get('port'));
 
 process.on('SIGTERM', function() {
     console.log("Terminating server...");
