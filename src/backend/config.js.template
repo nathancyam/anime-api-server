@@ -4,6 +4,8 @@
 
 module.exports = {
     media_dir: '/media/nfs/pi/shows',
+    watch_dir: '/media/nfs/pi/shows',
+    image_dir: __dirname + '/../../public/media/images',
     mal_username: 'mal_username',
     mal_password: 'mal_password',
     danbooru: {
@@ -19,7 +21,9 @@ module.exports = {
         port: 9091
     },
     updater: {
-        pushToServer: false
+        pushToServer: false,
+        updateInterval: 60
+
     },
     mongo: "mongodb://yourmongoserver:port/database",
     dbConnections: {
