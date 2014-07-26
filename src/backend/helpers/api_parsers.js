@@ -46,9 +46,9 @@ exports.underscoreParser = function (type) {
 };
 
 exports.voiceActParser = function (data) {
-    var info = data.ann.anime[0].cast;
+    var castInfo = data.ann.anime[0].cast;
 
-    if (!info) {
+    if (!castInfo) {
         return [];
     }
 

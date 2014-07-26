@@ -57,7 +57,7 @@ var AnimeNewsNetwork = module.exports = function () {
      * General search instance variable that is run on general search entries, which may yield multiple results.
      * @type {AnimeAPI}
      */
-    this.generalSearch = new AnimeAPI({
+    var generalSearch = new AnimeAPI({
         url: ANN_GENERAL_URI,
         cache: {
             tag: 'ann'
@@ -68,12 +68,15 @@ var AnimeNewsNetwork = module.exports = function () {
      * Specific search instance variable that is run on specific search entries, which should yield a single result.
      * @type {AnimeAPI}
      */
-    this.specificSearch = new AnimeAPI({
+    var specificSearch = new AnimeAPI({
         url: ANN_SPECIFIC_URI
     }, parsers);
 
-    this.promiseGeneralSearch = Q.denodeify(this.generalSearch.search.bind(this.generalSearch));
-    this.promiseSpecificSearch = Q.denodeify(this.specificSearch.search.bind(this.specificSearch));
+    var allSearch = new AnimeAPI({ url: ANN_ALL_ANIME });
+
+    this.promiseGeneralSearch = Q.denodeify(generalSearch.search.bind(generalSearch));
+    this.promiseSpecificSearch = Q.denodeify(specificSearch.search.bind(specificSearch));
+    this.promiseAllSearch = Q.denodeify(allSearch.search.bind(allSearch));
 };
 
 AnimeNewsNetwork.prototype = {
