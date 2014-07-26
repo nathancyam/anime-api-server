@@ -13,6 +13,7 @@ var db = new sqlite3.Database(dbLocation);
 
 /**
  * Base model that gives the ability to interact with the database and their tables/models
+ * @constructor
  * @type {BaseModel}
  */
 var BaseModel = module.exports = function BaseModel() {
@@ -52,14 +53,14 @@ var BaseModel = module.exports = function BaseModel() {
         return stmtArray;
     };
 
-    this.populateData = function() {
+    this.populateData = function () {
         var schemaKeys = _.keys(this.schema),
             self = this;
 
         /**
          * Populate the _data object with the ones from the schema
          */
-        schemaKeys.forEach(function(e) {
+        schemaKeys.forEach(function (e) {
             if (self[e]) {
                 self._data[e] = self[e];
             }
@@ -75,7 +76,7 @@ BaseModel.prototype = {
      * @param params
      * @param callback
      */
-    find: function(params, callback) {
+    find: function (params, callback) {
         var whereCondition = this.constructStatement(params);
 
         var stmtObj = squel.select().from(this.table);
@@ -99,7 +100,7 @@ BaseModel.prototype = {
      * @param callback
      * @returns {*}
      */
-    save: function(callback) {
+    save: function (callback) {
         this.populateData();
         var stmtObj = {};
 
@@ -129,7 +130,7 @@ BaseModel.prototype = {
      * @param id
      * @param callback
      */
-    load: function(id, callback) {
+    load: function (id, callback) {
         var self = this;
 
         // Load all the fields related to this entry
@@ -138,7 +139,7 @@ BaseModel.prototype = {
             .where('id = ' + id)
             .toParam();
 
-        db.get(stmtObj.text, function(err, result) {
+        db.get(stmtObj.text, function (err, result) {
             if (err) {
                 return callback({message: 'Failed to load model'}, null);
             }

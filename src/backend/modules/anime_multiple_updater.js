@@ -5,6 +5,10 @@ var AnimeEpisodeUpdater = require("./anime_episode_updater"),
     Transmission = require('../models/transmission'),
     Q = require('q');
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var AnimeMultipleUpdater = module.exports = function (anime, options) {
     this.anime = anime;
     this.options = options || { pushToServer: false };

@@ -10,6 +10,10 @@ var API_KEY = Settings.google.custSearchAPI;
 var https = require('https'),
     url = require('url');
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var GoogleSearch = module.exports = function () {
     this.requestUrl = "https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=" + API_KEY + "&cx=" + CX + "&q=";
 };

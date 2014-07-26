@@ -18,6 +18,7 @@ var child = null;
 
 /**
  * Returns a module that allows you to control the process that hits the anime server
+ * @constructor
  * @type {exports}
  */
 var AnimeUpdaterProcessHandler = module.exports = function (options) {
@@ -70,7 +71,7 @@ var AnimeUpdaterProcessHandler = module.exports = function (options) {
     };
 };
 
-server.on('SIGTERM', function() {
+server.on('SIGTERM', function () {
     // Kill the child/worker process
     console.log('Killed child processes');
     child.exit();

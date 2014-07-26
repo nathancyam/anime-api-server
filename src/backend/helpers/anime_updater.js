@@ -9,6 +9,10 @@ var Anime = require('../models/anime'),
     AnimeUpdater = require('../modules/anime_multiple_updater'),
     Q = require('q');
 
+/**
+ * @constructor
+ * @type {{updateAnimeCollection: updateAnimeCollection}}
+ */
 var AnimeUpdaterHelper = module.exports = {
     updateAnimeCollection: function (pushToServer, callback) {
         var updateEpisodes = Q.denodeify(Anime.syncDb);

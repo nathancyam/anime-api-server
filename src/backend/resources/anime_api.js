@@ -14,6 +14,10 @@ var Cache = require('../modules/cache'),
 
 //TODO: Attach callbacks when a response is received from the relevant services
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var AnimeAPI = module.exports = function (options, parsers) {
     events.EventEmitter.call(this);
 

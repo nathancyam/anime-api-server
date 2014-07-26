@@ -8,6 +8,10 @@ var Q = require('q'),
     NT = require('nyaatorrents'),
     TorrentHelper = require('../helpers/torrents');
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var AnimeTorrentSearcher = module.exports = function (anime, options) {
     this.anime = anime;
     this.options = options || {};

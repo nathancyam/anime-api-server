@@ -12,6 +12,7 @@ var http = require('http'),
 
 /**
  * Set up the main class
+ * @constructor
  * @type {exports}
  */
 var Danbooru = module.exports = function (options) {

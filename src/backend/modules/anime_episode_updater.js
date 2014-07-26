@@ -11,6 +11,10 @@ var AnimeTorrentSearcher = require('../resources/anime_torrent_searcher'),
     Anime = require('../models/anime'),
     Q = require('q');
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var AnimeEpisodeUpdater = module.exports = function (anime, options) {
     this.anime = anime;
     this.options = options || {};
@@ -21,14 +25,14 @@ AnimeEpisodeUpdater.prototype = {
      * Gets an array of episodes that we have on the disk
      * @returns {*}
      */
-    getEpisodeOnDisk: function() {
+    getEpisodeOnDisk: function () {
         return Episode.findPromise({ anime: this.anime._id });
     },
     /**
      * Gets an array of torrents from NyaaTorrents
      * @returns {*}
      */
-    getTorrents: function() {
+    getTorrents: function () {
         var torrentSearch = new AnimeTorrentSearcher(this.anime);
         return torrentSearch.search();
     },
@@ -36,7 +40,7 @@ AnimeEpisodeUpdater.prototype = {
      * Get the missing episodes
      * @returns {Promise|*}
      */
-    getMissingEpisodes: function() {
+    getMissingEpisodes: function () {
         return Q.all([this.getEpisodeOnDisk(), this.getTorrents()])
             .then(this.compareMissingEpisodes);
     },
@@ -46,7 +50,7 @@ AnimeEpisodeUpdater.prototype = {
      * @param results
      * @returns {exports.pending.promise|*|adapter.deferred.promise|defer.promise|promise|Q.defer.promise}
      */
-    compareMissingEpisodes: function(results) {
+    compareMissingEpisodes: function (results) {
         var diskArray = getDiskEpisodeNumbers(results[0]);
         var torrentArray = setTorrentEpisodeNumbers(results[1]);
         var deferred = Q.defer();
@@ -68,7 +72,7 @@ function getDiskEpisodeNumbers(disk) {
 }
 
 function setTorrentEpisodeNumbers(torrents) {
-    return torrents.map(function(e) {
+    return torrents.map(function (e) {
         e.episodeNumber = EpisodeHelper.getEpisodeNumberByFileName(e.name);
         return e;
     });

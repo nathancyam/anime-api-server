@@ -46,7 +46,11 @@ exports.underscoreParser = function (type) {
 };
 
 exports.voiceActParser = function (data) {
-    var castInfo = data.ann.anime[0].cast;
+    var info = data.ann.anime[0].cast;
+
+    if (!info) {
+        return [];
+    }
 
     data.cast = castInfo.filter(function (e) {
         return e.$.lang === 'JA';

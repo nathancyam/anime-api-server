@@ -135,4 +135,8 @@ AnimeSchema.statics.syncDb = function (done) {
 AnimeSchema.statics.readAnimeDirectory = readAnimeDirectory;
 AnimeSchema.statics.flushAnimeCollection = flushCollection;
 
-module.exports = Mongoose.model('Anime', AnimeSchema);
+/**
+ * @constructor
+ * @type {exports}
+ */
+var Anime = module.exports = Mongoose.model('Anime', AnimeSchema);

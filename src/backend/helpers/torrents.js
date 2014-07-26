@@ -8,6 +8,9 @@
 var Transmission = require('../models/transmission'),
     Q = require('q');
 
+/**
+ * @constructor
+ */
 var TorrentHelper = module.exports = (function () {
     var torrentServerListing = [];
 

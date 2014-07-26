@@ -7,6 +7,9 @@ var Episode = require('../models/episode'),
     async = require('async'),
     fs = require('fs');
 
+/**
+ * @constructor
+ */
 var EpisodeHelper = module.exports = (function () {
     return {
         getEpisodeFilenames: function (animeModel, done) {

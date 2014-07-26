@@ -2,6 +2,10 @@
 "use strict";
 var crypto = require('crypto');
 
+/**
+ * @constructor
+ * @type {exports}
+ */
 var Cache = module.exports = (function () {
     var contents = {};
 

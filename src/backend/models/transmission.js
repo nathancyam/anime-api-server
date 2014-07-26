@@ -9,6 +9,10 @@ var Transmission = require('transmission'),
     config = require('../config'),
     async = require('async');
 
+/**
+ * @constructor
+ * @type {TransmissionWrapper}
+ */
 var TransmissionWrapper = module.exports = function TransmissionWrapper(options) {
     options = options || config.torrentServer;
     Transmission.call(this, options);

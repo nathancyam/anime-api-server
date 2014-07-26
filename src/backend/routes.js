@@ -59,7 +59,5 @@ module.exports = function (app) {
 
     // DANBOORU ROUTES
     app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);
-
-    app.get('/test/process', TorrentController.startProcess);
 };
 

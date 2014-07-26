@@ -19,7 +19,7 @@
         "nyaatorrents": "*",
         "q": "*",
         "request": "^2.34.0",
-        "socket.io": "^0.9.16",
+        "socket.io": "^1.0.0",
         "sqlite3": "^2.2.3",
         "squel": "^3.4.1",
         "transmission": "*",

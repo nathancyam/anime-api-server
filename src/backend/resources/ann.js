@@ -10,10 +10,13 @@ var Q = require('q'),
 
 var Parsers = require('./../helpers/api_parsers'),
     Anime = require('../models/anime'),
-    AnimeAPI = require('./anime_api'),
-    ANN_IMAGE_DIR = require('./../config').image_dir,
+    AnimeAPI = require('./anime_api');
+
+var ANN_IMAGE_DIR = require('./../config').image_dir,
     ANN_GENERAL_URI = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime',
+    ANN_ALL_ANIME = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&nlist=all&type=anime',
     ANN_SPECIFIC_URI = 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml';
+
 
 var parsers = [
     function () {
@@ -239,6 +242,12 @@ AnimeNewsNetwork.prototype = {
             // We still want to proceed with the process, so don't stop it here
             console.log(err);
         });
+    },
+    /**
+     * Returns the entire listing of anime and saves it to the cache. This request does take a while to finish.
+     * TODO: Its 2:15AM. I should be asleep
+     */
+    getAnimeListing: function () {
     }
 };
 
