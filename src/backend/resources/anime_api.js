@@ -27,18 +27,33 @@ var AnimeAPI = module.exports = function (options, parsers) {
 
 util.inherits(AnimeAPI, events.EventEmitter);
 
+/**
+ * @param {Object} searchObj - query
+ * @param {AnimeAPI~searchCallback} done - The callback that handles the formatted results.
+ */
 AnimeAPI.prototype.search = function (searchObj, done) {
     var self = this,
         parsers = this.parsers,
+        hasQuery = true,
         searchUrlObj = '';
+
+    // If a search object is actually a callback, we should still make the HTTP request.
+    if (typeof searchObj === 'function' && !done) {
+        hasQuery = false;
+        done = searchObj;
+    }
 
     if (this.options.url === undefined) {
         done({ message: 'You need to specify a search URL'}, null);
     }
+
+    // We need to check if the URL is a query to its relevant service
     if (this.options.url.indexOf('?') !== -1) {
         searchUrlObj = url.parse(this.options.url + '&' + qs.stringify(searchObj));
-    } else {
+    } else if (hasQuery) {
         searchUrlObj = url.parse(this.options.url + '?' + qs.stringify(searchObj));
+    } else {
+        searchUrlObj = url.parse(this.options.url);
     }
 
     if (!searchUrlObj.query) {
@@ -82,6 +97,13 @@ AnimeAPI.prototype.parseXMLResult = function (result) {
     });
     return parseResult;
 };
+
+/**
+ * This is the callback to handle the search results
+ * @callback AnimeAPI~searchCallback
+ * @param {Object} Error Object
+ * @param {Object} Result object
+ */
 
 function cleanUpAnimeName(animeName) {
     return animeName.replace(/\W/gi, ' ');

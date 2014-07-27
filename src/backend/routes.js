@@ -52,6 +52,7 @@ module.exports = function (app) {
 
     // ANIME NEWS NETWORK ROUTES
     app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
+    app.get('/ann/search/all', CacheHelper.getCacheResponse, AnimeNewsNetworkController.getListing);
 
     // TORRENT ROUTES
     app.get('/nyaatorrents/search', TorrentController.search);

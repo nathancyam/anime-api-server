@@ -10,6 +10,7 @@ var Q = require('q'),
 
 var Parsers = require('./../helpers/api_parsers'),
     Anime = require('../models/anime'),
+    Cache = require('../modules/cache'),
     AnimeAPI = require('./anime_api');
 
 var ANN_IMAGE_DIR = require('./../config').image_dir,
@@ -248,9 +249,10 @@ AnimeNewsNetwork.prototype = {
     },
     /**
      * Returns the entire listing of anime and saves it to the cache. This request does take a while to finish.
-     * TODO: Its 2:15AM. I should be asleep
      */
     getAnimeListing: function () {
+        var self = this;
+        return self.promiseAllSearch();
     }
 };
 
