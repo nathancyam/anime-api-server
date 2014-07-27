@@ -26,7 +26,8 @@
         </div>
     </form>
     <ul class="list-container">
-        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter" ng-click="changeView(anime)">
+        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter | orderBy:'title'"
+            ng-click="changeView(anime)">
             <div class="item-container">
                 <div class="image-holder">
                     <img ng-src="{{anime.image_url}}"/>
@@ -42,6 +43,7 @@
                         <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
                     </div>
                 </div>
+            </div>
         </li>
     </ul>
 </div>
