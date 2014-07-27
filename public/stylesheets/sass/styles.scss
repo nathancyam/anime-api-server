@@ -59,10 +59,10 @@ a {
 
   .anime-item {
     @include transition(all, 0.2s, ease);
-    width: 16.6666667%;
+    width: 20%;
 
     @media #{$respond-to-tablet} {
-      width: 33.3333333%;
+      width: 50%;
     }
 
     @media #{$respond-to-mobile} {
@@ -75,6 +75,7 @@ a {
     list-style-type: none;
     vertical-align: top;
     height: 340px;
+    text-align: center;
 
     &:hover {
       background-color: lightgrey;
@@ -88,8 +89,9 @@ a {
       height: 90%;
 
       .image-holder {
-        height: 80%;
+        height: 90%;
         img {
+          width: 90%;
           height: 100%;
         }
       }

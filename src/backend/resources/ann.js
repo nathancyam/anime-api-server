@@ -230,13 +230,13 @@ AnimeNewsNetwork.prototype = {
             // We override the image array from the ANN response
             if (hasImage) {
                 delete result.images;
-                result.images = ['http://localhost:3000/media/images/' + localImageFileName];
+                result.images = ['/media/images/' + localImageFileName];
                 cb(null, result);
             } else {
                 downloadImage(imageUrl, ANN_IMAGE_DIR + '/' + localImageFileName)
                     .then(function () {
                         delete result.images;
-                        result.images = ['http://localhost:3000/media/images/' + localImageFileName];
+                        result.images = ['/media/images/' + localImageFileName];
                         cb(null, result);
                     }
                 );
