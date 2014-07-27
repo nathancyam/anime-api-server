@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                mangle: false
+                mangle: false,
             },
             my_target: {
                 files: {
@@ -62,6 +62,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-symlink');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'symlink']);
+    grunt.registerTask('default', ['jshint', 'concat', 'symlink']);
     grunt.registerTask('server', ['express:dev', 'watch']);
 };

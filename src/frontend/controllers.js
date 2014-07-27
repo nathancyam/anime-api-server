@@ -74,15 +74,7 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
 
         $scope.init = function () {
             $scope.animeList = [];
-            $scope.animeList = Anime.query(function (data) {
-                $scope.getImages();
-            });
-        };
-
-        $scope.getImages = function () {
-            angular.forEach($scope.animeList, function (anime) {
-                anime.imageSrc = AnimeImage.get({ animeId: anime._id });
-            });
+            $scope.animeList = Anime.query();
         };
     }
 ]);

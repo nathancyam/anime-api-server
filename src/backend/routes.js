@@ -27,6 +27,7 @@ module.exports = function (app) {
     app.get('/anime/update', AnimeController.update);
     app.post('/anime/update', AnimeController.updateConfig);
     app.get('/anime/image/:id', AnimeController.getImage);
+    app.post('/anime/image/:id', AnimeController.setImage);
     app.get('/anime/:id', AnimeController.findById);
     app.post('/anime', AnimeController.save);
 

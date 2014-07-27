@@ -7,6 +7,7 @@ var FILE_PATH = require('../config').media_dir,
     Anime = require('./anime'),
     Episode = require('./episode'),
     fs = require('fs'),
+    Q = require('q'),
     async = require('async');
 
 /**
@@ -55,8 +56,12 @@ function saveAnimeModel(animeModel, callback) {
     isAnime(animeModel.filepath, function (anime) {
         if (anime) {
             animeModel.isAnime = true;
-            animeModel.save(function () {
-                callback();
+
+            var promiseSetImage = Q.denodeify(animeModel.getPictureUrl.bind(animeModel));
+            promiseSetImage().then(function () {
+                animeModel.save(function () {
+                    callback();
+                });
             });
         } else {
             callback();
@@ -175,9 +180,9 @@ exports.generateModels = function (callback) {
  * Gets the anime name from the file path
  * @param filePath
  */
-exports.getAnimeName = function(filePath) {
-    filePath = filePath.replace('_',' ');
-    var nameRegex = new RegExp("]\\s(.*)\\s-","g");
+exports.getAnimeName = function (filePath) {
+    filePath = filePath.replace('_', ' ');
+    var nameRegex = new RegExp("]\\s(.*)\\s-", "g");
     var matches = nameRegex.exec(filePath);
 
     if (matches.length >= 1) {

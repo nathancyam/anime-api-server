@@ -18,7 +18,7 @@ directives.directive('episodeList', function () {
     };
 });
 
-directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
+directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', '$http', '$location', function (ANN, $http, $location) {
     return {
         scope: {
             anime: '='
@@ -27,6 +27,9 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
             $scope.isLoading = false;
             $scope.results = 'No Results';
 
+            /**
+             * When the anime object changes, adjust accordingly.
+             */
             $scope.$watch('anime', function (newValue) {
                 if (newValue !== undefined) {
                     $scope.isLoading = true;
@@ -37,14 +40,32 @@ directives.directive('animeNewsNetwork', ['AnimeNewsNetwork', function (ANN) {
                     ANN.get(queryObj, function (results) {
                         $scope.isLoading = false;
                         $scope.results = results;
+                        setImage();
                     });
                 }
             });
 
+            /**
+             * Sets the image URL for the anime object
+             * @returns {*}
+             */
             $scope.getImageUrl = function () {
-                if ($scope.results) {
+                if ($scope.results.images) {
                     return $scope.results.images[0];
                 }
+            };
+
+            /**
+             * Set the image URL to the server
+             */
+            var setImage = function () {
+                var animeId = $location.path().split('/').pop();
+                var postUrl = '/anime/image/' + animeId;
+                $http.post(postUrl, { animeId: animeId, imageUrl: $scope.results.images[0] })
+                    .success(function (data) {
+                        console.log(data);
+                    }
+                );
             };
         },
         templateUrl: 'animeapp/views/anime-news-network.html'

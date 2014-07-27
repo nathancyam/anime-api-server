@@ -2,8 +2,8 @@
     <h1>Anime List</h1>
 
     <form class="form-inline anime-list-filters" role="form">
-    <div class="form-group" ng-model="searchFilter.$">
-            <input type="text" class="form-control" ng-model="searchFilter.title" placeholder="Filter By Name" />
+        <div class="form-group" ng-model="searchFilter.$">
+            <input type="text" class="form-control" ng-model="searchFilter.title" placeholder="Filter By Name"/>
         </div>
         <div class="checkbox">
             <label>
@@ -29,18 +29,19 @@
         <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter" ng-click="changeView(anime)">
             <div class="item-container">
                 <div class="image-holder">
-                    <img ng-src="{{anime.imageSrc.url}}"/>
+                    <img ng-src="{{anime.image_url}}"/>
                 </div>
                 <div>
-                <a href="#/anime/{{anime._id}}" class="item-title">
-                    {{anime.title}}
-                </a>
-                <div class="item-footer">
-                    <i class="fa fa-eye" ng-show="anime.is_watching"></i>
-                    <i class="fa fa-check" ng-show="anime.is_complete"></i>
-                    <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
+                    <a href="#/anime/{{anime._id}}" class="item-title">
+                        {{anime.title}}
+                    </a>
+
+                    <div class="item-footer">
+                        <i class="fa fa-eye" ng-show="anime.is_watching"></i>
+                        <i class="fa fa-check" ng-show="anime.is_complete"></i>
+                        <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
+                    </div>
                 </div>
-            </div>
         </li>
     </ul>
 </div>

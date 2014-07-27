@@ -94,10 +94,15 @@ AnimeSchema.methods.setPicture = function (image, callback) {
  */
 AnimeSchema.methods.getPictureUrl = function (callback) {
     var self = this;
+
+    if (self.image_url) {
+        return callback(null, self.image_url);
+    }
+
     var readDir = Q.denodeify(FS.readdir);
     readDir(ANN_IMAGE_DIR).then(function (files) {
         if (files.length === 0) {
-            return callback(null, null);
+            return callback(null);
         }
         var imageFileName =
             files.filter(
@@ -105,7 +110,15 @@ AnimeSchema.methods.getPictureUrl = function (callback) {
                     return e.indexOf(self.normalizedName) !== -1;
                 }
             ).pop();
-        return callback(null, PUBLIC_DIR + '/' + imageFileName);
+
+        if (!self.image_url && imageFileName) {
+            self.image_url = PUBLIC_DIR + '/' + imageFileName;
+            self.save(function () {
+                return callback(null, PUBLIC_DIR + '/' + imageFileName);
+            });
+        } else {
+            return callback(null, PUBLIC_DIR + '/' + imageFileName);
+        }
     }, function (err) {
         callback(err, null);
     });

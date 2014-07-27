@@ -138,10 +138,30 @@ var AnimeController = module.exports = (function () {
                 }
 
                 result.getPictureUrl(function (err, image) {
-                    if (err) res.send(500, 'Cound not find file');
-                    return res.json({ url: image });
+                    if (err) {
+                        return res.send(500, 'Cound not find file');
+                    } else {
+                        return res.json({ url: image });
+                    }
                 });
+            });
+        },
+        setImage: function (req, res) {
+            var body = req.body,
+                animeId = body.animeId,
+                imageUrl = body.imageUrl;
+
+            Anime.findById(animeId, function (err, result) {
+                if (err) {
+                    res.send(500);
+                } else {
+                    result.image_url = imageUrl;
+                    result.save(function () {
+                        res.json({ status: 'Successfully set anime image.' });
+                    });
+                }
             });
         }
     };
+
 })();
