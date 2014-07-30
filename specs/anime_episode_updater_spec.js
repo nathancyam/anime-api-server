@@ -13,7 +13,7 @@ var AnimeEpUpdater = require('../src/backend/modules/anime_episode_updater'),
     expect = require('chai').expect;
 
 chai.use(chaiAsPromised);
-mongoose.connect('mongodb://localhost/test:27017');
+mongoose.createConnection('mongodb://localhost/test:27017');
 
 describe('AnimeEpisodeUpdater', function() {
     var anime, test = null;
@@ -22,6 +22,10 @@ describe('AnimeEpisodeUpdater', function() {
             anime = results;
             done();
         });
+    });
+    after(function (done) {
+        mongoose.connection.close();
+        done();
     });
     beforeEach(function() {
         test = new AnimeEpUpdater(anime);
