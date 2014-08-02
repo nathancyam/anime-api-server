@@ -17,18 +17,25 @@ mongoose.createConnection('mongodb://localhost/test:27017');
 
 describe('AnimeEpisodeUpdater', function() {
     var anime, test = null;
+
     before(function(done) {
-        Anime.find({title:'Nisekoi'}, function(err, results) {
-            anime = results;
-            done();
-        });
+        if (mongoose.connection.readyState === 1) {
+            return done();
+        }
+        mongoose.connect('mongodb://localhost/test:27017', done);
     });
-    after(function (done) {
-        mongoose.connection.close();
-        done();
-    });
-    beforeEach(function() {
-        test = new AnimeEpUpdater(anime);
+
+    beforeEach(function(done) {
+        if (anime) {
+            test = new AnimeEpUpdater(anime);
+            return done();
+        } else {
+            Anime.find({title:'Nisekoi'}, function(err, results) {
+                anime = results;
+                test = new AnimeEpUpdater(anime);
+                done();
+            });
+        }
     });
     describe('#getEpisodeOnDisk', function() {
         it('should return a promise initially', function() {

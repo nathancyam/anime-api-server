@@ -13,7 +13,6 @@ var AnimeTorrentSearcher = require('../src/backend/resources/anime_torrent_searc
     expect = require('chai').expect;
 
 chai.use(chaiAsPromised);
-mongoose.connect('mongodb://localhost/test:27017');
 
 describe('AnimeTorrentSearcher', function() {
 
@@ -21,11 +20,23 @@ describe('AnimeTorrentSearcher', function() {
         // Create the anime that we are going to test against.
         var animeSearcher = null;
         before(function(done) {
-            Anime.find({ title: 'Log Horizon' }, function (err, result) {
-                animeSearcher = new AnimeTorrentSearcher(result);
-                done();
-            });
+            if (mongoose.connection.readyState === 1) {
+                return done();
+            }
+            mongoose.connect('mongodb://localhost/test:27017', done);
         });
+
+        beforeEach(function (done) {
+            if (animeSearcher) {
+                return done();
+            } else {
+                Anime.find({ title: 'Log Horizon' }, function (err, result) {
+                    animeSearcher = new AnimeTorrentSearcher(result);
+                    done();
+                });
+            }
+        });
+
         it('should return a promise initially', function() {
             var search = animeSearcher.search();
             expect(search).to.be.a('object');

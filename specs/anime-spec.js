@@ -15,11 +15,18 @@ var FS = require('fs');
 var ANN_PUBLIC_IMG_DIR = require('../src/backend/config').image_dir;
 
 chai.use(chaiAsPromised);
-mongoose.connect('mongodb://localhost/test:27017');
 
 describe('Anime', function () {
     var testCase = null;
     var filePath = ANN_PUBLIC_IMG_DIR + '/' + 'ann_testcase_full.jpg';
+
+    before(function (done) {
+        if (mongoose.connection.readyState === 1) {
+            return done();
+        }
+        mongoose.connect('mongodb://localhost/test:27017', done);
+    });
+
     beforeEach(function (done) {
         testCase = new Anime();
         testCase.title = 'Test Case';
@@ -28,7 +35,6 @@ describe('Anime', function () {
 
     after(function (done) {
         testCase.remove(function () {
-            mongoose.connection.close();
             FS.unlinkSync(filePath);
             done();
         });
