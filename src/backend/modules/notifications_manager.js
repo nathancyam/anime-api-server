@@ -26,6 +26,9 @@ NotificationManager.prototype.add = function (data) {
     var notify = new Notification();
 
     // Check if the notification data is valid
+    if (!data) {
+        throw new Error('Data undefined');
+    }
     if (!data.type || !data.message) {
         throw new Error('Invalid data format');
     }
