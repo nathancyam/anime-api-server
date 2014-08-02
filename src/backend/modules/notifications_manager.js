@@ -24,6 +24,12 @@ util.inherits(NotificationManager, events.EventEmitter);
  */
 NotificationManager.prototype.add = function (data) {
     var notify = new Notification();
+
+    // Check if the notification data is valid
+    if (!data.type || !data.message) {
+        throw new Error('Invalid data format');
+    }
+
     notify.type = data.type;
     notify.message = data.message;
     notify.timestamp = new Date().getTime();
