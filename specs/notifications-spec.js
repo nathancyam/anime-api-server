@@ -44,9 +44,15 @@ describe('NotificationManager', function () {
             expect(NotificationMgr.add.calledOnce).to.eql(true);
         });
 
-        it('should throw an exception when the content is not valid notification object', function () {
-            NotificationMgr.emit('add_notification', {});
-            sinon.assert.threw(NotificationMgr.add, new Error('Invalid data format'));
+        it('should throw an exception when the content is not specified', function () {
+            expect(NotificationMgr.add).to.throw('Data undefined');
+        });
+
+        it('should throw an exception when the content is formatted incorrectly', function () {
+            expect(function () {
+                    NotificationMgr.add({});
+                }
+            ).to.throw('Invalid data format');
         });
     });
 });
