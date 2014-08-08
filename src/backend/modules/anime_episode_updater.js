@@ -71,6 +71,11 @@ function getDiskEpisodeNumbers(disk) {
     });
 }
 
+/**
+ *
+ * @param torrents
+ * @returns {Array}
+ */
 function setTorrentEpisodeNumbers(torrents) {
     return torrents.map(function (e) {
         e.episodeNumber = EpisodeHelper.getEpisodeNumberByFileName(e.name);

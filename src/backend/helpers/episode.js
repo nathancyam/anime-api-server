@@ -14,6 +14,9 @@ var EpisodeHelper = module.exports = (function () {
     return {
         getEpisodeFilenames: function (animeModel, done) {
             fs.readdir(animeModel.filepath, function (err, files) {
+                if (err) {
+                    return done(err, null);
+                }
                 async.each(files, function (file, next) {
                     var episode = new Episode({
                         filePath: animeModel.filepath + '/' + file,

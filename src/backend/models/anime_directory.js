@@ -86,10 +86,12 @@ function createEpisodeModels(animeModel, done) {
                 if (result) {
                     episode.isAnime = true;
                     episode.getEpisodeNumber();
-                }
-                episode.save(function () {
+                    episode.save(function () {
+                        next(null);
+                    });
+                } else {
                     next(null);
-                });
+                }
             });
         }, function () {
             done(null);
