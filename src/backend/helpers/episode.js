@@ -57,11 +57,13 @@ var EpisodeHelper = module.exports = (function () {
         },
         getEpisodeNumberByFileName: function (fileName) {
             var number = fileName.match(/\d{2}/i);
-            if (number !== undefined) {
+            if (number) {
                 var epNumber = parseInt(number.shift());
                 if (epNumber < 32) {
                     return epNumber;
                 }
+            } else {
+                return null;
             }
         }
     };
