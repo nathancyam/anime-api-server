@@ -10,7 +10,8 @@
 var setting = [
     'ui.bootstrap',
     'ngAnimate',
-    'ngCookies'
+    'ngCookies',
+    'notifyModule'
 ];
 
 var controllers = [

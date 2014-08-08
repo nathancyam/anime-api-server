@@ -243,3 +243,4 @@ directives.directive('notificationArea', ['$timeout', 'Socket', function ($timeo
         templateUrl: 'animeapp/views/notification.html'
     };
 }]);
+
