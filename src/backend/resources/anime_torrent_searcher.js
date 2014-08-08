@@ -25,10 +25,14 @@ AnimeTorrentSearcher.prototype = {
             searchTerms = formSearchString(this.anime.designated_subgroup, this.anime.title);
 
         nt.search({term: searchTerms}, function (err, result) {
-            deferred.resolve(result.map(function (e) {
-                var tHelper = new TorrentHelper(e);
-                return tHelper.addNewAttributes();
-            }));
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(result.map(function (e) {
+                    var tHelper = new TorrentHelper(e);
+                    return tHelper.addNewAttributes();
+                }));
+            }
         });
 
         return deferred.promise;

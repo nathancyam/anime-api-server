@@ -56,7 +56,7 @@ AnimeEpisodeUpdater.prototype = {
         var deferred = Q.defer();
 
         deferred.resolve(torrentArray.filter(function (e) {
-            if (diskArray.indexOf(e.episodeNumber) === -1) {
+            if (e.episodeNumber && diskArray.indexOf(e.episodeNumber) === -1) {
                 return true;
             }
         }));
@@ -71,6 +71,11 @@ function getDiskEpisodeNumbers(disk) {
     });
 }
 
+/**
+ *
+ * @param torrents
+ * @returns {Array}
+ */
 function setTorrentEpisodeNumbers(torrents) {
     return torrents.map(function (e) {
         e.episodeNumber = EpisodeHelper.getEpisodeNumberByFileName(e.name);

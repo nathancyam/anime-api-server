@@ -118,7 +118,7 @@ var AnimeController = module.exports = (function () {
             }
             AnimeUpdaterHelper.updateAnimeCollection(isUpdatingServer, function (err, results) {
                 if (err) {
-                    res.json(500, { status: 'ERROR', message: err.message });
+                    res.json(500, { status: 'ERROR', message: err.message, stack: err.stack });
                 } else {
                     res.send(results);
                 }
