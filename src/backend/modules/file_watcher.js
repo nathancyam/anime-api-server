@@ -2,6 +2,9 @@
  * Created by nathanyam on 13/07/2014.
  */
 
+/* jslint node: true */
+"use strict";
+
 var moduleOptions = {};
 var fs = require('fs');
 var AnimeUtil = require('../models/anime_directory');
@@ -18,6 +21,14 @@ exports.watchDir = function() {
     }
 
     fs.watch(moduleOptions.watchDir, moveDirectory);
+};
+
+exports.getWatchDirectory = function () {
+    return moduleOptions.watchDir;
+};
+
+exports.attachCallback = function(func) {
+    fs.watch(moduleOptions.watchDir, func);
 };
 
 function moveDirectory(event, filename) {
@@ -53,3 +64,5 @@ function moveDirectory(event, filename) {
         }
     });
 }
+
+exports.moveDirectory = moveDirectory;
