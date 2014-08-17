@@ -16,7 +16,7 @@ html(ng-app='AnimeApp')
         link(rel='stylesheet', href='/stylesheets/css/styles.css')
     body
         nav.navbar.navbar-default(role="navigation")
-            div.container-fluid
+            div.container
                 div.navbar-header
                     a.navbar-brand(href="#") Anime Episode Application
                 ul.nav.navbar-nav.navbar-left
@@ -24,6 +24,9 @@ html(ng-app='AnimeApp')
                         a(href="#") Anime
                     li
                         a(href="#/torrents") Torrents
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#/notifications") Notifications
                     li
                         a(href="#/settings") Settings
 
