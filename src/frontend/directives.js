@@ -198,6 +198,7 @@ directives.directive('backImg', function () {
 
 directives.directive('notificationArea', ['$timeout', 'Socket', function ($timeout, socket) {
     return {
+        scope: {},
         controller: function ($scope) {
             $scope.hide = true;
 
