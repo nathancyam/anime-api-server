@@ -11,6 +11,13 @@ module.exports = function (grunt) {
                 dest: 'dist/animeapp.js'
             }
         },
+        sass: {
+            dist: {
+                files: {
+                    'public/stylesheets/css/main.css': 'public/stylesheets/sass/main.scss'
+                }
+            }
+        },
         jshint: {
             files: ['Gruntfile.js', 'src/**/*.js']
         },
@@ -27,7 +34,7 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                mangle: false,
+                mangle: false
             },
             my_target: {
                 files: {
@@ -39,6 +46,10 @@ module.exports = function (grunt) {
             angular: {
                 files: ['src/frontend/**/*.js', 'src/frontend/views/*.html'],
                 tasks: ['jshint', 'concat', 'uglify']
+            },
+            sass: {
+                files: ['public/stylesheets/sass/*.scss'],
+                tasks: ['sass']
             },
             backend: {
                 files: ['src/backend/**/*.js', 'src/backend/**/*.html', 'src/backend/**/*.jade'],
@@ -60,8 +71,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-symlink');
+    grunt.loadNpmTasks('grunt-sass');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'concat', 'symlink']);
+    grunt.registerTask('default', ['jshint', 'concat', 'symlink', 'sass']);
     grunt.registerTask('server', ['express:dev', 'watch']);
 };

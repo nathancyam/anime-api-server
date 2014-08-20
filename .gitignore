@@ -25,3 +25,4 @@ src/backend/config.js
 dist/
 *.db
 public/media/
+bower_components/

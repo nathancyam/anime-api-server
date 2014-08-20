@@ -1,3 +1,6 @@
+@import '../../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
+@import '../../../bower_components/font-awesome/scss/font-awesome';
+
 $anime-list-color: #666666;
 $respond-to-mobile: 'screen and (min-width: 200px) and (max-width: 720px) and (orientation: portrait)';
 $respond-to-tablet: 'screen and (min-width: 720px) and (max-width: 1024px) and (orientation: portrait)';
@@ -183,4 +186,3 @@ a {
     opacity: 1;
   }
 }
-
