@@ -3,7 +3,7 @@
 
   .anime-list {
     .list-container {
-      padding-right: 45px;
+      @include make-row();
     }
 
     .anime-list-filters {
@@ -19,15 +19,11 @@
 
   .anime-item {
     @include transition(all, 0.2s, ease);
-    width: 20%;
 
-    @media #{$respond-to-tablet} {
-      width: 50%;
-    }
-
-    @media #{$respond-to-mobile} {
-      width: 100%;
-    }
+    @include make-xs-column(12);
+    @include make-sm-column(6);
+    @include make-md-column(3);
+    @include make-lg-column(2);
 
     padding: 5px;
     display: inline-block;
@@ -85,5 +81,24 @@
 
   .anime-options {
     padding: 10px 0px;
+  }
+}
+
+#anime-details-page {
+  .anime-details {
+    @include make-row();
+
+    .ann-details {
+      @include make-md-column(4);
+
+      img {
+        @extend .hidden-xs;
+        @extend .hidden-sm;
+      }
+    }
+
+    .file-details {
+      @include make-md-column(8);
+    }
   }
 }

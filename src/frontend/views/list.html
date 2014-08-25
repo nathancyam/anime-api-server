@@ -29,25 +29,27 @@
             </a>
         </div>
     </form>
-    <ul class="list-container">
-        <li class="anime-item" ng-repeat="anime in animeList | filter:searchFilter | orderBy:'title'"
-            ng-click="changeView(anime)">
-            <div class="item-container">
-                <div class="image-holder">
-                    <img ng-src="{{anime.image_url}}"/>
-                </div>
-                <div>
-                    <a href="#/anime/{{anime._id}}" class="item-title">
-                        {{anime.title}}
-                    </a>
+    <div class="container">
+        <div class="list-container">
+            <div class="anime-item" ng-repeat="anime in animeList | filter:searchFilter | orderBy:'title'"
+                 ng-click="changeView(anime)">
+                <div class="item-container">
+                    <div class="image-holder">
+                        <img ng-src="{{anime.image_url}}"/>
+                    </div>
+                    <div>
+                        <a href="#/anime/{{anime._id}}" class="item-title">
+                            {{anime.title}}
+                        </a>
 
-                    <div class="item-footer">
-                        <i class="fa fa-eye" ng-show="anime.is_watching"></i>
-                        <i class="fa fa-check" ng-show="anime.is_complete"></i>
-                        <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
+                        <div class="item-footer">
+                            <i class="fa fa-eye" ng-show="anime.is_watching"></i>
+                            <i class="fa fa-check" ng-show="anime.is_complete"></i>
+                            <span class="subgroup" ng-show="anime.designated_subgroup !== undefined">{{anime.designated_subgroup}}</span>
+                        </div>
                     </div>
                 </div>
+                </li>
+                </ul>
             </div>
-        </li>
-    </ul>
-</div>
+        </div>
