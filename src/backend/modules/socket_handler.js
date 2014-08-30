@@ -43,6 +43,13 @@ var SocketHandler = module.exports = (function () {
                     socket.on('client_torrent', function (data) {
                         console.log(data);
                     });
+
+                    socket.on("notifications:clear", function (data) {
+                        var Notification = require('../models/notification');
+                        Notification.collection.remove(function () {
+                            console.log('Cleared nofiication collection');
+                        });
+                    });
                 });
             }
         },

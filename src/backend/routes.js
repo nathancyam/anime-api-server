@@ -13,7 +13,8 @@ var MyAnimeListController = require('./controllers/mal'),
     AnimeNewsNetworkController = require('./controllers/ann'),
     TorrentController = require('./controllers/torrents'),
     DanbooruController = require('./controllers/danbooru'),
-    SettingsController = require('./controllers/settings');
+    SettingsController = require('./controllers/settings'),
+    NotificationController = require('./controllers/notification');
 
 module.exports = function (app) {
     // INDEX
@@ -38,6 +39,9 @@ module.exports = function (app) {
     // SUBGROUP ROUTES
     app.get('/subgroups', SubgroupController.list);
     app.get('/subgroup/search', SubgroupController.search);
+
+    // NOTIFICATION ROUTES
+    app.get('/notifications', NotificationController.list);
 
     // SYNC ROUTES
     app.get('/sync/anime', AnimeController.sync);

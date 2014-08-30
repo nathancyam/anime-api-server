@@ -8,6 +8,8 @@
 var util = require("util");
 var events = require("events");
 var Notification = require('../models/notification');
+var Socket = require('./socket_handler');
+var _ = require('lodash');
 
 /**
  * @constructor
@@ -24,6 +26,9 @@ util.inherits(NotificationManager, events.EventEmitter);
  */
 NotificationManager.prototype.add = function (data) {
     var notify = new Notification();
+    var simpleNotify = _.assign(data, { timestamp: new Date().getTime() });
+
+    simpleNotify.msg = simpleNotify.message;
 
     // Check if the notification data is valid
     if (!data) {
@@ -34,14 +39,22 @@ NotificationManager.prototype.add = function (data) {
     }
 
     notify.type = data.type;
-    notify.message = data.message;
+    notify.msg = data.message;
     notify.timestamp = new Date().getTime();
-    notify.save();
+    notify.save(function (err) {
+        if (err) {
+            console.log(err.message);
+        }
+        Socket.emit('notify:new', simpleNotify);
+    });
+};
+
+NotificationManager.prototype.clear = function (data) {
+    Notification.collection.remove();
 };
 
 var notify = module.exports = new NotificationManager();
 
-notify.on("add_notification", function (data) {
+notify.on("notification:new", function (data) {
     notify.add(data);
 });
-

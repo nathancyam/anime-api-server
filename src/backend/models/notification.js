@@ -7,7 +7,7 @@ var Mongoose = require('mongoose'),
 
 var NotificationSchema = new Schema({
     type: String,
-    message: String,
+    msg: String,
     timestamp: Number
 });
 

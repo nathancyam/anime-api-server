@@ -14,19 +14,29 @@ html(ng-app='AnimeApp')
         link(rel='stylesheet', href='/stylesheets/css/main.css')
     body
         nav.navbar.navbar-default(role="navigation")
-            div.container
-                div.navbar-header
-                    a.navbar-brand(href="#") Anime Episode Application
-                ul.nav.navbar-nav.navbar-left
-                    li
-                        a(href="#") Anime
-                    li
-                        a(href="#/torrents") Torrents
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#/notifications") Notifications
-                    li
-                        a(href="#/settings") Settings
+            div.navbar-inner
+                div.container
+                    button.navbar-toggle(data-toggle="collapse" ng-click="isCollapsed = !isCollapsed")
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    div.navbar-header
+                        a.navbar-brand(href="#") Anime Episode Application
+                    div.nav-collapse(collapse="isCollapsed")
+                        ul.nav.navbar-nav.navbar-left
+                            li
+                                a(href="#") Anime
+                            li
+                                a(href="#/torrents") Torrents
+                        ul.nav.navbar-nav.navbar-right
+                            li.dropdown
+                                a.dropdown-toggle(href="#" data-toggle="dropdown") Notifications
+                                ul.dropdown-menu.notification-dropdown(role="menu")
+                                    li
+                                        notification-list
+                                            notification-clear
+                            li
+                                a(href="#/settings") Settings
 
         div.container.anime-app
             div(notification-area)
