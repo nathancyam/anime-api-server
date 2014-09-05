@@ -4,57 +4,60 @@ NotifyApp.factory('NotificationResource', ['$resource', function ($resource) {
     return $resource('/notifications/:notifyId', { notifyId: '@id' });
 }]);
 
-NotifyApp.controller('NotificationController', ['$scope', 'Socket',
-    function ($scope, Socket) {
-        var self = this;
+NotifyApp.factory('NotificationHandler', ['NotificationResource', '$rootScope', 'Socket',
+    function (notifyResource, $rootScope, Socket) {
+        $rootScope.notifications = $rootScope.notifications || [];
 
-        $scope.notifications = {
-            messages: [],
-            counter: 0
-        };
+        $rootScope.$watchCollection('notifications', function (newVal, oldVal) {
+            $rootScope.notifications = newVal;
+        });
 
         /**
          * Listen to the event
          */
         Socket.on('notify:new', function (notify) {
-            console.log(notify.type);
-            console.log(notify.message);
-            self.addNotification(notify);
+            $rootScope.notifications.push(notify);
         });
 
+        return {
+            clearAll: function () {
+                $rootScope.notifications = [];
+                Socket.emit('notifications:clear', {});
+            },
+            addNotification: function (notify) {
+                $rootScope.notifications.push(notify);
+                $rootScope.$digest();
+            },
+            getCount: function () {
+                return $rootScope.notifications.length;
+            },
+            clearByIndex: function (index) {
+                index = $rootScope.notifications.indexOf(index);
+                $rootScope.notifications.splice(index, 1);
+            },
+            getNotifications: function () {
+                return $rootScope.notifications;
+            }
+        };
+    }
+]);
+
+NotifyApp.controller('NotificationController', ['$scope', 'NotificationHandler',
+    function ($scope, NotifyHandler) {
         /**
          * Clears the notification by a specified index
          *
          * @param index
          */
         this.clearByIndex = function (index) {
-            index = $scope.notifications.messages.indexOf(index);
-            $scope.notifications.messages.splice(index, 1);
+            NotifyHandler.clearByIndex(index);
         };
 
         /**
          * Clears all the notifications
          */
         this.clearAll = function () {
-            $scope.notifications.messages = [];
-            Socket.emit('notifications:clear', {});
-        };
-
-        /**
-         * Update the notification counter
-         */
-        this.updateCounter = function () {
-            $scope.notifications.counter = $scope.notifications.messages.length;
-        };
-
-        /**
-         * Adds the notification to the notification collection
-         *
-         * @param notify
-         */
-        this.addNotification = function (notify) {
-            $scope.notifications.messages.push(notify);
-            this.updateCounter();
+            NotifyHandler.clearAll();
         };
     }
 ]);

@@ -4,8 +4,8 @@
         <div ng-show="notifications.messages.length === 0">
             <p>No Notifications</p>
         </div>
-        <li class="message-container" ng-repeat="notify in notifications.messages">
-            <notification-msg class="message" msg="notify"></notification-msg>
+        <li class="message-container" ng-repeat="notify in notifications">
+        <notification-msg class="message" msg="notify"></notification-msg>
         </li>
     </ul>
 </div>

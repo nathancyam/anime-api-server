@@ -22,6 +22,7 @@
         "socket.io": "^1.0.0",
         "sqlite3": "^2.2.3",
         "squel": "^3.4.1",
+        "tokyotosho": "0.0.2",
         "transmission": "*",
         "xml2js": "*"
     },
