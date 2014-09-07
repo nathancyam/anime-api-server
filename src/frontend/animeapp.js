@@ -11,7 +11,11 @@ var setting = [
     'ui.bootstrap',
     'ngAnimate',
     'ngCookies',
-    'notifyModule'
+    'animeNewsNetwork',
+    'notifyModule',
+    'nyaaTorrents',
+    'toastNotify',
+    'torrentList'
 ];
 
 var controllers = [
@@ -26,8 +30,6 @@ var resources = [
     'AnimeImageResource',
     'EpisodeResource',
     'SubgroupResource',
-    'AnnResource',
-    'NyaaResource'
 ];
 
 var factories = [

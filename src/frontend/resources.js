@@ -47,15 +47,3 @@ subGroupResource.factory('Subgroup', ['$resource', function ($resource) {
         }
     });
 }]);
-
-var annResource = angular.module('AnnResource', ['ngResource']);
-
-annResource.factory('AnimeNewsNetwork', ['$resource', function ($resource) {
-    return $resource('/ann/search');
-}]);
-
-var nyaaResource = angular.module('NyaaResource', ['ngResource']);
-
-nyaaResource.factory('NyaaTorrents', ['$resource', function ($resource) {
-    return $resource('/nyaatorrents/search');
-}]);

@@ -17,6 +17,7 @@ NotifyApp.factory('NotificationHandler', ['NotificationResource', '$rootScope', 
          */
         Socket.on('notify:new', function (notify) {
             $rootScope.notifications.push(notify);
+            $rootScope.$broadcast('notifications:add', { newNotify: notify, all: $rootScope.notifications });
         });
 
         return {
@@ -75,7 +76,7 @@ NotifyApp.directive('notificationList', ['NotificationResource', function (Notif
                 });
             };
         },
-        templateUrl: 'animeapp/views/notifications.html'
+        templateUrl: 'animeapp/templates/notifyModule/notifications.html'
     };
 }]);
 
@@ -111,5 +112,12 @@ NotifyApp.directive('notificationClear', function () {
             });
         },
         template: '<span>Clear All</span>'
+    };
+});
+
+NotifyApp.directive('notificationCounter', function () {
+    return {
+        restrict: 'E',
+        template: '<span id="notification-counter" class="badge" ng-show="notifications.length > 0">{{ notifications.length }}</span>'
     };
 });

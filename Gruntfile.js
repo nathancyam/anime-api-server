@@ -3,11 +3,8 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
-            options: {
-                separator: "//==============\n"
-            },
             dist: {
-                src: ['src/frontend/*.js'],
+                src: ['src/frontend/src/**/*.js', 'src/frontend/*.js'],
                 dest: 'dist/animeapp.js'
             }
         },
@@ -27,6 +24,11 @@ module.exports = function (grunt) {
                 relativeSrc: '../../src/frontend/views',
                 options: { type: 'dir' }
             },
+            templates: {
+                dest: 'public/animeapp/templates',
+                relativeSrc: '../../src/frontend/templates',
+                options: { type: 'dir' }
+            },
             angular: {
                 dest: 'public/js/animeapp.js',
                 relativeSrc: '../../dist/animeapp.js'
@@ -44,7 +46,7 @@ module.exports = function (grunt) {
         },
         watch: {
             angular: {
-                files: ['src/frontend/**/*.js', 'src/frontend/views/*.html'],
+                files: ['src/frontend/**/*.js', 'src/frontend/**/*.html'],
                 tasks: ['jshint', 'concat', 'uglify']
             },
             sass: {

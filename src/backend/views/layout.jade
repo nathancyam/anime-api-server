@@ -36,9 +36,11 @@ html(ng-app='AnimeApp')
                                         notification-list
                                             notification-clear
                             li
+                                notification-counter
+                            li
                                 a(href="#/settings") Settings
 
         div.container.anime-app
-            div(notification-area)
+            div(toast-notifications)
             div.container(ng-view)
         footer
