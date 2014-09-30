@@ -10,6 +10,10 @@ routes.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'animeapp/views/list.html',
             controller: 'ListController'
         }).
+        when('/anime/add', {
+            templateUrl: 'animeapp/views/add-anime.html',
+            controller: 'AddController'
+        }).
         when('/anime/:animeId', {
             templateUrl: 'animeapp/views/anime.html',
             controller: 'AnimeController'

@@ -10,6 +10,19 @@ ANN.factory('AnnAPI', ['$resource', function ($resource) {
     return $resource('/ann/search');
 }]);
 
+ANN.factory('AnnParser', [function () {
+    return {
+        parseResult: function (result) {
+            return {
+                title: result.title,
+                image: result.images[0],
+                genres: result.genres,
+                description: result.plot_summary
+            };
+        }
+    };
+}]);
+
 ANN.directive('animeNewsNetwork', ['AnnAPI', '$http', '$location',
     function (ANN, $http, $location) {
         return {

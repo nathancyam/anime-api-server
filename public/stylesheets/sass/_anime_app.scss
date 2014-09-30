@@ -102,3 +102,12 @@
     }
   }
 }
+
+#add-anime-page {
+    .search-bar {
+        @include make-sm-column(12);
+    }
+    .results {
+        @include make-sm-column(12);
+    }
+}
