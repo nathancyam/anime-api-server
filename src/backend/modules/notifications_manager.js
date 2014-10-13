@@ -12,7 +12,7 @@ var Notification = require('../models/notification');
 var Socket = require('./socket_handler');
 var _ = require('lodash');
 
-var USER_API = require('../../config').notifications.pushbullet_api_key;
+var USER_API = require('../config').notifications.pushbullet_api_key;
 
 /**
  * @constructor
