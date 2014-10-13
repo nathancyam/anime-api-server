@@ -31,11 +31,9 @@ var AnimeTorrentSearcher = module.exports = function (anime, options) {
         searchTerms = searchTerms || formSearchString(this.anime.designated_subgroup, this.anime.title);
 
         var promiseNt = Q.denodeify(nt.search.bind(nt));
-        var promiseTt = Q.denodeify(tt.search.bind(tt));
 
         Q.allSettled([
             promiseNt({ term: searchTerms }),
-            promiseTt({ terms: searchTerms })
         ]).spread(function (ntRes, ttRes) {
             // Check if the requests for these torrent sites failed
             if (ntRes.state === 'rejected' && ttRes.state === 'rejected') {

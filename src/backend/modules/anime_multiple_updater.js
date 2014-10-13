@@ -3,6 +3,7 @@
 
 var AnimeEpisodeUpdater = require("./anime_episode_updater"),
     Transmission = require('../models/transmission'),
+    NotificationMgr = require('./notifications_manager'),
     Q = require('q');
 
 /**
@@ -62,6 +63,7 @@ AnimeMultipleUpdater.prototype = {
                 var promise = Q.denodeify(transmission.addMultipleTorrents.bind(transmission));
                 return promise(torrentLinks);
             }).then(function (results) {
+                notifyTorrentRetrevial(results);
                 return deferred.resolve(results);
             }, function (err) {
                 return deferred.reject(err);
@@ -80,3 +82,13 @@ AnimeMultipleUpdater.prototype = {
         return deferred.promise;
     }
 };
+
+function notifyTorrentRetrevial(torrents) {
+
+    var torrentsString = torrents.join(',', torrents);
+    NotificationMgr.emit('notification:new', {
+        type: 'NEW_EPISODE',
+        title: 'New Episodes Received',
+        message: 'New episodes received: ' + torrentsString
+    });
+}

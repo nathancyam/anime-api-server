@@ -8,6 +8,7 @@
 var Transmission = require('../models/transmission'),
     TorrentHelper = require('../helpers/torrents'),
     SocketHandler = require('../modules/socket_handler'),
+    NotificationMgr = require('../modules/notifications_manager'),
     Cache = require('../modules/cache'),
     TorrentSearcher = require('../resources/anime_torrent_searcher'),
     NyaaTorrents = require('nyaatorrents');
@@ -59,6 +60,12 @@ var TorrentController = module.exports = (function (Client, NT) {
                     SocketHandler.emit('notification:error', { title: 'Torrent failed to add', message: err.message });
                     res.send(500, { error: 'Could not add torrents', message: err });
                 } else {
+                    NotificationMgr.emit('notification:new', {
+                        type: 'note',
+                        title: 'new ep!',
+                        message: 'new ep!',
+                        body: 'new ep'
+                    });
                     SocketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
                     res.send(result);
                 }
@@ -73,7 +80,6 @@ var TorrentController = module.exports = (function (Client, NT) {
             var search = req.query.name;
             var searcher = new TorrentSearcher();
             searcher.search(search, function (err, results) {
-                err = { code: 'ETIMEOUT' };
                 if (err) {
                     handleErr(err, { term: search }, function (err, results) {
                         console.log(results);
