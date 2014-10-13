@@ -43,13 +43,18 @@ var TorrentController = module.exports = (function (Client, NT) {
         search: function (req, res) {
             var search = req.query.name;
             NT.search({ term: search }, function (err, results) {
-                res.send(results.filter(function (item) {
-                    return item.categories.indexOf('english-translated-anime') > 0;
-                }).map(function (e) {
-                    var tHelper = new TorrentHelper(e);
-                    return tHelper.addNewAttributes();
-                }));
-            });
-        }
+				if (err) return res.send(500, 'Could not get the torrents');
+				if (Array.isArray(results)) {
+					res.send(results.filter(function (item) {
+						return item.categories.indexOf('english-translated-anime') > 0;
+					}).map(function (e) {
+						var tHelper = new TorrentHelper(e);
+						return tHelper.addNewAttributes();
+					}));
+				} else {
+					return res.send(500, 'Results not an array');
+				}
+			});
+}
     };
 })(Client, NT);
