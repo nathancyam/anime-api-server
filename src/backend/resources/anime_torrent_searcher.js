@@ -18,12 +18,12 @@ var AnimeTorrentSearcher = module.exports = function (anime, options) {
     this.options = options || {};
 
     var nt = new NT();
-    var tt = new TT.Client('tokyotosho.info', 80, '/');
 
     var _getSuccessfulResponses = function (responses) {
-        return responses.filter(function (e) {
+        var successResponse = responses.filter(function (e) {
             return e.state === 'fulfilled';
         }).pop();
+        return successResponse.value;
     };
 
     this._search = function (searchTerms) {
@@ -34,12 +34,12 @@ var AnimeTorrentSearcher = module.exports = function (anime, options) {
 
         Q.allSettled([
             promiseNt({ term: searchTerms }),
-        ]).spread(function (ntRes, ttRes) {
+        ]).spread(function (ntRes) {
             // Check if the requests for these torrent sites failed
-            if (ntRes.state === 'rejected' && ttRes.state === 'rejected') {
+            if (ntRes.state === 'rejected') {
                 return deferred.reject({ status: 'ERROR', message: 'Failed to get anime from resources'});
             }
-            return deferred.resolve(_getSuccessfulResponses([ntRes, ttRes]));
+            return deferred.resolve(_getSuccessfulResponses([ntRes]));
         });
 
         return deferred.promise;

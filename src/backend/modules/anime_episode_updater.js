@@ -41,7 +41,7 @@ AnimeEpisodeUpdater.prototype = {
      * @returns {Promise|*}
      */
     getMissingEpisodes: function () {
-        return Q.all([this.getEpisodeOnDisk(), this.getTorrents()])
+        return Q.allSettled([this.getEpisodeOnDisk(), this.getTorrents()])
             .then(this.compareMissingEpisodes);
     },
     /**
@@ -51,15 +51,19 @@ AnimeEpisodeUpdater.prototype = {
      * @returns {exports.pending.promise|*|adapter.deferred.promise|defer.promise|promise|Q.defer.promise}
      */
     compareMissingEpisodes: function (results) {
-        var diskArray = getDiskEpisodeNumbers(results[0]);
-        var torrentArray = setTorrentEpisodeNumbers(results[1]);
         var deferred = Q.defer();
+        var diskArray = getDiskEpisodeNumbers(results[0].value);
 
-        deferred.resolve(torrentArray.filter(function (e) {
-            if (e.episodeNumber && diskArray.indexOf(e.episodeNumber) === -1) {
-                return true;
-            }
-        }));
+        if (Array.isArray(results[1].value)) {
+            var torrentArray = setTorrentEpisodeNumbers(results[1].value);
+            deferred.resolve(torrentArray.filter(function (e) {
+                if (e.episodeNumber && diskArray.indexOf(e.episodeNumber) === -1) {
+                    return true;
+                }
+            }));
+        } else {
+            return deferred.reject(new Error("Could not find new episodes."));
+        }
 
         return deferred.promise;
     }

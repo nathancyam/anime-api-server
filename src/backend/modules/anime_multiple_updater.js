@@ -46,9 +46,7 @@ AnimeMultipleUpdater.prototype = {
         if (this.options.pushToServer) {
             var transmission = new Transmission();
             this.getPromises().then(function (results) {
-                if (results.every(function (e) {
-                    return e.length === 0;
-                })) {
+                if (results.every(function (e) { return !e || e.length === 0; })) {
                     deferred.resolve({ message: 'No new episodes found' });
                 }
                 var torrentLinks = results.filter(function (e) {
