@@ -1,0 +1,23 @@
+<div id="add-anime-page">
+    <article class="row">
+        <div class="search-bar">
+            <form class="form form-inline" role="form">
+                <div class="form-group">
+                    <input type="text" placeholder="Search Anime" ng-model="search.query"/>
+                    <a class="btn btn-primary" ng-click="runSearch()">
+                        <i class="fa fa-search"></i>
+                        Search
+                    </a>
+                </div>
+            </form>
+        </div>
+        <div class="results">
+            <div class="anime-result" ng-repeat="anime in search.results">
+                <div class="anime-image">{{ anime.image }}</div>
+                <div class="anime-title">{{ anime.title }}</div>
+                <div class="anime-description">{{ anime.description }}</div>
+                <div class="anime-subgroups">{{ anime.subgroups }}</div>
+            </div>
+        </div>
+    </article>
+</div>

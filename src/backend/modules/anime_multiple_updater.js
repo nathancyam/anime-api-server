@@ -3,6 +3,7 @@
 
 var AnimeEpisodeUpdater = require("./anime_episode_updater"),
     Transmission = require('../models/transmission'),
+    NotificationMgr = require('./notifications_manager'),
     Q = require('q');
 
 /**
@@ -45,9 +46,7 @@ AnimeMultipleUpdater.prototype = {
         if (this.options.pushToServer) {
             var transmission = new Transmission();
             this.getPromises().then(function (results) {
-                if (results.every(function (e) {
-                    return e.length === 0;
-                })) {
+                if (results.every(function (e) { return !e || e.length === 0; })) {
                     deferred.resolve({ message: 'No new episodes found' });
                 }
                 var torrentLinks = results.filter(function (e) {
@@ -62,6 +61,7 @@ AnimeMultipleUpdater.prototype = {
                 var promise = Q.denodeify(transmission.addMultipleTorrents.bind(transmission));
                 return promise(torrentLinks);
             }).then(function (results) {
+                notifyTorrentRetrevial(results);
                 return deferred.resolve(results);
             }, function (err) {
                 return deferred.reject(err);
@@ -80,3 +80,13 @@ AnimeMultipleUpdater.prototype = {
         return deferred.promise;
     }
 };
+
+function notifyTorrentRetrevial(torrents) {
+
+    var torrentsString = torrents.join(',', torrents);
+    NotificationMgr.emit('notification:new', {
+        type: 'NEW_EPISODE',
+        title: 'New Episodes Received',
+        message: 'New episodes received: ' + torrentsString
+    });
+}

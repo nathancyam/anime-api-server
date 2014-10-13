@@ -19,10 +19,7 @@ var setting = [
 ];
 
 var controllers = [
-    'ListControllers',
-    'AnimeControllers',
-    'SettingsControllers',
-    'TorrentControllers'
+    'ViewControllers',
 ];
 
 var resources = [

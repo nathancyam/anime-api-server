@@ -44,7 +44,8 @@ function moveDirectory(event, filename) {
                     // If the anime is valid, then find out what series it is
                     var animeName = AnimeUtil.getAnimeName(filename);
                     var notifyObj = {
-                        type: 'NEW_EPISODE',
+                        type: 'EPISODE_DOWNLOAD',
+                        title: 'New Episode Downloaded',
                         message: 'New anime episode download finished: ' + filename
                     };
 

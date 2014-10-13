@@ -7,13 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var AnimeControllers = angular.module('AnimeControllers', []),
-    ListControllers = angular.module('ListControllers', []),
-    TorrentControllers = angular.module('TorrentControllers', []),
-    SettingControllers = angular.module('SettingsControllers', []);
+var ViewControllers = angular.module('ViewControllers', ['animeNewsNetwork']);
 
-
-AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$cookieStore', 'Anime', 'Episode',
+ViewControllers.controller('AnimeController', ['$scope', '$routeParams', '$cookieStore', 'Anime', 'Episode',
     function ($scope, $routeParams, $cookieStore, Anime, Episode) {
         $scope.closeOthers = false;
         $cookieStore.remove('currentAnime');
@@ -28,7 +24,21 @@ AnimeControllers.controller('AnimeController', ['$scope', '$routeParams', '$cook
     }
 ]);
 
-SettingControllers.controller('SettingsController', ['$scope', '$http',
+ViewControllers.controller('AddController', ['$scope', 'AnnAPI', 'AnnParser',
+    function ($scope, ANN, ANNParser) {
+        $scope.search = {
+            results: []
+        };
+
+        $scope.runSearch = function () {
+            ANN.get({ name: $scope.search.query }, function (results) {
+                $scope.search.results.push(ANNParser.parseResult(results));
+            });
+        };
+    }
+]);
+
+ViewControllers.controller('SettingsController', ['$scope', '$http',
     function ($scope, $http) {
         $http.get('/settings')
             .success(function (data) {
@@ -49,7 +59,7 @@ SettingControllers.controller('SettingsController', ['$scope', '$http',
     }
 ]);
 
-ListControllers.controller('ListController', ['$scope', '$http', '$location', 'Anime', 'AnimeImage',
+ViewControllers.controller('ListController', ['$scope', '$http', '$location', 'Anime', 'AnimeImage',
     function ($scope, $http, $location, Anime, AnimeImage) {
         $scope.animeList = [];
         $scope.isProcessing = false;
@@ -79,7 +89,7 @@ ListControllers.controller('ListController', ['$scope', '$http', '$location', 'A
     }
 ]);
 
-TorrentControllers.controller('TorrentController', ['$scope', 'Torrents',
+ViewControllers.controller('TorrentController', ['$scope', 'Torrents',
     function ($scope, TorrentFactory) {
         $scope.torrentList = [];
 
