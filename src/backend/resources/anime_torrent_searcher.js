@@ -48,12 +48,8 @@ var AnimeTorrentSearcher = module.exports = function (anime, options) {
 
 AnimeTorrentSearcher.prototype = {
     // Search the torrents for an anime
-    search: function (terms, cb) {
-        this._search(terms).then(function (results) {
-            return cb(null, results);
-        }, function (err) {
-            return cb(err, null);
-        });
+    search: function (terms) {
+        return this._search(terms)
     }
 };
 
