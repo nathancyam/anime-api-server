@@ -1,0 +1,54 @@
+<div id="anime-news-network-results">
+    <h2>Anime News Network</h2>
+
+    <div class="ann-results">
+        <div ng-if="isLoading">
+            <img id="loadSpinner" src="assets/ajax_spinner_large.gif" alt="loading"/>
+        </div>
+        <div ng-class="{ loading: isLoading }">
+            <div>
+                <img id="ann-image" ng-src="{{getImageUrl()}}"/>
+            </div>
+            <table class="table results col-md-12" ng-class="{ loading: isLoading }">
+                <tr>
+                    <td>Genres:</td>
+                    <td>
+                    <span ng-repeat="genre in results.genres">
+                        <span class="label label-primary">{{genre}}</span>
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Themes:</td>
+                    <td>
+                    <span ng-repeat="theme in results.themes track by $index">
+                        <span class="label label-primary">{{theme}}</span>
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number of Episodes</td>
+                    <td>{{results.number_of_episodes}}</td>
+                </tr>
+            </table>
+            <div class="result-description col-md-12">
+                <h4>Plot Summary</h4>
+
+                <p>{{results.plot_summary}}</p>
+            </div>
+            <div class="result-cast col-md-12">
+                <h4>Cast</h4>
+                <table class="table">
+                    <tr>
+                        <th><strong>Character</strong></th>
+                        <th><strong>Seiyuu</strong></th>
+                    </tr>
+                    <tr ng-repeat="castMember in results.cast">
+                        <td>{{castMember.character}}</td>
+                        <td data-seiyuu-id="{{castMember.seiyuu_id}}">{{castMember.seiyuu}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

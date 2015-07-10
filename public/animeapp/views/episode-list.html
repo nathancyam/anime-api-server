@@ -1,0 +1,19 @@
+<div>
+    <h2>Episode List</h2>
+    <table class="table">
+        <tr>
+            <th><strong>Sub Group</strong></th>
+            <th style="cursor:pointer;" ng-click="predicate = 'fileName'; reverse=!reverse">
+                <strong>File Name</strong>
+            </th>
+            <th style="cursor:pointer;" ng-click="predicate = 'number'; reverse=!reverse">
+                <strong>Episode Number</strong>
+            </th>
+        </tr>
+        <tr ng-repeat="episode in episodes | orderBy:predicate:reverse">
+            <td>{{getSubGroup(episode.fileName)}}</td>
+            <td>{{episode.fileName}}</td>
+            <td>{{episode.number}}</td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,22 @@
+<div id="anime-details-page">
+    <div class="row">
+        <h2>{{anime.title}}</h2>
+    </div>
+
+    <article class="row">
+        <div class="anime-details">
+            <div class="ann-details" anime-news-network anime="anime"></div>
+            <div class="file-details">
+                <div anime-options anime="anime"></div>
+                <accordion>
+                    <accordion-group heading="Episodes">
+                        <div episode-list episodes="episodes"></div>
+                    </accordion-group>
+                    <accordion-group heading="NyaaTorrents">
+                        <div nyaa-torrents anime="anime.title"></div>
+                    </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </article>
+</div>

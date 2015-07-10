@@ -1,0 +1,29 @@
+<div id="settings">
+    <form role="form">
+        <div class="form-group">
+            <label for="danbooru-user">Danbooru Username:</label>
+            <input type="text" class="form-control" id="danbooru-user" placeholder="Danbooru Username"
+                   ng-model="settings.danbooru.username"/>
+        </div>
+        <div class="form-group">
+            <label for="danbooru-api">Danbooru API Key:</label>
+            <input type="text" class="form-control" id="danbooru-api" placeholder="Danbooru API Key"
+                   ng-model="settings.danbooru.apiKey"/>
+        </div>
+        <div class="form-group">
+            <label for="google-search-cx">Google Custom Search CX:</label>
+            <input type="text" class="form-control" id="google-search-cx" placeholder="Google Custom Search CX" ng-model="settings.google.custSearchCX" />
+        </div>
+        <div class="form-group">
+            <label for="google-search-api">Google Custom Search API:</label>
+            <input type="text" class="form-control" id="google-search-api" placeholder="Google Custom Search API Key" ng-model="settings.google.custSearchAPI" />
+        </div>
+        <div class="form-group">
+            <label for="anime-directory">Anime Directory:</label>
+            <input type="text" class="form-control" id="anime-directory" placeholder="Anime Directory"
+                   ng-model="settings.media_dir"/>
+        </div>
+        <button class="btn btn-primary" ng-click="submitForm()">Submit Changes</button>
+    </form>
+    <pre ng-bind="settings | json"></pre>
+</div>

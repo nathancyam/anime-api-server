@@ -1,0 +1,24 @@
+<div class="anime-options">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <a class="btn btn-info" ng-click="changeWatchStatus()" ng-switch="anime.is_watching">
+                <i class="fa" ng-class="{ 'fa-eye': anime.is_watching, 'fa-eye-slash': !anime.is_watching }"></i>
+                <span ng-show="anime.is_watching">Watching</span>
+                <span ng-show="!anime.is_watching">Not watching</span>
+            </a>
+            <a class="btn btn-primary" ng-click="changeCompleteStatus()">
+                <span ng-show="anime.is_complete">Complete</span>
+                <span ng-show="!anime.is_complete">Mark as Complete</span>
+            </a>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="designated-subgroup" placeholder="Subgroup" ng-model="anime.designated_subgroup"/>
+        </div>
+        <div class="form-group">
+            <a class="btn btn-success" ng-click="save()">
+                <i class="fa fa-save"></i>
+                Save subgroup
+            </a>
+        </div>
+    </form>
+</div>

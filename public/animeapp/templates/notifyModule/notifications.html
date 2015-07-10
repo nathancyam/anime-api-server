@@ -1,0 +1,11 @@
+<div class="notification-directive">
+    <div ng-transclude></div>
+    <ul class="notifications" ng-mouseover="checkNotifications()">
+        <div ng-show="notifications.length === 0">
+        <p>No Notifications</p>
+        </div>
+        <li class="message-container" ng-repeat="notify in notifications">
+        <notification-msg class="message" msg="notify"></notification-msg>
+        </li>
+    </ul>
+</div>

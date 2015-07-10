@@ -1,0 +1,32 @@
+<div class="col-md-8" ng-init="init()">
+    <h1>Torrent Overview</h1>
+
+    <div torrent-listing></div>
+</div>
+<div class="col-md-4">
+    <h2>Settings</h2>
+
+    <form role="form">
+        <div class="checkbox">
+            <input type="checkbox" ng-model="torrentConfig.uploadToServer">Automatically Upload to Server
+        </div>
+    </form>
+    <div ng-show="torrentConfig.uploadToServer">
+        <p>Time Interval</p>
+
+        <form id="autoConfig" role="form" class="form-inline">
+            <div class="form-group">
+                <input type="number" class="form-control" id="timePicker" placeholder="Time Interval in Minutes"
+                       ng-model="torrentConfig.timeValue">
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="timeInterval" ng-model="torrentConfig.timeInterval">
+                    <option value="mins" selected>Minutes</option>
+                    <option value="hours">Hours</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <button class="btn btn-primary" ng-click="submit()">Submit</button>
+</div>
+
