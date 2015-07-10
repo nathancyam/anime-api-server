@@ -5,6 +5,8 @@
 /*jslint node: true*/
 "use strict";
 
+var Q = require('q');
+
 var Transmission = require('../models/transmission'),
     TorrentHelper = require('../helpers/torrents'),
     SocketHandler = require('../modules/socket_handler'),
@@ -55,11 +57,8 @@ var TorrentController = module.exports = (function (Client, NT) {
          * @param res
          */
         addTorrent: function (req, res) {
-            Client.add(req.body.torrentUrl, function (err, result) {
-                if (err) {
-                    SocketHandler.emit('notification:error', { title: 'Torrent failed to add', message: err.message });
-                    res.send(500, { error: 'Could not add torrents', message: err });
-                } else {
+            Client.add(req.body.torrentUrl).then(
+                function (result) {
                     NotificationMgr.emit('notification:new', {
                         type: 'note',
                         title: 'new ep!',
@@ -67,9 +66,13 @@ var TorrentController = module.exports = (function (Client, NT) {
                         body: 'new ep'
                     });
                     SocketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
-                    res.send(result);
+                    return res.send(result);
+                },
+                function (err) {
+                    SocketHandler.emit('notification:error', { title: 'Torrent failed to add', message: err.message });
+                    return res.send(500, { error: 'Could not add torrents', message: err });
                 }
-            });
+            );
         },
         /**
          * Searches for torrents that are english translated only from NyaaTorrents
@@ -79,20 +82,23 @@ var TorrentController = module.exports = (function (Client, NT) {
         search: function (req, res) {
             var search = req.query.name;
             var searcher = new TorrentSearcher();
-            searcher.search(search, function (err, results) {
-                if (err) {
-                    handleErr(err, { term: search }, function (err, results) {
-                        console.log(results);
-                    });
-                } else {
+
+            searcher.search(search).then(
+                // Success callback
+                function (results) {
                     res.send(results.filter(function (item) {
                         return item.categories.indexOf('english-translated-anime') > 0;
                     }).map(function (e) {
                         var tHelper = new TorrentHelper(e);
                         return tHelper.addNewAttributes();
                     }));
-                }
-            });
-        }
-    };
+                },
+                // Failure callback
+                function (err) {
+                    handleErr(err, { term: search }, function (err, results) {
+                        console.log(results);
+                    });
+                });
+            }
+        };
 })(Client, NT);

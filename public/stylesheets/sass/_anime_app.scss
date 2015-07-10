@@ -32,6 +32,7 @@
     vertical-align: top;
     height: 340px;
     text-align: center;
+    -webkit-transform: translate3d(0,0,0);
 
     &:hover {
       background-color: lightgrey;
