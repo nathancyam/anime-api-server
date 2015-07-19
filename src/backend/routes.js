@@ -4,6 +4,7 @@
 
 // HELPERS
 var CacheHelper = require('./helpers/cache');
+var path = require('path');
 
 // CONTROLLERS
 var MyAnimeListController = require('./controllers/mal'),
@@ -19,7 +20,7 @@ var MyAnimeListController = require('./controllers/mal'),
 module.exports = function (app) {
     // INDEX
     app.get('/', function (req, res) {
-        res.render('index', { title: 'Anime Episode App' });
+	res.sendFile(path.join(__dirname+'/views/index.html'));
     });
 
     // ANIME ROUTES
