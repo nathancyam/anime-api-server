@@ -1,43 +1,44 @@
 {
-    "name": "Anime_Episode_App",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "async": "*",
-        "body-parser": "^1.0.2",
-        "cheerio": "^0.16.0",
-        "cookie-parser": "*",
-        "express": "4.*",
-        "google": "*",
-        "gridfs-stream": "^0.5.1",
-        "jade": "*",
-        "lodash": "^2.4.1",
-        "mongoose": "*",
-        "nyaatorrents": "*",
-        "q": "*",
-        "request": "^2.34.0",
-        "socket.io": "^1.0.0",
-        "sqlite3": "^2.2.3",
-        "squel": "^3.4.1",
-        "tokyotosho": "0.0.2",
-        "transmission": "*",
-        "xml2js": "*"
-    },
-    "devDependencies": {
-        "chai": "*",
-        "chai-as-promised": "^4.1.1",
-        "grunt": "^0.4.3",
-        "grunt-contrib-concat": "*",
-        "grunt-contrib-jshint": "*",
-        "grunt-contrib-uglify": "*",
-        "grunt-contrib-watch": "*",
-        "grunt-express-server": "*",
-        "grunt-sass": "^0.14.0",
-        "grunt-symlink": "*",
-        "mocha": "*",
-        "sinon": "*"
-    }
+  "name": "Anime_Episode_App",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "*",
+    "body-parser": "^1.0.2",
+    "cheerio": "^0.16.0",
+    "cookie-parser": "*",
+    "express": "4.*",
+    "faye": "^1.1.2",
+    "google": "*",
+    "gridfs-stream": "^0.5.1",
+    "jade": "*",
+    "lodash": "^2.4.1",
+    "mongoose": "*",
+    "nyaatorrents": "*",
+    "q": "*",
+    "request": "^2.34.0",
+    "socket.io": "^1.0.0",
+    "sqlite3": "^2.2.3",
+    "squel": "^3.4.1",
+    "tokyotosho": "0.0.2",
+    "transmission": "*",
+    "xml2js": "*"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "chai-as-promised": "^4.1.1",
+    "grunt": "^0.4.3",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-express-server": "*",
+    "grunt-sass": "^0.14.0",
+    "grunt-symlink": "*",
+    "mocha": "*",
+    "sinon": "*"
+  }
 }

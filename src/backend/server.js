@@ -9,9 +9,9 @@ var express = require('express'),
     config = require('./config'),
     cookieParser = require('cookie-parser'),
     Settings = require('./modules/settings'),
-    Db = require('./db/setup'),
     app = express(),
-    server = module.exports = app.listen(3000);
+    httpServer = module.exports = require('http').createServer(app),
+    faye = require('faye');
 
 mongoose.connect(config.mongo);
 
@@ -30,10 +30,15 @@ Settings.init(config);
 console.log('Initialising URI routes...');
 require("./routes")(app);
 
+console.log('Starting Bayeux server');
+var bayeux = new faye.NodeAdapter({ mount: '/faye', timeout: 45 });
+app.set('bayeux', bayeux);
+bayeux.attach(httpServer);
+
 // Set the socket handler
 console.log('Initialising socket handler...');
 var socketHandler = require('./modules/socket_handler');
-socketHandler.setServer(server);
+socketHandler.setServer(httpServer);
 socketHandler.initConnection();
 
 // Set the file watcher
@@ -48,11 +53,19 @@ var ProcessHandler = require('./modules/anime_updater_process_handler');
 var processHandler = new ProcessHandler();
 processHandler.startProcess();
 
-console.log('Server ready for requests on port: ' + app.get('port'));
+httpServer.listen(app.get('port'), function () {
+    console.log('Server ready for requests on port: ' + app.get('port'));
+});
+
+setInterval(function () {
+    bayeux.getClient().publish('/test', {
+        data: "test"
+    });
+}, 5000);
 
 process.on('SIGTERM', function() {
     console.log("Terminating server...");
-    server.close(function() {
+    httpServer.close(function() {
 
     });
     console.log("Server terminated");
