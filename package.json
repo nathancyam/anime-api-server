@@ -14,6 +14,7 @@
     "faye": "^1.1.2",
     "google": "*",
     "gridfs-stream": "^0.5.1",
+    "ioredis": "^1.15.1",
     "jade": "*",
     "lodash": "^2.4.1",
     "mongoose": "*",

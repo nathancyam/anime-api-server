@@ -9,16 +9,13 @@ var async = require('async');
 var Q = require('q');
 var Transmission = require('transmission');
 var util = require('util');
-var redisConn = require('../modules/redis');
-
-var config = require('../config');
 
 /**
  * @constructor
  * @type {TransmissionWrapper}
  */
+
 var TransmissionWrapper = module.exports = function TransmissionWrapper(options) {
-    options = options || config.torrentServer;
     Transmission.call(this, options);
 };
 
@@ -154,11 +151,26 @@ TransmissionWrapper.prototype = Object.create(Transmission.prototype, {
          * better to ensure we can see the URL was not successfully added to the torrent
          * server.
          *
-         * @param {String} url
-         * @returns {Promise.<Object>}
+         * @param url
+         * @returns {*}
          */
         value: function (url) {
-            return Q.resolve(redisConn.addTorrent(url));
+            var deferred = Q.defer();
+
+            var addTorrent = Transmission.prototype.add.bind(this);
+
+            addTorrent(url, function (err, result) {
+                if (err) {
+                    var parseJsonErr = JSON.parse(err.result);
+                    parseJsonErr.arguments.url = url;
+                    err.result = JSON.stringify(parseJsonErr);
+                    return deferred.reject(err);
+                } else {
+                    return deferred.resolve(result);
+                }
+            });
+
+            return deferred.promise;
         }
     }
 });
