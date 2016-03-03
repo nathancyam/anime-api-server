@@ -5,21 +5,11 @@
 /*jslint node: true*/
 "use strict";
 
-var Transmission = require('../models/transmission'),
-    Q = require('q');
-
 /**
  * @constructor
  */
 var TorrentHelper = module.exports = (function () {
     var torrentServerListing = [];
-
-    (function () {
-        var bt = new Transmission();
-        bt.get(function (err, torrentList) {
-            torrentServerListing = torrentList.torrents;
-        });
-    }());
 
     return function (torrent) {
         this.addNewAttributes = function () {
