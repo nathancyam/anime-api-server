@@ -41,12 +41,6 @@ var socketHandler = require('./modules/socket_handler');
 socketHandler.setServer(httpServer);
 socketHandler.initConnection();
 
-// Set the file watcher
-console.log('Initialising filesystem watchers...');
-var fileWatcher = require('./modules/file_watcher');
-fileWatcher.setOptions({ watchDir: config.watch_dir });
-fileWatcher.watchDir();
-
 // Start the regular checker
 console.log('Initialising process handlers and child process...');
 var ProcessHandler = require('./modules/anime_updater_process_handler');
@@ -56,12 +50,6 @@ processHandler.startProcess();
 httpServer.listen(app.get('port'), function () {
     console.log('Server ready for requests on port: ' + app.get('port'));
 });
-
-setInterval(function () {
-    bayeux.getClient().publish('/test', {
-        data: "test"
-    });
-}, 5000);
 
 process.on('SIGTERM', function() {
     console.log("Terminating server...");

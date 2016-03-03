@@ -11,7 +11,6 @@ var Transmission = require('../models/transmission'),
     TorrentHelper = require('../helpers/torrents'),
     SocketHandler = require('../modules/socket_handler'),
     NotificationMgr = require('../modules/notifications_manager'),
-    Cache = require('../modules/cache'),
     TorrentSearcher = require('../resources/anime_torrent_searcher'),
     NyaaTorrents = require('nyaatorrents');
 
