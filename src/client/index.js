@@ -20,6 +20,7 @@ downloadFileWatcher.on('move_file', (filename) => {
     filename: filename
   };
 
+  // TODO: Replace this with a POST request instead?
   redisPub.publish('torrent', JSON.stringify(payload));
 });
 
