@@ -17,10 +17,6 @@ var AnimeController = require('./controllers/anime'),
     NotificationController = require('./controllers/notification');
 
 module.exports = function (app) {
-    // INDEX
-    app.get('/', function (req, res) {
-      res.sendFile(path.join(__dirname+'/views/index.html'));
-    });
 
     app.post('/login', (req, res) => {
         console.log(req.body);
