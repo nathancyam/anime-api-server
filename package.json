@@ -29,14 +29,6 @@
   "devDependencies": {
     "chai": "*",
     "chai-as-promised": "^4.1.1",
-    "grunt": "^0.4.3",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-express-server": "*",
-    "grunt-sass": "^0.14.0",
-    "grunt-symlink": "*",
     "mocha": "*",
     "sinon": "*"
   }
