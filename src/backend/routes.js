@@ -7,8 +7,7 @@ var CacheHelper = require('./helpers/cache');
 var path = require('path');
 
 // CONTROLLERS
-var MyAnimeListController = require('./controllers/mal'),
-    AnimeController = require('./controllers/anime'),
+var AnimeController = require('./controllers/anime'),
     EpisodeController = require('./controllers/episode'),
     SubgroupController = require('./controllers/subgroup'),
     AnimeNewsNetworkController = require('./controllers/ann'),
@@ -21,6 +20,15 @@ module.exports = function (app) {
     // INDEX
     app.get('/', function (req, res) {
       res.sendFile(path.join(__dirname+'/views/index.html'));
+    });
+
+    app.post('/login', (req, res) => {
+        console.log(req.body);
+        return res.json({ status: 'success' });
+    });
+
+    app.get('/logout', (req, res) => {
+        return res.json({ status: 'success' });
     });
 
     // ANIME ROUTES
@@ -52,9 +60,6 @@ module.exports = function (app) {
     // SETTINGS ROUTES
     app.get('/settings', SettingsController.getSettings);
     app.post('/settings', SettingsController.setSettings);
-
-    // MYANIMELIST ROUTES
-    app.get('/mal/search', CacheHelper.getCacheResponse, MyAnimeListController.search);
 
     // ANIME NEWS NETWORK ROUTES
     app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);

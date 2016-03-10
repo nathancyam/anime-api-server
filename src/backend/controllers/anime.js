@@ -22,7 +22,8 @@ var AnimeController = module.exports = (function () {
          * @param res
          */
         list: function (req, res) {
-            Anime.find(function (err, results) {
+            Anime.find({}).sort('title')
+              .exec(function (err, results) {
                 res.send(results);
             });
         },
