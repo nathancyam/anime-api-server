@@ -24,5 +24,6 @@ src/backend/config.js
 *.css
 dist/
 *.db
+config.js
 public/media/
 bower_components/
