@@ -6,8 +6,6 @@
 var Anime = require('../models/anime'),
     Cache = require('../modules/cache'),
     SocketHandler = require('../modules/socket_handler'),
-    AnimeUpdaterHelper = require('../helpers/anime_updater'),
-    Q = require('q'),
     _ = require('lodash');
 
 /**
@@ -114,25 +112,6 @@ module.exports = {
         }
       });
     }
-  },
-
-  /**
-   * Gets a list of the latest episodes that we are currently watching
-   * @param req
-   * @param res
-   */
-  update: function (req, res) {
-    var isUpdatingServer = false;
-    if (req.query.push) {
-      isUpdatingServer = true;
-    }
-    AnimeUpdaterHelper.updateAnimeCollection(isUpdatingServer, function (err, results) {
-      if (err) {
-        res.json(500, {status: 'ERROR', message: err.message, stack: err.stack});
-      } else {
-        res.send(results);
-      }
-    });
   },
 
   updateConfig: function (req, res) {
