@@ -65,6 +65,7 @@ var AnimeTorrentSearcher = module.exports = function (anime, options) {
             promiseNt({ term: searchTerms }),
         ]).spread(function (ntRes) {
             // Check if the requests for these torrent sites failed.
+
             if (ntRes.state === 'rejected') {
                 return deferred.reject({ status: 'ERROR', message: 'Failed to get anime from resources'});
             }
