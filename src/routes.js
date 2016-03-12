@@ -41,6 +41,7 @@ module.exports = function (app) {
   // EPISODE ROUTES
   app.get('/episodes', EpisodeController.list);
   app.get('/episodes/anime/:id', EpisodeController.getEpisodesByAnime);
+  app.post('/episode/download', EpisodeController.addEpisode);
 
   // SUBGROUP ROUTES
   app.get('/subgroups', SubgroupController.list);

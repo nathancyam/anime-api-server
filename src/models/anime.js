@@ -50,8 +50,20 @@ function flushCollection(done) {
     });
 }
 
+/**
+ * @returns {AnimeSchema.methods}
+ */
 AnimeSchema.methods.setLowerCase = function () {
     this.normalizedName = this.title.replace(/\W/g, '').toLowerCase();
+    return this;
+};
+
+/**
+ * @param name
+ * @returns {string}
+ */
+AnimeSchema.statics.getNormalizedName = (name) => {
+    return name.replace(/\W/g, '').toLowerCase();
 };
 
 /**
@@ -61,6 +73,20 @@ AnimeSchema.methods.setLowerCase = function () {
  */
 AnimeSchema.statics.findPromise = function (searchParams) {
     return Q.denodeify(this.find.bind(this))(searchParams);
+};
+
+AnimeSchema.statics.promisify = (method) => {
+    return methodArgs => {
+        return new Promise((resolve, reject) => {
+            method(methodArgs, (err, result) => {
+                if (err) {
+                  console.error(err);
+                  return reject(err);
+                }
+                return resolve(result);
+            });
+        })
+    };
 };
 
 /**
