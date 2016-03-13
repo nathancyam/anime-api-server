@@ -66,6 +66,7 @@ module.exports = function (app) {
   // TORRENT ROUTES
   app.get('/nyaatorrents/search', TorrentController.search);
   app.post('/torrent/add', TorrentController.addTorrent);
+  app.post('/torrent/server', TorrentController.updateTorrentServerDetails);
 
   // DANBOORU ROUTES
   app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);

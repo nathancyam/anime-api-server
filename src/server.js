@@ -19,7 +19,7 @@ mongoose.connect(config.mongo);
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(bodyParser());
+app.use(bodyParser({ limit: '10mb' }));
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../../public'));
 
@@ -37,9 +37,9 @@ bayeux.attach(httpServer);
 
 // Set the socket handler
 console.log('Initialising socket handler...');
-var socketHandler = require('./modules/socket_handler');
-socketHandler.setServer(httpServer);
-socketHandler.initConnection();
+var SocketHandler = require('./services/SocketHandler').SocketHandler;
+const socketHandler = new SocketHandler(httpServer);
+app.set('socket_handler', socketHandler);
 
 // Start the regular checker
 console.log('Initialising process handlers and child process...');
