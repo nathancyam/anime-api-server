@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser');
 const Settings = require('./modules/settings');
 const app = express();
 const httpServer = module.exports = require('http').createServer(app);
-const faye = require('faye');
 const NotificationManager = require('./services/NotificationManager');
 const PushBullet = require('./services/NotificationManager/PushBullet');
 
@@ -27,11 +26,6 @@ Settings.init(config);
 // Set routes
 console.log('Initialising URI routes...');
 require("./routes")(app);
-
-console.log('Starting Bayeux server');
-var bayeux = new faye.NodeAdapter({ mount: '/faye', timeout: 45 });
-app.set('bayeux', bayeux);
-bayeux.attach(httpServer);
 
 // Set the socket handler
 console.log('Initialising socket handler...');
