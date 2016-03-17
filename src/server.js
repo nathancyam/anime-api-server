@@ -1,17 +1,15 @@
-/**
- * Module dependencies.
- */
-
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    path = require('path'),
-    mongoose = require('mongoose'),
-    config = require('./config'),
-    cookieParser = require('cookie-parser'),
-    Settings = require('./modules/settings'),
-    app = express(),
-    httpServer = module.exports = require('http').createServer(app),
-    faye = require('faye');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const mongoose = require('mongoose');
+const config = require('./config');
+const cookieParser = require('cookie-parser');
+const Settings = require('./modules/settings');
+const app = express();
+const httpServer = module.exports = require('http').createServer(app);
+const faye = require('faye');
+const NotificationManager = require('./services/NotificationManager');
+const PushBullet = require('./services/NotificationManager/PushBullet');
 
 mongoose.connect(config.mongo);
 
@@ -41,6 +39,12 @@ var SocketHandler = require('./services/SocketHandler').SocketHandler;
 const socketHandler = new SocketHandler(httpServer);
 app.set('socket_handler', socketHandler);
 
+console.log('Initialising notification manager...');
+const notificationManager = new NotificationManager();
+const pushBullet = new PushBullet(config);
+notificationManager.attachListener(pushBullet);
+app.set('notification_manager', notificationManager);
+
 // Start the regular checker
 console.log('Initialising process handlers and child process...');
 var ProcessHandler = require('./modules/anime_updater_process_handler');
@@ -48,15 +52,15 @@ var processHandler = new ProcessHandler();
 processHandler.startProcess();
 
 httpServer.listen(app.get('port'), function () {
-    console.log('Server ready for requests on port: ' + app.get('port'));
+  console.log('Server ready for requests on port: ' + app.get('port'));
 });
 
 process.on('SIGTERM', function() {
-    console.log("Terminating server...");
-    httpServer.close(function() {
+  console.log("Terminating server...");
+  httpServer.close(function() {
 
-    });
-    console.log("Server terminated");
-    process.exit();
+  });
+  console.log("Server terminated");
+  process.exit();
 });
 

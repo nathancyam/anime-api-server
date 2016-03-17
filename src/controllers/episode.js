@@ -52,6 +52,8 @@ module.exports = {
    * @param {Object} res
    */
   addEpisode: (req, res) => {
+    /** @var NotificationManager notificationManager */
+    const notificationManager = req.app.get('notification_manager');
     const filename = req.body.filename;
     const episodeFileRegexp = /^\[([\w\W]{0,})\]\s(.*)\s-\s(\d{2,3})/;
     const filenameElements = filename.match(episodeFileRegexp);
@@ -64,9 +66,15 @@ module.exports = {
 
     EpisodeHelper.setEpisodeModelToAnime(episodeAttributes)
       .then(episode => {
+        notificationManager.emit('notification:new', {
+          type: 'note',
+          title: 'New Episode Downloaded',
+          message: `${episodeAttributes.animeTitle}`,
+          body: `Download finish: ${episodeAttributes.filename}`
+        });
         return res.json({ status: 'SUCCESS', message: 'Episode saved', episode: episode });
       })
-      .catch(err => {
+      .catch(() => {
         return res.statusCode(500).send("Failed to create episode model.");
       });
   }
