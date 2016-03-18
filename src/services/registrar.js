@@ -15,7 +15,7 @@ module.exports = (app, httpServer) => {
   // Declarations
   const appConfig = app.get('app_config');
   const notificationManager = new NotificationManager();
-  const pushBullet = new PushBullet('app_config');
+  const pushBullet = new PushBullet(appConfig);
   const redis = new RedisConnector(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
   const torrentChannel = new TorrentChannel(redis);

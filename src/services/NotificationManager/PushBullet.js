@@ -75,7 +75,7 @@ class PushBullet {
     data = Object.assign({}, pushBulletDefault, data);
 
     // Remove any keys that shouldn't be a part of PB data
-    data.forEach((value, key) => {
+    Object.keys(data).forEach((value, key) => {
       if (acceptableKeys.indexOf(key) === -1) {
         delete data[key];
       }
