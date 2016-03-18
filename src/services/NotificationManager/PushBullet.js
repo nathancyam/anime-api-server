@@ -29,21 +29,27 @@ class PushBullet {
    * @returns {Promise}
    */
   callPushBullet(data) {
+    const pushBulletOptions = {
+      url: PUSHBULLET_URI,
+      method: 'POST',
+      json: true,
+      headers: {
+        'Access-Token': `${this.config.notifications.pushbullet_api_key}`
+      },
+      body: this.toPushBullet(data)
+    };
+
     return new Promise((resolve, reject) => {
-      request.post(PUSHBULLET_URI, {
-        auth: {
-          user: this.config.notifications.pushbullet_api_key
-        },
-        json: this.toPushBullet(data)
-      }, (err, res, body) => {
+      request(pushBulletOptions, (err, res, body) => {
         if (err) {
           return reject(err)
         }
+
         return resolve({
           response: res,
           body: body
-        })
-      })
+        });
+      });
     });
   }
 
@@ -66,7 +72,7 @@ class PushBullet {
 
     // Get a list of the acceptable keys for PB data
     var acceptableKeys = Object.keys(pushBulletDefault);
-    data = Object.assign(pushBulletDefault, data);
+    data = Object.assign({}, pushBulletDefault, data);
 
     // Remove any keys that shouldn't be a part of PB data
     data.forEach((value, key) => {

@@ -6,13 +6,10 @@
 "use strict";
 
 
-var Transmission = require('../models/transmission'),
-  TorrentHelper = require('../helpers/torrents'),
-  NotificationMgr = require('../modules/notifications_manager'),
+var TorrentHelper = require('../helpers/torrents'),
   TorrentSearcher = require('../resources/anime_torrent_searcher'),
   NyaaTorrents = require('nyaatorrents');
 
-const Client = new Transmission();
 const NT = new NyaaTorrents();
 const RETRY_ATTEMPTS = 10;
 
