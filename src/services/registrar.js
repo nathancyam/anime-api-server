@@ -7,7 +7,8 @@ const SocketHandler = require('./SocketHandler').SocketHandler;
 const NotificationManager = require('./NotificationManager');
 const PushBullet = require('./NotificationManager/PushBullet');
 const TransmissionServer = require('./TransmissionServer');
-const Redis = require('ioredis');
+const RedisConnector = require('./Redis');
+const TorrentChannel = require('./Redis/TorrentChannel');
 
 module.exports = (app, httpServer) => {
 
@@ -15,9 +16,10 @@ module.exports = (app, httpServer) => {
   const appConfig = app.get('app_config');
   const notificationManager = new NotificationManager();
   const pushBullet = new PushBullet('app_config');
-  const redis = new Redis(appConfig.redis);
+  const redis = new RedisConnector(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
-  const transmissionServer = new TransmissionServer(redis);
+  const torrentChannel = new TorrentChannel(redis);
+  const transmissionServer = new TransmissionServer(torrentChannel);
 
   // Setup
   notificationManager.attachListener(pushBullet);

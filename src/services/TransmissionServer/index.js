@@ -7,13 +7,16 @@
 
 class TransmissionServer {
 
+  /**
+   * @param {TorrentChannel} redisConn
+   */
   constructor(redisConn) {
     this.redisConn = redisConn;
   }
 
   /**
    * @param {Object[]} torrents
-   * @returns {Promise.<Object[]>
+   * @returns {Promise.<Object[]>}
    */
   addMultipleTorrents(torrents) {
     return new Promise((resolve, reject) => {
