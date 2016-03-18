@@ -23,21 +23,10 @@ app.use(express.static(__dirname + '/../../public'));
 // Initialise the settings
 Settings.init(config);
 
-// Set routes
-console.log('Initialising URI routes...');
-require("./routes")(app);
+console.log('Setting app configuration...');
+app.set('app_config', config);
 
-// Set the socket handler
-console.log('Initialising socket handler...');
-var SocketHandler = require('./services/SocketHandler').SocketHandler;
-const socketHandler = new SocketHandler(httpServer);
-app.set('socket_handler', socketHandler);
-
-console.log('Initialising notification manager...');
-const notificationManager = new NotificationManager();
-const pushBullet = new PushBullet(config);
-notificationManager.attachListener(pushBullet);
-app.set('notification_manager', notificationManager);
+require('./bootstrap')(app, httpServer);
 
 // Start the regular checker
 console.log('Initialising process handlers and child process...');

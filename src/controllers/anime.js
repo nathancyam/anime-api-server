@@ -3,10 +3,9 @@
  */
 /*jslint node: true */
 "use strict";
-var Anime = require('../models/anime'),
-    Cache = require('../modules/cache'),
-    SocketHandler = require('../modules/socket_handler'),
-    _ = require('lodash');
+
+const Cache = require('../modules/cache');
+const _ = require('lodash');
 
 /**
  * @constructor
@@ -18,9 +17,11 @@ module.exports = {
    * @param req
    * @param res
    */
-  list: function (req, res) {
-    Anime.find({}).sort('title')
-      .exec(function (err, results) {
+  list(req, res) {
+    req.app.getModel('anime')
+      .find({})
+      .sort('title')
+      .exec((err, results) => {
         res.send(results);
       });
   },
@@ -30,13 +31,14 @@ module.exports = {
    * @param req
    * @param res
    */
-  search: function (req, res) {
-    Anime.find(req.query, function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
+  search(req, res) {
+    req.app.getModel('anime')
+      .find(req.query, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+
         res.json(result);
-      }
     });
   },
 
@@ -45,8 +47,9 @@ module.exports = {
    * @param req
    * @param res
    */
-  findById: function (req, res) {
-    Anime.findOne({_id: req.params.id}, function (err, result) {
+  findById(req, res) {
+    req.app.getModel('anime')
+      .findOne({_id: req.params.id}, (err, result) => {
       res.json(result);
     });
   },
@@ -59,10 +62,12 @@ module.exports = {
    */
   findByName: function (req, res) {
     var normalizedQueryName = req.params.name.replace(/\W/g, '').toLowerCase();
-    Anime.find({normalizedName: normalizedQueryName}, function (err, animes) {
-      Cache.set(req.url, animes);
-      res.send(animes);
-    });
+
+    req.app.getModel('anime')
+      .find({normalizedName: normalizedQueryName}, (err, collection) => {
+        Cache.set(req.url, collection);
+        res.send(collection);
+      });
   },
 
   /**
@@ -70,22 +75,25 @@ module.exports = {
    * @param req
    * @param res
    */
-  sync: function (req, res) {
-    Anime.syncDb(function (err, result) {
-      if (err) {
-        SocketHandler.emit('notification:error', {title: 'Failed to synchronise', message: err.message});
-        res.json({status: 'ERROR', message: err.message});
-      } else {
-        SocketHandler.emit('notification:success', {
-          title: 'Successfully synchronised',
-          message: 'Synchronised with the file system.'
-        });
-        res.json(result);
-      }
-    });
+  sync(req, res) {
+    const socketHandler = req.app.get('socket_handler');
+
+    req.app.getModel('anime')
+      .syncDb((err, result) => {
+        if (err) {
+          socketHandler.emit('notification:error', {title: 'Failed to synchronise', message: err.message});
+          res.json({status: 'ERROR', message: err.message});
+        } else {
+          socketHandler.emit('notification:success', {
+            title: 'Successfully synchronised',
+            message: 'Synchronised with the file system.'
+          });
+          res.json(result);
+        }
+      });
   },
 
-  createEps: function (req, res) {
+  createEps(req, res) {
     var helper = require('./episode');
     helper.createEpisodeModels(function () {
       var Episode = require('./episode');
@@ -99,18 +107,19 @@ module.exports = {
     var body = req.body;
     // If the anime's id has been specified, we can then save the anime
     if (body._id) {
-      Anime.findById(body._id, function (err, result) {
-        // Add a check to stop pointless saves
-        if (!_.isEqual(body, result)) {
-          result = _.extend(result, body);
-          result.save(function (err, dbResult) {
-            if (err) console.log(err);
-            res.send(dbResult);
-          });
-        } else {
-          res.send({message: "No changes made. Not saving"});
-        }
-      });
+      req.app.getModel('anime')
+        .findById(body._id, (err, result) => {
+          // Add a check to stop pointless saves
+          if (!_.isEqual(body, result)) {
+            result = _.extend(result, body);
+            result.save((err, dbResult) => {
+              if (err) console.log(err);
+              res.send(dbResult);
+            });
+          } else {
+            res.send({message: "No changes made. Not saving"});
+          }
+        });
     }
   },
 
@@ -123,19 +132,20 @@ module.exports = {
   getImage: function (req, res) {
     var id = req.params.id;
 
-    Anime.findById(id, function (err, result) {
-      if (err) {
-        return res.send(500, 'Oops, an error occurred');
-      }
-
-      result.getPictureUrl(function (err, image) {
+    req.app.getModel('anime')
+      .findById(id, (err, result) => {
         if (err) {
-          return res.send(500, 'Cound not find file');
-        } else {
-          return res.json({url: image});
+          return res.send(500, 'Oops, an error occurred');
         }
+
+        result.getPictureUrl(function (err, image) {
+          if (err) {
+            return res.send(500, 'Cound not find file');
+          } else {
+            return res.json({url: image});
+          }
+        });
       });
-    });
   },
 
   setImage: function (req, res) {
@@ -143,15 +153,16 @@ module.exports = {
       animeId = body.animeId,
       imageUrl = body.imageUrl;
 
-    Anime.findById(animeId, function (err, result) {
-      if (err) {
-        res.send(500);
-      } else {
-        result.image_url = imageUrl;
-        result.save(function () {
-          res.json({status: 'Successfully set anime image.'});
-        });
-      }
-    });
+    req.app.getModel('anime')
+      .findById(animeId, (err, result) => {
+        if (err) {
+          res.send(500);
+        } else {
+          result.image_url = imageUrl;
+          result.save(function () {
+            res.json({status: 'Successfully set anime image.'});
+          });
+        }
+      });
   }
 }

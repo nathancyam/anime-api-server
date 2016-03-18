@@ -20,7 +20,6 @@
     "q": "*",
     "request": "^2.34.0",
     "socket.io": "^1.0.0",
-    "transmission": "*",
     "xml2js": "*"
   },
   "devDependencies": {
