@@ -4,7 +4,6 @@
 
 "use strict";
 
-var Episode = require('../models/episode');
 var EpisodeHelper = require('../helpers/episode');
 
 /**
@@ -17,9 +16,10 @@ module.exports = {
    * @param {Object} res
    */
   list: (req, res) => {
-    Episode.find(function (err, results) {
-      res.send(results);
-    });
+    req.app.getModel('episode')
+      .find((err, results) => {
+        res.send(results);
+      });
   },
 
   /**
@@ -28,9 +28,10 @@ module.exports = {
    */
   getEpisodesByAnime: (req, res) => {
     var animeId = req.params.id;
-    Episode.find({ anime: animeId }, function (err, results) {
-      res.send(results);
-    });
+    req.app.getModel('episode')
+      .find({ anime: animeId }, (err, results) => {
+        res.send(results);
+      });
   },
 
   /**
@@ -38,12 +39,13 @@ module.exports = {
    * @param {Object} res
    */
   sync: (req, res) => {
-    Episode.sync(function (err, result) {
-      if (err) {
-        res.json({ status: 'ERROR', message: err.message });
-      } else {
+    req.app.getModel('episode')
+      .sync((err, result) => {
+        if (err) {
+          res.json({ status: 'ERROR', message: err.message });
+        }
+
         res.json(result);
-      }
     });
   },
 

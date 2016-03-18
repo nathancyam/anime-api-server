@@ -26,5 +26,5 @@ module.exports = (app, httpServer) => {
   app.set('notification_manager', notificationManager);
   app.set('redis', redis);
   app.set('socket_handler', socketHandler);
-  app.set('torrentServer', transmissionServer);
+  app.set('torrent_server', transmissionServer);
 };
