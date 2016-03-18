@@ -8,7 +8,6 @@
 
 var Transmission = require('../models/transmission'),
   TorrentHelper = require('../helpers/torrents'),
-  SocketHandler = require('../modules/socket_handler'),
   NotificationMgr = require('../modules/notifications_manager'),
   TorrentSearcher = require('../resources/anime_torrent_searcher'),
   NyaaTorrents = require('nyaatorrents');
@@ -50,15 +49,19 @@ module.exports = {
    * @param res
    */
   addTorrent: (req, res) => {
-    var socketHandler = req.app.get('socket_handler');
-    Client.add(req.body.torrentUrl).then(result => {
-      NotificationMgr.emit('notification:new', {
+    const socketHandler = req.app.get('socket_handler');
+    const torrentServer = req.app.get('torrent_server');
+    const notificationManager = req.app.get('notification_manager');
+    
+    torrentServer.add(req.body.torrentUrl).then(result => {
+      socketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
+      notificationManager.emit('notification:new', {
         type: 'note',
         title: 'new ep!',
         message: 'new ep!',
         body: 'new ep'
       });
-      socketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
+
       return res.send(result);
     },
     err => {
