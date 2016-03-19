@@ -83,14 +83,22 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Anime.promisify(Anime.findOne.bind(Anime))({ normalizedName: normalizedTitle })
         .then(anime => {
-          var episode = new Episode({
-            anime: anime._id,
-            filePath: `${anime.filepath}/${episodeAttributes.filename}`,
-            isAnime: true,
-            number: episodeAttributes.number
+
+          Episode.findOne({ filePath: `${anime.filepath}/${episodeAttributes.filename}` }, (err, result) => {
+            if (!result) {
+              var episode = new Episode({
+                anime: anime._id,
+                filePath: `${anime.filepath}/${episodeAttributes.filename}`,
+                isAnime: true,
+                number: episodeAttributes.number
+              });
+
+              episode.save(() => resolve(episode));
+            } else {
+              resolve(result);
+            }
           });
 
-          episode.save(() => resolve(episode));
         })
         .catch(err => reject(err));
     });
