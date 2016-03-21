@@ -70,8 +70,8 @@ module.exports = {
       .then(episode => {
         notificationManager.emit('notification:new', {
           type: 'note',
-          title: 'New Episode Downloaded',
-          message: `${episodeAttributes.animeTitle}`,
+          title: `New Episode: ${episodeAttributes.animeTitle}`,
+          message: `${episodeAttributes.filename}`,
           body: `Download finish: ${episodeAttributes.filename}`
         });
         return res.json({ status: 'SUCCESS', message: 'Episode saved', episode: episode });

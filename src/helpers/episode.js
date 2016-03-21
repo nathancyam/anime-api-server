@@ -77,11 +77,22 @@ module.exports = {
    * @param {EpisodeAttributePayload} episodeAttributes
    * @return {Promise.<Episode>}
    */
-  setEpisodeModelToAnime: (episodeAttributes) => {
+  setEpisodeModelToAnime: function setEpisodeModelToAnime (episodeAttributes) {
     const normalizedTitle = Anime.getNormalizedName(episodeAttributes.animeTitle);
 
+    const checkAnime = (searchCriteria) => {
+      return Anime.promisify(Anime.findOne.bind(Anime))(searchCriteria)
+        .then(anime => {
+          if (!anime) {
+            throw new Error('Anime not found');
+          }
+
+          return anime;
+        })
+    };
+
     return new Promise((resolve, reject) => {
-      Anime.promisify(Anime.findOne.bind(Anime))({ normalizedName: normalizedTitle })
+      checkAnime({ normalizedName: normalizedTitle })
         .then(anime => {
 
           Episode.findOne({ filePath: `${anime.filepath}/${episodeAttributes.filename}` }, (err, result) => {
@@ -100,7 +111,16 @@ module.exports = {
           });
 
         })
-        .catch(err => reject(err));
+        .catch(err => {
+          if (err.message === 'Anime not found') {
+            Anime.create({
+              title: episodeAttributes.animeTitle,
+              normalizedName: normalizedTitle
+            }, () => {
+              return resolve(setEpisodeModelToAnime(episodeAttributes));
+            })
+          }
+        });
     });
   }
 
