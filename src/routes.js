@@ -7,15 +7,16 @@ var CacheHelper = require('./helpers/cache');
 var path = require('path');
 
 // CONTROLLERS
-var AnimeController = require('./controllers/anime'),
-  AnimeUpdateController = require('./controllers/updater');
-  EpisodeController = require('./controllers/episode'),
-  SubgroupController = require('./controllers/subgroup'),
-  AnimeNewsNetworkController = require('./controllers/ann'),
-  TorrentController = require('./controllers/torrents'),
-  DanbooruController = require('./controllers/danbooru'),
-  SettingsController = require('./controllers/settings'),
-  NotificationController = require('./controllers/notification');
+const AnimeController = require('./controllers/anime');
+const AnimeUpdateController = require('./controllers/updater');
+const EpisodeController = require('./controllers/episode');
+const SubgroupController = require('./controllers/subgroup');
+const AnimeNewsNetworkController = require('./controllers/ann');
+const TorrentController = require('./controllers/torrents');
+const DanbooruController = require('./controllers/danbooru');
+const SettingsController = require('./controllers/settings');
+const NotificationController = require('./controllers/notification');
+const AnilistProviderRouter = require('./services/AnilistProvider/router');
 
 module.exports = function (app) {
 
@@ -27,6 +28,8 @@ module.exports = function (app) {
   app.get('/logout', (req, res) => {
     return res.json({ status: 'success' });
   });
+  
+  app.use('/auth', AnilistProviderRouter);
 
   // ANIME ROUTES
   app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);

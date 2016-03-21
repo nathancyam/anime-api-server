@@ -9,6 +9,7 @@ const PushBullet = require('./NotificationManager/PushBullet');
 const TransmissionServer = require('./TransmissionServer');
 const RedisConnector = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
+const passport = require('passport');
 
 module.exports = (app, httpServer) => {
 
@@ -23,6 +24,7 @@ module.exports = (app, httpServer) => {
 
   // Setup
   notificationManager.attachListener(pushBullet);
+  require('./AnilistProvider')(app, appConfig);
 
   // Registration
   app.set('notification_manager', notificationManager);
