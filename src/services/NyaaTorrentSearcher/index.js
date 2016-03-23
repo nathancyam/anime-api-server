@@ -4,7 +4,6 @@
 
 "use strict";
 
-const Q = require('q');
 const NT = require('nyaatorrents');
 
 /**
@@ -47,18 +46,4 @@ class AnimeTorrentSearcher {
   }
 }
 
-class AnimeTorrentSearcherFactory {
-
-  /**
-   * @returns {AnimeTorrentSearcher}
-   */
-  create() {
-    return new AnimeTorrentSearcher();
-  }
-
-}
-
-/**
- * @returns {AnimeTorrentSearcherFactory}
- */
-exports.factory = new AnimeTorrentSearcherFactory();
+module.exports = AnimeTorrentSearcher;

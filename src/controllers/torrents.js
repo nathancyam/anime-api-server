@@ -6,9 +6,8 @@
 "use strict";
 
 
-var TorrentHelper = require('../helpers/torrents'),
-  TorrentSearcher = require('../resources/anime_torrent_searcher'),
-  NyaaTorrents = require('nyaatorrents');
+const TorrentHelper = require('../helpers/torrents');
+const NyaaTorrents = require('nyaatorrents');
 
 const NT = new NyaaTorrents();
 const RETRY_ATTEMPTS = 10;
@@ -75,7 +74,7 @@ module.exports = {
    */
   search(req, res) {
     var search = req.query.name;
-    var searcher = new TorrentSearcher();
+    var searcher = req.app.get('nyaatorrents');
 
     searcher.search(search).then(
       // Success callback

@@ -4,165 +4,116 @@
 /*jslint node: true */
 "use strict";
 
-const Cache = require('../modules/cache');
-const _ = require('lodash');
+const router = require('express').Router();
 
-/**
- * @constructor
- */
-module.exports = {
-  /**
-   * Gets a list of all the anime model stored on the DB.
-   * Sets a cached response
-   * @param req
-   * @param res
-   */
-  list(req, res) {
-    req.app.getModel('anime')
-      .find({})
-      .sort('title')
-      .exec((err, results) => {
-        res.send(results);
-      });
-  },
+router.get('/search', (req, res) => {
+  req.app.getModel('anime')
+    .find(req.query, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
 
-  /**
-   * Search for an anime
-   * @param req
-   * @param res
-   */
-  search(req, res) {
-    req.app.getModel('anime')
-      .find(req.query, (err, result) => {
-        if (err) {
-          console.log(err);
-        }
-
-        res.json(result);
-    });
-  },
-
-  /**
-   * Search for an anime by ID
-   * @param req
-   * @param res
-   */
-  findById(req, res) {
-    req.app.getModel('anime')
-      .findOne({_id: req.params.id}, (err, result) => {
       res.json(result);
     });
-  },
+});
 
-  /**
-   * Finds an anime on the DB by their name.
-   * Sets a cached response.
-   * @param req
-   * @param res
-   */
-  findByName: function (req, res) {
-    var normalizedQueryName = req.params.name.replace(/\W/g, '').toLowerCase();
+router.get('/image/:id', (req, res) => {
+  var id = req.params.id;
 
-    req.app.getModel('anime')
-      .find({normalizedName: normalizedQueryName}, (err, collection) => {
-        Cache.set(req.url, collection);
-        res.send(collection);
-      });
-  },
+  req.app.getModel('anime')
+    .findById(id, (err, result) => {
+      if (err) {
+        return res.send(500, 'Oops, an error occurred');
+      }
 
-  /**
-   * Clears the DB of the anime collection and rebuilds them from the file system
-   * @param req
-   * @param res
-   */
-  sync(req, res) {
-    const socketHandler = req.app.get('socket_handler');
-
-    req.app.getModel('anime')
-      .syncDb((err, result) => {
+      result.getPictureUrl(function (err, image) {
         if (err) {
-          socketHandler.emit('notification:error', {title: 'Failed to synchronise', message: err.message});
-          res.json({status: 'ERROR', message: err.message});
+          return res.send(500, 'Cound not find file');
         } else {
-          socketHandler.emit('notification:success', {
-            title: 'Successfully synchronised',
-            message: 'Synchronised with the file system.'
-          });
-          res.json(result);
+          return res.json({url: image});
         }
-      });
-  },
-
-  createEps(req, res) {
-    var helper = require('./episode');
-    helper.createEpisodeModels(function () {
-      var Episode = require('./episode');
-      Episode.find(function (err, results) {
-        res.send(results);
       });
     });
-  },
+});
 
-  save: function (req, res) {
-    var body = req.body;
-    // If the anime's id has been specified, we can then save the anime
-    if (body._id) {
-      req.app.getModel('anime')
-        .findById(body._id, (err, result) => {
-          // Add a check to stop pointless saves
-          if (!_.isEqual(body, result)) {
-            result = _.extend(result, body);
-            result.save((err, dbResult) => {
-              if (err) console.log(err);
-              res.send(dbResult);
-            });
-          } else {
-            res.send({message: "No changes made. Not saving"});
-          }
+router.post('/image/:id', (req, res) => {
+  var body = req.body,
+    animeId = body.animeId,
+    imageUrl = body.imageUrl;
+
+  req.app.getModel('anime')
+    .findById(animeId, (err, result) => {
+      if (err) {
+        res.send(500);
+      } else {
+        result.image_url = imageUrl;
+        result.save(function () {
+          res.json({status: 'Successfully set anime image.'});
         });
-    }
-  },
+      }
+    });
+});
 
-  updateConfig: function (req, res) {
-    var config = req.body;
-    Cache.set('animeUpdaterConfig', config);
-    res.json({status: 'SUCCESS', message: 'Configuration saved'});
-  },
+router.get('/update', (req, res) => {
+  req.app.getModel('anime')
+    .find({is_watching: true}, (err, animeCollection) => {
+      if (err) {
+        console.error(err);
+        return res.statusCode(500).send(`Error: ${err}`);
+      }
 
-  getImage: function (req, res) {
-    var id = req.params.id;
+      const updaters = req.app.get('auto_updater')
+        .createCollection(animeCollection, req.app.get('torrent_server'));
 
-    req.app.getModel('anime')
-      .findById(id, (err, result) => {
-        if (err) {
-          return res.send(500, 'Oops, an error occurred');
-        }
+      Promise.all(updaters.map(updater => updater.postTorrentsToServer()))
+        .then(() => {
+          return res.json({status: 'SUCCESS', message: 'Anime updated '});
+        })
+        .catch(err => {
+          console.error(err);
+          return res.statusCode(500).send(`Error: ${err}`);
+        })
+    });
+});
 
-        result.getPictureUrl(function (err, image) {
-          if (err) {
-            return res.send(500, 'Cound not find file');
-          } else {
-            return res.json({url: image});
-          }
-        });
-      });
-  },
+router.get('/:id', (req, res) => {
+  req.app.getModel('anime')
+    .findOne({_id: req.params.id}, (err, result) => {
+      res.json(result);
+    });
+});
 
-  setImage: function (req, res) {
-    var body = req.body,
-      animeId = body.animeId,
-      imageUrl = body.imageUrl;
+router.get('/', (req, res) => {
+  req.app.getModel('anime')
+    .find({})
+    .sort('title')
+    .exec((err, results) => {
+      res.send(results);
+    });
+});
 
-    req.app.getModel('anime')
-      .findById(animeId, (err, result) => {
-        if (err) {
-          res.send(500);
-        } else {
-          result.image_url = imageUrl;
-          result.save(function () {
-            res.json({status: 'Successfully set anime image.'});
-          });
-        }
-      });
+router.post('/:id', (req, res) => {
+  if (!req.params.id || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: 'Anime ID is required.' });
   }
-}
+
+  req.app.getModel('anime')
+    .findById(req.params.id, (err, anime) => {
+      if (err) {
+        return res.status(500)
+          .json({ message: 'Failed to load anime model' });
+      }
+
+      const updateAnime = Object.assign(anime, req.body);
+      updateAnime.save((err, result) => {
+        if (err) {
+          return res.status(500)
+            .json({ message: 'Failed to save anime model' });
+        }
+
+        return res.status(200).json(result);
+      })
+    });
+});
+
+module.exports = router;

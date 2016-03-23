@@ -7,16 +7,17 @@ var CacheHelper = require('./helpers/cache');
 var path = require('path');
 
 // CONTROLLERS
-const AnimeController = require('./controllers/anime');
-const AnimeUpdateController = require('./controllers/updater');
-const EpisodeController = require('./controllers/episode');
 const SubgroupController = require('./controllers/subgroup');
 const AnimeNewsNetworkController = require('./controllers/ann');
 const TorrentController = require('./controllers/torrents');
 const DanbooruController = require('./controllers/danbooru');
 const SettingsController = require('./controllers/settings');
 const NotificationController = require('./controllers/notification');
+
+const AnimeRouter = require('./controllers/anime');
+const EpisodeRouter = require('./controllers/episode');
 const AnilistProviderRouter = require('./services/AnilistProvider/router');
+const UserRouter = require('./controllers/user');
 
 module.exports = function (app) {
 
@@ -30,21 +31,9 @@ module.exports = function (app) {
   });
   
   app.use('/auth', AnilistProviderRouter);
-
-  // ANIME ROUTES
-  app.get('/anime', CacheHelper.getCacheResponse, AnimeController.list);
-  app.get('/anime/search', AnimeController.search);
-  app.get('/anime/update', AnimeUpdateController.update);
-  app.post('/anime/update', AnimeController.updateConfig);
-  app.get('/anime/image/:id', AnimeController.getImage);
-  app.post('/anime/image/:id', AnimeController.setImage);
-  app.get('/anime/:id', AnimeController.findById);
-  app.post('/anime', AnimeController.save);
-
-  // EPISODE ROUTES
-  app.get('/episodes', EpisodeController.list);
-  app.get('/episodes/anime/:id', EpisodeController.getEpisodesByAnime);
-  app.post('/episode/download', EpisodeController.addEpisode);
+  app.use('/user', UserRouter);
+  app.use('/anime', AnimeRouter);
+  app.use('/episodes', EpisodeRouter);
 
   // SUBGROUP ROUTES
   app.get('/subgroups', SubgroupController.list);
@@ -52,11 +41,6 @@ module.exports = function (app) {
 
   // NOTIFICATION ROUTES
   app.get('/notifications', NotificationController.list);
-
-  // SYNC ROUTES
-  app.get('/sync/anime', AnimeController.sync);
-  app.get('/sync/subgroups', SubgroupController.sync);
-  app.get('/sync/episodes', EpisodeController.sync);
 
   // SETTINGS ROUTES
   app.get('/settings', SettingsController.getSettings);

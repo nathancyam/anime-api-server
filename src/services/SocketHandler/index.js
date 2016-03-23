@@ -17,7 +17,6 @@ class SocketHandler {
 
   initConnection() {
     this.io.sockets.on('connection', socket => {
-      console.log('User connected');
       this.attachSocketListeners(socket);
     });
   }
@@ -28,6 +27,10 @@ class SocketHandler {
   attachSocketListeners(socket) {
     socket.on('client_torrent', function (data) {
       console.log(data);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
     });
   }
 

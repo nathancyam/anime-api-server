@@ -3,7 +3,6 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const passport = require('passport');
 const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
@@ -18,8 +17,6 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded());
 app.use(session({ secret: 'secret' }));
-app.use(passport.initialize());
-app.use(passport.session())
 
 console.log('Setting app configuration...');
 app.set('app_config', require('./config'));

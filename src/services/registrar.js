@@ -9,7 +9,8 @@ const PushBullet = require('./NotificationManager/PushBullet');
 const TransmissionServer = require('./TransmissionServer');
 const RedisConnector = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
-const passport = require('passport');
+const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
+const AutoUpdaterServiceFactory = require('./AutoUpdater').factory;
 
 module.exports = (app, httpServer) => {
 
@@ -21,6 +22,7 @@ module.exports = (app, httpServer) => {
   const socketHandler = new SocketHandler(httpServer);
   const torrentChannel = new TorrentChannel(redis);
   const transmissionServer = new TransmissionServer(torrentChannel);
+  const nyaaTorrentSearcher = new NyaaTorrentSearcher();
 
   // Setup
   notificationManager.attachListener(pushBullet);
@@ -31,4 +33,6 @@ module.exports = (app, httpServer) => {
   app.set('redis', redis);
   app.set('socket_handler', socketHandler);
   app.set('torrent_server', transmissionServer);
+  app.set('nyaatorrents', nyaaTorrentSearcher);
+  app.set('auto_updater', AutoUpdaterServiceFactory);
 };

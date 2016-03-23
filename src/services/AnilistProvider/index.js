@@ -54,6 +54,9 @@ class AnilistClient {
 }
 
 module.exports = (app, config) => {
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   let User = app.getModel('user');
 
   passport.serializeUser((user, done) => {
@@ -79,18 +82,18 @@ module.exports = (app, config) => {
       app.set('anilist_api', apiClient);
       apiClient.user()
         .then(anilistUser => {
-          let user = new User({
-            anilistId: anilistUser.id,
-            anilistAccessToken: accessToken,
-            anilistRefreshToken: refreshToken,
-          });
-
-          user.save(err => {
-            if (err) {
-              return done(err);
+          User.findOne({ anilistId: anilistUser.id }, (err, user) => {
+            if (!user) {
+              User.create({
+                anilistId: anilistUser.id,
+                anilistAccessToken: accessToken,
+                anilistRefreshToken: refreshToken,
+              }, (err, user) => {
+                done(null, user);
+              })
             }
 
-            return done(null, user);
+            done(null, user);
           });
         })
         .catch(err => done(err));
