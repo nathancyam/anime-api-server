@@ -83,6 +83,16 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+  req.app.getModel('anime')
+    .remove({ _id: req.params.id }, err => {
+      if (err) {
+        return res.status(500).json({ message: 'Failed to remove anime with ID: ' + req.params.id });
+      }
+      return res.status(200).json({ message: 'Deleted anime successfully. '});
+    })
+});
+
 router.get('/', (req, res) => {
   req.app.getModel('anime')
     .find({})
