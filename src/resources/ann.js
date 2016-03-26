@@ -9,8 +9,6 @@ var Q = require('q'),
     request = require('request');
 
 var Parsers = require('./../helpers/api_parsers'),
-    Anime = require('../models/anime'),
-    Cache = require('../modules/cache'),
     AnimeAPI = require('./anime_api');
 
 var ANN_IMAGE_DIR = require('./../config').image_dir,
@@ -53,7 +51,7 @@ var parsers = [
  * @constructor
  * @type {exports}
  */
-var AnimeNewsNetwork = module.exports = function () {
+var AnimeNewsNetwork = module.exports = function (googleHelper) {
     /**
      * General search instance variable that is run on general search entries, which may yield multiple results.
      * @type {AnimeAPI}
@@ -78,6 +76,7 @@ var AnimeNewsNetwork = module.exports = function () {
     this.promiseGeneralSearch = Q.denodeify(generalSearch.search.bind(generalSearch));
     this.promiseSpecificSearch = Q.denodeify(specificSearch.search.bind(specificSearch));
     this.promiseAllSearch = Q.denodeify(allSearch.search.bind(allSearch));
+    this.google = googleHelper;
 };
 
 AnimeNewsNetwork.prototype = {
@@ -172,11 +171,9 @@ AnimeNewsNetwork.prototype = {
      */
     googleANN: function (response) {
         var deferred = Q.defer(),
-            searchTerm = response.report.args[0].name[0],
-            Google = require('./../helpers/google'),
-            google = new Google();
+            searchTerm = response.report.args[0].name[0];
 
-        google.searchAnime(searchTerm, function (err, result) {
+        this.google.searchAnime(searchTerm, function (err, result) {
             // Get valid results from the google search by parsing the URL
             var validResults = result.items.filter(function (e) {
                 return e.link.indexOf('anime.php?id') !== -1;

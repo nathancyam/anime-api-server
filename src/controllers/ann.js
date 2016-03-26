@@ -2,20 +2,22 @@
  * Created by nathan on 3/16/14.
  */
 
-var AnimeNewsNetwork = require('../resources/ann'),
-    Cache = require('../modules/cache');
+const AnimeNewsNetwork = require('../resources/ann');
+const Cache = require('../modules/cache');
 
 /**
  * @constructor
  */
 module.exports = {
   search: function (req, res) {
-    var ann = new AnimeNewsNetwork();
+    var Google = req.app.getHelper('google');
+    var googleConfig = req.app.get('app_config').google;
+    var ann = new AnimeNewsNetwork(new Google(googleConfig));
 
-    ann.search(req.query).then(function (response) {
+    ann.search(req.query).then(response => {
         Cache.set(req.url, response);
         return res.send(response);
-    }, function (err) {
+    }, err => {
         return res.send(err);
     });
   },

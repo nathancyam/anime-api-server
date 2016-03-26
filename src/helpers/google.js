@@ -2,32 +2,33 @@
  * Created by nathanyam on 25/04/2014.
  */
 
-
-var Settings = require('../modules/settings').all();
-var CX = Settings.google.custSearchCX;
-var API_KEY = Settings.google.custSearchAPI;
-
-var https = require('https'),
-    url = require('url');
+const https = require('https');
+const url = require('url');
 
 /**
  * @constructor
  * @type {exports}
  */
-var GoogleSearch = module.exports = function () {
-    this.requestUrl = "https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=" + API_KEY + "&cx=" + CX + "&q=";
+var GoogleSearch = module.exports = function (config) {
+  const apiKey = config.custSearchAPI;
+  const cx = config.custSearchCX;
+  this.requestUrl = `https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=${apiKey}&cx=${cx}&q=`;
 };
 
+/**
+ * @param searchTerm
+ * @param done
+ */
 GoogleSearch.prototype.searchAnime = function (searchTerm, done) {
-    var requestUrl = this.requestUrl + searchTerm;
-    var request = https.request(url.parse(requestUrl), function (res) {
-        var responseStr = '';
-        res.on('data', function (chunk) {
-            responseStr += chunk;
-        });
-        res.on('end', function () {
-            done(null, JSON.parse(responseStr));
-        });
+  var requestUrl = this.requestUrl + searchTerm;
+  var request = https.request(url.parse(requestUrl), function (res) {
+    var responseStr = '';
+    res.on('data', function (chunk) {
+      responseStr += chunk;
     });
-    request.end();
+    res.on('end', function () {
+      done(null, JSON.parse(responseStr));
+    });
+  });
+  request.end();
 };
