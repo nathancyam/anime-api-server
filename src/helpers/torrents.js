@@ -8,7 +8,7 @@
 /**
  * @constructor
  */
-var TorrentHelper = module.exports = (function () {
+module.exports = (function () {
     var torrentServerListing = [];
 
     return function (torrent) {
