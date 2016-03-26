@@ -9,7 +9,6 @@ var path = require('path');
 // CONTROLLERS
 const SubgroupController = require('./controllers/subgroup');
 const AnimeNewsNetworkController = require('./controllers/ann');
-const TorrentController = require('./controllers/torrents');
 const DanbooruController = require('./controllers/danbooru');
 const SettingsController = require('./controllers/settings');
 const NotificationController = require('./controllers/notification');
@@ -18,8 +17,10 @@ const AnimeRouter = require('./controllers/anime');
 const EpisodeRouter = require('./controllers/episode');
 const AnilistProviderRouter = require('./services/AnilistProvider/router');
 const UserRouter = require('./controllers/user');
+const TorrentRouter = require('./controllers/torrents');
+const NyaaTorrentRouter = require('./controllers/nyaatorrents');
 
-module.exports = function (app) {
+module.exports = (app) => {
 
   app.post('/login', (req, res) => {
     console.log(req.body);
@@ -34,6 +35,8 @@ module.exports = function (app) {
   app.use('/user', UserRouter);
   app.use('/anime', AnimeRouter);
   app.use('/episodes', EpisodeRouter);
+  app.use('/torrent', TorrentRouter);
+  app.use('/nyaatorrents', NyaaTorrentRouter);
 
   // SUBGROUP ROUTES
   app.get('/subgroups', SubgroupController.list);
@@ -49,11 +52,6 @@ module.exports = function (app) {
   // ANIME NEWS NETWORK ROUTES
   app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
   app.get('/ann/search/all', CacheHelper.getCacheResponse, AnimeNewsNetworkController.getListing);
-
-  // TORRENT ROUTES
-  app.get('/nyaatorrents/search', TorrentController.search);
-  app.post('/torrent/add', TorrentController.addTorrent);
-  app.post('/torrent/server', TorrentController.updateTorrentServerDetails);
 
   // DANBOORU ROUTES
   app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);

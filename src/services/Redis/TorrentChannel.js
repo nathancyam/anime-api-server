@@ -6,6 +6,7 @@
 
 const TORRENT_CHANNEL = 'torrent';
 const ACTION_ADD_TORRENT = 'add_torrent';
+const ACTION_MOVE_TORRENT_FILE = 'move_torrent_file';
 
 class TorrentChannel {
 
@@ -26,6 +27,16 @@ class TorrentChannel {
     return { status: 'success', message: `Published torrent addition to Redis`}
   }
 
+  moveTorrentFiles(torrentId, directory) {
+    const payload = {
+      action: ACTION_MOVE_TORRENT_FILE,
+      torrentId: torrentId,
+      destinationDirectory: directory
+    };
+
+    this.redisConn.publish(TORRENT_CHANNEL, JSON.stringify(payload));
+    return { status: 'success', message: 'Publish torrent move request to Redis' };
+  }
 }
 
 module.exports = TorrentChannel;

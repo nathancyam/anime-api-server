@@ -42,6 +42,15 @@ class TransmissionServer {
 
     return Promise.resolve(this.redisConn.addTorrent(url));
   }
+
+  /**
+   * @param {String} torrentId
+   * @param {String} destination
+   * @returns {Promise.<{status, message}>}
+   */
+  moveTorrentFiles(torrentId, destination) {
+    return Promise.resolve(this.redisConn.moveTorrentFiles(torrentId, destination));
+  }
 }
 
 module.exports = TransmissionServer;
