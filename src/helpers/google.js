@@ -16,8 +16,8 @@ var GoogleSearch = module.exports = function (config) {
 };
 
 /**
- * @param searchTerm
- * @param done
+ * @param {Object} searchTerm
+ * @param {Function} done
  */
 GoogleSearch.prototype.searchAnime = function (searchTerm, done) {
   var requestUrl = this.requestUrl + searchTerm;
