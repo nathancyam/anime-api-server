@@ -15,23 +15,28 @@ app.use(express.static(__dirname + '/../../public'));
 app.set('port', process.env.PORT || 3000);
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded());
-app.use(session({ secret: 'secret' }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.set('console', (message, type) => {
+  type = type || 'log';
+  if (process.env.NODE_ENV === 'development') {
+    console[type](message);
+  }
+});
 
-console.log('Setting app configuration...');
+app.get('console')('Setting app configuration');
 app.set('app_config', require('./config'));
 
-console.log('Starting bootstrap process...');
 require('./bootstrap')(app, httpServer);
 
 // Start the regular checker
-console.log('Initialising process handlers and child process...');
+app.get('console')('Initialising process handlers and child process...');
 var ProcessHandler = require('./modules/anime_updater_process_handler');
 var processHandler = new ProcessHandler();
 processHandler.startProcess();
 
 httpServer.listen(app.get('port'), function () {
-  console.log('Server ready for requests on port: ' + app.get('port'));
+  app.get('console')('Server ready for requests on port: ' + app.get('port'));
 });
 
 process.on('SIGTERM', function() {
