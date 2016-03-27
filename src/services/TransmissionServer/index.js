@@ -51,6 +51,14 @@ class TransmissionServer {
   moveTorrentFiles(torrentId, destination) {
     return Promise.resolve(this.redisConn.moveTorrentFiles(torrentId, destination));
   }
+
+  resumeTorrent(torrentId) {
+    return Promise.resolve(this.redisConn.resumeTorrent(torrentId));
+  }
+
+  pauseTorrent(torrentId) {
+    return Promise.resolve(this.redisConn.pauseTorrent(torrentId));
+  }
 }
 
 module.exports = TransmissionServer;

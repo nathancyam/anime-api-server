@@ -59,4 +59,16 @@ router.post('/move/:torrentId/anime/:animeId', (req, res) => {
     });
 });
 
+router.post('/pause/:torrentId', (req, res) => {
+  req.app.get('torrent_server')
+    .pauseTorrent(req.params.torrentId)
+    .then(response => res.json(response));
+});
+
+router.post('/resume/:torrentId', (req, res) => {
+  req.app.get('torrent_server')
+    .resumeTorrent(req.params.torrentId)
+    .then(response => res.json(response));
+});
+
 module.exports = router;
