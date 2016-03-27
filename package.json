@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production; node ./src/server.js",
-    "test": "NODE_ENV=testing PORT=3333 mocha './tests/**/*Test.js'",
-    "ci:test": "NODE_ENV=testing PORT=3333 ./node_modules/.bin/istanbul cover ./node_modules/.bin/mocha -- -R tap './tests/**/*Test.js' > test.tap && ./node_modules/.bin/istanbul report clover"
+    "test": "NODE_ENV=testing;PORT=3333 mocha './tests/**/*Test.js'",
+    "ci:test": "NODE_ENV=testing_ci;PORT=3333 ./node_modules/.bin/istanbul cover ./node_modules/.bin/mocha -- -R tap './tests/**/*Test.js' > test.tap && ./node_modules/.bin/istanbul report clover"
   },
   "dependencies": {
     "async": "*",

@@ -36,4 +36,21 @@ describe('API: Anime Router', () => {
         done();
       })
   });
+
+  it('should get an anime from its ID', (done) => {
+    let id = process.env.NODE_ENV === 'testing'
+      ? '545cb3e1657685e90c9457f7'
+      : '545cb3e1657685e90c9457f7';
+
+    request(app)
+      .get(`/anime/${id}`)
+      .set('Accept', 'application/json')
+      .expect(404)
+      .end((err, res) => {
+        const anime = res.body;
+        anime.should.have.property('designated_subgroup');
+        anime.should.have.property('title');
+        done();
+      })
+  })
 });
