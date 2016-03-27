@@ -27,3 +27,5 @@ dist/
 config.js
 public/media/
 bower_components/
+coverage/
+*.tap
