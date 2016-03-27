@@ -4,26 +4,20 @@
 
 "use strict";
 
-const episodeModel = require('../../models/episode');
-
-/** @var {EpisodeUpdaterFactory} */
-const episodeUpdaterFactory = require('../EpisodeUpdater').factory;
-
-/** @var {AnimeTorrentSearcherFactory} */
-const torrentSearcherFactory = require('../NyaaTorrentSearcher').factory;
-
 class AutoUpdaterDirector {
 
   /**
    * @param {Anime} anime
-   * @param {Transmission} torrentServer
+   * @param {EpisodeUpdaterFactory} episodeUpdaterFactory
+   * @param {Episode} episodeModel
+   * @param {AnimeTorrentSearcher} searcher
+   * @param {TransmissionServer} torrentServer
    */
-  constructor(anime, torrentServer) {
+  constructor(anime, episodeUpdaterFactory, episodeModel, searcher, torrentServer) {
     this.anime = anime;
     this.episodeUpdater = episodeUpdaterFactory.create(this, episodeModel);
-    this.torrentSearcher = torrentSearcherFactory.create();
+    this.torrentSearcher = searcher;
     this.torrentServer = torrentServer;
-
   }
 
   /**
@@ -59,22 +53,39 @@ class AutoUpdaterDirector {
 class AutoUpdaterDirectorFactory {
 
   /**
+   * @param episodeUpdaterFactory
+   * @param episodeModel
+   */
+  constructor(episodeUpdaterFactory, episodeModel) {
+    this.episodeUpdaterFactory = episodeUpdaterFactory;
+    this.episodeModel = episodeModel;
+  }
+
+  /**
    * @param {Anime} anime
-   * @param {Transmission} torrentServer
+   * @param {AnimeTorrentSearcher} searcher
+   * @param {TransmissionServer} torrentServer
    * @returns {AutoUpdaterDirector}
    */
-  create(anime, torrentServer) {
-    return new AutoUpdaterDirector(anime, torrentServer);
+  create(anime, searcher, torrentServer) {
+    return new AutoUpdaterDirector(
+      anime,
+      this.episodeUpdaterFactory,
+      this.episodeModel,
+      searcher,
+      torrentServer
+    );
   }
 
   /**
    * @param {Anime[]} animeCollection
-   * @param {Transmission} torrentServer
+   * @param {AnimeTorrentSearcher} searcher
+   * @param {TransmissionServer} torrentServer
    * @returns {AutoUpdaterDirector[]}
    */
-  createCollection(animeCollection, torrentServer) {
-    return animeCollection.map(anime => this.create(anime, torrentServer));
+  createCollection(animeCollection, searcher, torrentServer) {
+    return animeCollection.map(anime => this.create(anime, searcher, torrentServer));
   }
 }
 
-exports.factory = new AutoUpdaterDirectorFactory();
+module.exports = AutoUpdaterDirectorFactory;

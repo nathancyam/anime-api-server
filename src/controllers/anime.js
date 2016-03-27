@@ -63,7 +63,11 @@ router.get('/update', (req, res) => {
       }
 
       const updaters = req.app.get('auto_updater')
-        .createCollection(animeCollection, req.app.get('torrent_server'));
+        .createCollection(
+          animeCollection,
+          req.app.get('nyaatorrents'),
+          req.app.get('torrent_server')
+        );
 
       Promise.all(updaters.map(updater => updater.postTorrentsToServer()))
         .then(() => {

@@ -93,4 +93,4 @@ class EpisodeUpdaterFactory {
 
 }
 
-exports.factory = new EpisodeUpdaterFactory();
+module.exports = EpisodeUpdaterFactory;

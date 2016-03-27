@@ -10,7 +10,10 @@ const TransmissionServer = require('./TransmissionServer');
 const RedisConnector = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
-const AutoUpdaterServiceFactory = require('./AutoUpdater').factory;
+
+// Factory definitions
+const AutoUpdaterServiceFactory = require('./AutoUpdater');
+const EpisodeUpdaterFactory = require('./EpisodeUpdater');
 
 module.exports = (app, httpServer) => {
 
@@ -34,5 +37,9 @@ module.exports = (app, httpServer) => {
   app.set('socket_handler', socketHandler);
   app.set('torrent_server', transmissionServer);
   app.set('nyaatorrents', nyaaTorrentSearcher);
-  app.set('auto_updater', AutoUpdaterServiceFactory);
+
+  app.set('auto_updater', new AutoUpdaterServiceFactory(
+    new EpisodeUpdaterFactory(),
+    app.getModel('episode')
+  ));
 };
