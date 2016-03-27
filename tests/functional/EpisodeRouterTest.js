@@ -8,7 +8,6 @@ const request = require('supertest');
 const app = require('../../src/server');
 const should = require('chai').should();
 const expect = require('chai').expect;
-app.set('port', 3333);
 
 describe('API: Episode Router', () => {
   it('should get a list of episodes', (done) => {
