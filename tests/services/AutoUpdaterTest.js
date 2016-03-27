@@ -9,7 +9,7 @@ const should = require('chai').should();
 const AutoUpdaterFactory = require('../../src/services/AutoUpdater');
 
 describe('AutoUpdater Service', () => {
-  describe('AutoUpdaterDirectory', () => {
+  describe('AutoUpdaterDirector', () => {
     const anime = {
       designated_subgroup: 'Commie',
       title: 'Nisekoi'
