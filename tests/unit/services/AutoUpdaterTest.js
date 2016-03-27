@@ -6,9 +6,9 @@
 
 const sinon = require('sinon');
 const should = require('chai').should();
-const AutoUpdaterFactory = require('../../src/services/AutoUpdater');
+const AutoUpdaterFactory = require('../../../src/services/AutoUpdater');
 
-describe('AutoUpdater Service', () => {
+describe('UNIT: AutoUpdater Service', () => {
   describe('AutoUpdaterDirector', () => {
     const anime = {
       designated_subgroup: 'Commie',
