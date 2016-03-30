@@ -7,7 +7,16 @@
 const router = require('express').Router();
 
 router.get('/', (req, res) => {
-  return res.json({ user: req.user });
+  let response = {};
+  if (!req.user) {
+    response.user = {};
+    response.isLoggedIn = false;
+  } else {
+    response.user = req.user;
+    response.isLoggedIn = true;
+  }
+
+  return res.json(response);
 });
 
 module.exports = router;

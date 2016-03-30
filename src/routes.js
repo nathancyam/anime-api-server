@@ -21,17 +21,12 @@ const TorrentRouter = require('./controllers/torrents');
 const NyaaTorrentRouter = require('./controllers/nyaatorrents');
 
 module.exports = (app) => {
-
-  app.post('/login', (req, res) => {
-    console.log(req.body);
-    return res.json({ status: 'success' });
-  });
-
   app.get('/logout', (req, res) => {
+    req.logout();
     return res.json({ status: 'success' });
   });
   
-  app.use('/auth', AnilistProviderRouter);
+  app.use('/auth', AnilistProviderRouter(app));
   app.use('/user', UserRouter);
   app.use('/anime', AnimeRouter);
   app.use('/episodes', EpisodeRouter);

@@ -8,10 +8,17 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-router.get('/anilist', passport.authenticate('anilist'));
-router.get('/anilist/callback', passport.authenticate('anilist', {
-  successRedirect: 'http://localhost:1337/',
-  failureRedirect: 'http://localhost:1337/login'
-}));
+module.exports = (app) => {
+  const appConfig = app.get('app_config');
+  const successRedirect = appConfig.anilist.successRedirect;
+  const failureRedirect = appConfig.anilist.failureRedirect;
 
-module.exports = router;
+  router.get('/anilist', passport.authenticate('anilist'));
+
+  router.get('/anilist/callback', passport.authenticate('anilist', {
+    successRedirect: successRedirect,
+    failureRedirect: failureRedirect
+  }));
+
+  return router;
+};
