@@ -75,7 +75,7 @@ module.exports = (app, config) => {
       tokenURL: `${ANILIST_API_URI}/auth/access_token`,
       clientID: config.anilist.key,
       clientSecret: config.anilist.secret,
-      callbackURL: `${provider}/api/auth/anilist/callback`
+      callbackURL: `${config.anilist.provider}/api/auth/anilist/callback`
     },
     (accessToken, refreshToken, profile, done) => {
       const apiClient = new AnilistClient(accessToken, refreshToken);
