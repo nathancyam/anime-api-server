@@ -22,7 +22,6 @@ describe('API: Anime Router', () => {
         anime.should.be.a('object');
         anime.should.have.property('_id');
         anime.should.have.property('title');
-        anime.should.have.property('filepath');
         done();
       })
   });
