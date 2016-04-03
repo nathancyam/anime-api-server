@@ -7,6 +7,7 @@
 const passport = require('passport');
 const anilistOAuthStrategyFactory = require('./Strategies/Anilist');
 const localAuthFactory = require('./Strategies/Local');
+const jwtFactory = require('./Strategies/Jwt');
 
 module.exports = (app, config) => {
   app.use(passport.initialize());
@@ -33,7 +34,7 @@ module.exports = (app, config) => {
 
   const localAuth = localAuthFactory(passport, User);
 
+  passport.use('jwt', jwtFactory(app, config).strategy());
   passport.use('anilist', anilistOAuthStrategy);
   passport.use('local', localAuth);
 };
-

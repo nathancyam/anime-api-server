@@ -5,6 +5,7 @@
 "use strict";
 
 const router = require('express').Router();
+const jwtFactory = require('../services/Auth/Strategies/Jwt');
 
 const loggedInMiddleware = (req, res, next) => {
   if (!req.user) {
@@ -26,16 +27,33 @@ const loggedInMiddleware = (req, res, next) => {
 };
 
 router.get('/', (req, res) => {
-  let response = {};
-  if (!req.user) {
-    response.user = {};
-    response.isLoggedIn = false;
-  } else {
-    response.user = req.user;
-    response.isLoggedIn = true;
+  let response = {
+    user: {},
+    isLoggedIn: false
+  };
+
+  if (!req.cookies.jwt) {
+    return res.json(response);
   }
 
-  return res.json(response);
+  const jwt = jwtFactory(req.app, req.app.get('app_config'));
+  const jwtPayload = jwt.verify(req.cookies.jwt);
+
+
+  if (!jwtPayload._id) {
+    return res.json(response);
+  }
+
+  req.app.getModel('user')
+    .findOne({ _id: jwtPayload._id }, (err, user) => {
+
+      if (!err && user) {
+        response.user = user;
+        response.isLoggedIn = true;
+      }
+
+      return res.json(response);
+    });
 });
 
 router.get('/settings', loggedInMiddleware, (req, res) => {
