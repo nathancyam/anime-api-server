@@ -7,22 +7,27 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const uuid = require('node-uuid');
 const SALT_WORK_FACTOR = 10;
 
 const userSchema = new Schema({
-  email: String,
+  email: { type: String, unique: true },
   password: String,
   settings: {
-    redisApiKey: String
+    redisApiKey: { type: String, unique: true }
   },
-  anilistId: Number,
+  anilistId: { type: Number, unique: true },
   anilistAccessToken: String,
   anilistRefreshToken: String
 });
 
-userSchema.pre('save', next => {
+userSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();
+  }
+
+  if (!this.settings.redisApiKey) {
+    this.settings.redisApiKey = uuid.v4();
   }
 
   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
@@ -41,7 +46,13 @@ userSchema.pre('save', next => {
   });
 });
 
-userSchema.methods.authenticate = password => {
+userSchema.methods.toJSON = function () {
+  let userJson = this.toObject();
+  delete userJson.password;
+  return userJson;
+};
+
+userSchema.methods.authenticate = function(password) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.password, (err, isMatch) => {
       if (err) {

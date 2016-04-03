@@ -20,5 +20,30 @@ module.exports = (app) => {
     failureRedirect: failureRedirect
   }));
 
+  router.post('/login', passport.authenticate('local'), (req, res) => {
+    if (req.user) {
+      let user = req.user;
+      delete user.password;
+      return res.json(user);
+    }
+  });
+
+  router.post('/register', (req, res) => {
+
+    req.app.getModel('user').create({
+      email: req.body.email,
+      password: req.body.password
+    }, err => {
+      if (err) {
+        return res.status(500).json({ message: err });
+      }
+
+      passport.authenticate('local')(req, res, () => {
+        return res.json({ message: 'Registered' });
+      });
+    });
+  });
+
   return router;
+
 };
