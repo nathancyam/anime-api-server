@@ -1,14 +1,11 @@
 /**
- * Created by nathanyam on 18/03/2016.
+ * Created by nathanyam on 3/04/2016.
  */
 
-'use strict';
-
+"use strict";
 const fetch = require('isomorphic-fetch');
-const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
-const provider = 'http://localhost:1337';
 const ANILIST_API_URI = 'https://anilist.co/api';
 
 class AnilistStrategy extends OAuth2Strategy {
@@ -53,23 +50,9 @@ class AnilistClient {
   }
 }
 
-module.exports = (app, config) => {
-  app.use(passport.initialize());
-  app.use(passport.session());
+module.exports = (passport, userModel, app, config) => {
 
-  let User = app.getModel('user');
-
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, (err, user) => {
-      done(err, user);
-    });
-  });
-
-  let anilistOAuthStrategy = new AnilistStrategy(
+  return new AnilistStrategy(
     {
       authorizationURL: `${ANILIST_API_URI}/auth/authorize`,
       tokenURL: `${ANILIST_API_URI}/auth/access_token`,
@@ -82,12 +65,12 @@ module.exports = (app, config) => {
       app.set('anilist_api', apiClient);
       apiClient.user()
         .then(anilistUser => {
-          User.findOne({ anilistId: anilistUser.id }, (err, user) => {
+          userModel.findOne({anilistId: anilistUser.id}, (err, user) => {
             if (!user) {
-              User.create({
+              userModel.create({
                 anilistId: anilistUser.id,
                 anilistAccessToken: accessToken,
-                anilistRefreshToken: refreshToken,
+                anilistRefreshToken: refreshToken
               }, (err, user) => {
                 done(null, user);
               })
@@ -99,7 +82,4 @@ module.exports = (app, config) => {
         .catch(err => done(err));
     }
   );
-
-  passport.use('anilist', anilistOAuthStrategy);
 };
-

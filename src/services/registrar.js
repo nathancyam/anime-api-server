@@ -29,7 +29,7 @@ module.exports = (app, httpServer) => {
 
   // Setup
   notificationManager.attachListener(pushBullet);
-  require('./AnilistProvider')(app, appConfig);
+  require('./Auth')(app, appConfig);
 
   // Registration
   app.set('notification_manager', notificationManager);

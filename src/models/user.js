@@ -9,6 +9,9 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: String,
+  settings: {
+    redisApiKey: String
+  },
   anilistId: Number,
   anilistAccessToken: String,
   anilistRefreshToken: String

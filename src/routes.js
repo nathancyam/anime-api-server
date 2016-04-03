@@ -15,7 +15,7 @@ const NotificationController = require('./controllers/notification');
 
 const AnimeRouter = require('./controllers/anime');
 const EpisodeRouter = require('./controllers/episode');
-const AnilistProviderRouter = require('./services/AnilistProvider/router');
+const AuthRouter = require('./services/Auth/router');
 const UserRouter = require('./controllers/user');
 const TorrentRouter = require('./controllers/torrents');
 const NyaaTorrentRouter = require('./controllers/nyaatorrents');
@@ -26,7 +26,7 @@ module.exports = (app) => {
     return res.json({ status: 'success' });
   });
   
-  app.use('/auth', AnilistProviderRouter(app));
+  app.use('/auth', AuthRouter(app));
   app.use('/user', UserRouter);
   app.use('/anime', AnimeRouter);
   app.use('/episodes', EpisodeRouter);
