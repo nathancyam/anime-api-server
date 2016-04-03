@@ -17,7 +17,7 @@ module.exports = (app) => {
 
   router.get('/anilist/callback', passport.authenticate('anilist'), (req, res) => {
     const jwt = jwtFactory(app, appConfig, req.user);
-    const token = jwt.sign(req.user);
+    const token = jwt.sign({ _id: req.user });
     res.cookie('jwt', token);
     return res.redirect(successRedirect);
   });
