@@ -11,7 +11,7 @@ const expect = require('chai').expect;
 
 describe('API: NyaaTorrents Router', () => {
   it('should get a list of torrents', function(done) {
-    this.timeout(5000);
+    this.timeout(10000);
     request(app)
       .get('/nyaatorrents/search?name=Nisekoi')
       .set('Accept', 'application/json')
