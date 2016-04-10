@@ -22,9 +22,9 @@ router.post('/add', (req, res) => {
       socketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
       notificationManager.emit('notification:new', {
         type: 'note',
-        title: 'new ep!',
-        message: 'new ep!',
-        body: 'new ep'
+        title: 'New Torrent Added',
+        message: `Torrent Added ${req.body.meta.name}`,
+        body: `Torrent Added ${req.body.meta.name}`
       });
 
       return res.send(result);

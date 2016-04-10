@@ -7,11 +7,12 @@
 const Redis = require('ioredis');
 
 class RedisConnector {
-  constructor(connectionOptions) {
+  constructor(connectionOptions, channels) {
     this.connectionOptions = connectionOptions;
     this.connection = new Redis(connectionOptions);
-    this.subscribeConn = null;
+    this.channels = channels || ['meta'];
     this.publishConn = null;
+    this.connection.subscribe(this.channels);
   }
 
   getConnection() {
