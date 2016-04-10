@@ -9,6 +9,7 @@ const ACTION_ADD_TORRENT = 'add_torrent';
 const ACTION_MOVE_TORRENT_FILE = 'move_torrent_file';
 const ACTION_PAUSE_TORRENT = 'pause_torrent';
 const ACTION_RESUME_TORRENT = 'resume_torrent';
+const ACTION_FORCE_UPDATE = 'force_update';
 
 class TorrentChannel {
 
@@ -60,6 +61,10 @@ class TorrentChannel {
     };
     
     return this.publish(payload);
+  }
+
+  forceUpdateListing() {
+    return this.publish({ action: ACTION_FORCE_UPDATE });
   }
 }
 

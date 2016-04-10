@@ -59,6 +59,10 @@ class TransmissionServer {
   pauseTorrent(torrentId) {
     return Promise.resolve(this.redisConn.pauseTorrent(torrentId));
   }
+
+  forceUpdate() {
+    return Promise.resolve(this.redisConn.forceUpdateListing());
+  }
 }
 
 module.exports = TransmissionServer;

@@ -51,6 +51,14 @@ router.post('/server', (req, res) => {
   return res.json({ status: 'SUCCESS', message: 'Torrent server details posted' });
 });
 
+router.post('/server/update', (req, res) => {
+  req.app.get('torrent_server')
+    .forceUpdate()
+    .then(() => {
+      return res.json({ message: 'Forced torrent update' });
+    })
+});
+
 router.post('/move/:torrentId/anime/:animeId', (req, res) => {
   const torrentServer = req.app.get('torrent_server');
 
