@@ -10,7 +10,8 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 
 describe('API: Anime Router', () => {
-  it('should get a list of anime', (done) => {
+  it('should get a list of anime', function(done) {
+    this.timeout(5000);
     request(app)
       .get('/anime')
       .set('Accept', 'application/json')
@@ -26,7 +27,8 @@ describe('API: Anime Router', () => {
       })
   });
 
-  it('should inform you if you can\'t find an anime', (done) => {
+  it('should inform you if you can\'t find an anime', function(done) {
+    this.timeout(5000);
     request(app)
       .get('/anime/notfound')
       .set('Accept', 'application/json')
@@ -36,7 +38,8 @@ describe('API: Anime Router', () => {
       })
   });
 
-  it('should get an anime from its ID', (done) => {
+  it('should get an anime from its ID', function(done) {
+    this.timeout(5000);
     let id = process.env.NODE_ENV === 'testing'
       ? '545cb3e1657685e90c9457f7'
       : '545cb3e1657685e90c9457f7';
