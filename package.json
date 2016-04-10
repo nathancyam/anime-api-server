@@ -22,6 +22,7 @@
     "jsonwebtoken": "^5.7.0",
     "lodash": "^2.4.1",
     "moment": "^2.12.0",
+    "moment-duration-format": "^1.3.0",
     "mongoose": "*",
     "node-uuid": "^1.4.7",
     "nyaatorrents": "*",

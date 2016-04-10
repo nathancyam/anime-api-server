@@ -7,6 +7,7 @@
 
 const router = require('express').Router();
 const moment = require('moment');
+require('moment-duration-format');
 
 /**
  * Adds a torrent to the torrent server
@@ -39,19 +40,10 @@ router.post('/add', (req, res) => {
 router.post('/server', (req, res) => {
   const torrentDetails = req.body.torrentServer;
   let torrents = torrentDetails.map(torrent => {
-    let now = moment();
-    let torrentEta = moment().add(torrent.eta, 'seconds');
-    let days = torrentEta.diff(now, 'days');
-    let hours = torrentEta.diff(now, 'hours');
-    let minutes = torrentEta.diff(now, 'minutes');
-    let seconds = torrentEta.diff(now, 'seconds');
+    let humanEta = moment
+      .duration(torrent.eta, 'seconds')
+      .format('h [hours] m [minutes] s [seconds]');
 
-    days = days ? `${days} days` : '';
-    hours = hours ? `${hours} hours` : '';
-    minutes = minutes ? `${minutes} minutes` : '';
-    seconds = seconds ? `${seconds} seconds` : '';
-
-    let humanEta = [days, hours, minutes, seconds].join(' ');
     return Object.assign({}, torrent, { humanEta });
   });
 
