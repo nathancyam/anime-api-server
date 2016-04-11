@@ -55,7 +55,7 @@ class EpisodeUpdater {
         this.mediator.searchTorrents()
       ]
     )
-    .then(this.compareMissingEpisodes)
+    .then(this._compareMissingEpisodes)
     .catch(err => console.error(err));
   }
 
@@ -63,10 +63,11 @@ class EpisodeUpdater {
    * Compares the torrent listing and the list of episodes on the harddrive
    * to determine which ones are missing
    *
+   * @private
    * @param results
    * @returns {Object[]}
    */
-  compareMissingEpisodes(results) {
+  _compareMissingEpisodes(results) {
     const episodeCollection = results[0];
     const torrentResults = results[1];
 

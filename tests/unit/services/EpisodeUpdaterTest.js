@@ -14,20 +14,6 @@ const EpisodeUpdaterFactory = require('../../../src/services/EpisodeUpdater');
 
 describe('UNIT: Episode Updater Service', () => {
 
-  it('compares missing episodes', () => {
-    const factory = new EpisodeUpdaterFactory();
-    const episodeUpdater = factory.create({}, {});
-    const episodeCollection = [ { number: 1 } ];
-    const torrentResult = [
-      { name: "[Commie] Nisekoi - 01 [ASDF].mkv" },
-      { name: "[Commie] Nisekoi - 02 [ASDF].mkv" }
-    ];
-
-    let actual = episodeUpdater.compareMissingEpisodes([episodeCollection, torrentResult]);
-    let expected = { name: "[Commie] Nisekoi - 02 [ASDF].mkv", episodeNumber: 2 };
-    actual.should.include(expected);
-  });
-
   it('should get missing episodes', function() {
     let anime = {
       _id: "5535142b7f6c094d75e04ba9",
@@ -56,7 +42,7 @@ describe('UNIT: Episode Updater Service', () => {
     };
 
     let episodeModel = {
-      findPromise(animeId) {
+      findPromise() {
         return episodes;
       }
     };
