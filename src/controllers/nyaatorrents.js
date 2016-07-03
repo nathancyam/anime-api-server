@@ -45,7 +45,7 @@ router.get('/search', (req, res) => {
     // Success callback
     results => {
       res.send(results.filter(item => {
-        return item.categories.indexOf('english-translated-anime') > 0;
+        return item.categories.indexOf('english-translated') > 0;
       }).map(e => {
         var tHelper = new TorrentHelper(e);
         return tHelper.addNewAttributes();
