@@ -122,25 +122,23 @@ AnimeNewsNetwork.prototype = {
     generalSearchQuery: function (query) {
         var self = this;
         return this.promiseGeneralSearch({ name: query.name })
-            .then(function (results) {
-                var result = self.handleGeneralSearchResults(results);
-
-                // If we have an object -> Promise to be fulfilled
-                //               number -> ANN ID
-                //               array  -> Multiple ANN IDs
-                if (typeof result === 'object' && !Array.isArray(result)) {
-                    return result.then(function (annId) {
-                        query.ann_id = annId;
-                        return self.specificSearchQuery(query);
-                    });
-                } else if (typeof result === 'number') {
-                    query.ann_id = result;
-                } else if (Array.isArray(result)) {
-                    query.ann_id = result.pop().ann_id;
-                }
-                return self.specificSearchQuery(query);
-            }
-        );
+          .then(results => this.handleGeneralSearchResults(results))
+          .then(result => {
+              // If we have an object -> Promise to be fulfilled
+              //               number -> ANN ID
+              //               array  -> Multiple ANN IDs
+              if (typeof result === 'object' && !Array.isArray(result)) {
+                  return result.then(function (annId) {
+                      query.ann_id = annId;
+                      return self.specificSearchQuery(query);
+                  });
+              } else if (typeof result === 'number') {
+                  query.ann_id = result;
+              } else if (Array.isArray(result)) {
+                  query.ann_id = result.pop().ann_id;
+              }
+              return self.specificSearchQuery(query);
+          });
     },
     /**
      * Parse the results from the general search.
@@ -148,17 +146,17 @@ AnimeNewsNetwork.prototype = {
      * It attempts to handle the different responses that you can get from the Anime News Network API
      *
      * @param {Object} response Results from a general name term search from the AnimeNewsNetwork API
-     * @return {Promise|Number} A promise for the AnimeNetworkNetwork ID
+     * @return {Promise} A promise for the AnimeNetworkNetwork ID
      */
     handleGeneralSearchResults: function (response) {
         // are the results empty?
         if (!isEmpty(response)) {
             // do we have multiple results?
             if (isMultipleResults(response)) {
-                return this.handleMultipleResults(response);
+                return Promise.resolve(this.handleMultipleResults(response));
             }
             // finally, do we have the single result to parse?
-            return getResultId(response);
+            return Promise.resolve(getResultId(response));
         }
         // handle the empty response
         return this.googleANN(response);
@@ -170,10 +168,10 @@ AnimeNewsNetwork.prototype = {
      * @return {Promise|Number} Promise to get the AnimeNewsNetwork ID
      */
     googleANN: function (response) {
-        var deferred = Q.defer(),
-            searchTerm = response.report.args[0].name[0];
+        var searchTerm = response.report.args[0].name[0];
 
-        this.google.searchAnime(searchTerm, function (err, result) {
+        return this.google.searchAnime(searchTerm)
+          .then(result => {
             // Get valid results from the google search by parsing the URL
             var validResults = result.items.filter(function (e) {
                 return e.link.indexOf('anime.php?id') !== -1;
@@ -182,10 +180,8 @@ AnimeNewsNetwork.prototype = {
                 annLink = firstResult.link;
 
             // lol this is terrible
-            return deferred.resolve(require('url').parse(annLink).query.split('=').pop());
-        });
-
-        return deferred.promise;
+            return require('url').parse(annLink).query.split('=').pop();
+          });
     },
     /**
      * Formats multiple result responses

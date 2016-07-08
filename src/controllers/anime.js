@@ -26,12 +26,12 @@ router.get('/image/:id', (req, res) => {
         return res.send(500, 'Oops, an error occurred');
       }
 
-      result.getPictureUrl(function (err, image) {
+      result.getPictureUrl((err, image) => {
         if (err) {
           return res.send(500, 'Cound not find file');
-        } else {
-          return res.json({url: image});
         }
+
+        return res.json({ url: image });
       });
     });
 });

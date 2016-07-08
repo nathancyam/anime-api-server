@@ -11,6 +11,10 @@ const RedisConnector = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
 
+const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
+const GoogleHelper = require('./AnimeNewsNetwork/google');
+const ParserFactory = require('./AnimeNewsNetwork/parser');
+
 // Factory definitions
 const AutoUpdaterServiceFactory = require('./AutoUpdater');
 const EpisodeUpdaterFactory = require('./EpisodeUpdater');
@@ -27,6 +31,15 @@ module.exports = (app, httpServer) => {
   const transmissionServer = new TransmissionServer(torrentChannel);
   const nyaaTorrentSearcher = new NyaaTorrentSearcher();
 
+  const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
+  const _nameSearcher = new NameSearcher(
+    _idSearcher,
+    new GoogleHelper(appConfig.google),
+    ParserFactory.create()
+  );
+
+  const annSearcher = new Searcher(_nameSearcher, _idSearcher);
+
   // Setup
   notificationManager.attachListener(pushBullet);
   require('./Auth')(app, appConfig);
@@ -37,6 +50,7 @@ module.exports = (app, httpServer) => {
   app.set('socket_handler', socketHandler);
   app.set('torrent_server', transmissionServer);
   app.set('nyaatorrents', nyaaTorrentSearcher);
+  app.set('ann_searcher', annSearcher);
 
   app.set('auto_updater', new AutoUpdaterServiceFactory(
     new EpisodeUpdaterFactory(),

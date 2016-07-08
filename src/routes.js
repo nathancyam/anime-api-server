@@ -8,7 +8,6 @@ var path = require('path');
 
 // CONTROLLERS
 const SubgroupController = require('./controllers/subgroup');
-const AnimeNewsNetworkController = require('./controllers/ann');
 const DanbooruController = require('./controllers/danbooru');
 const SettingsController = require('./controllers/settings');
 const NotificationController = require('./controllers/notification');
@@ -19,6 +18,7 @@ const AuthRouter = require('./services/Auth/router');
 const UserRouter = require('./controllers/user');
 const TorrentRouter = require('./controllers/torrents');
 const NyaaTorrentRouter = require('./controllers/nyaatorrents');
+const AnimeNewsNetworkRouter = require('./controllers/ann');
 
 module.exports = (app) => {
   app.get('/logout', (req, res) => {
@@ -32,6 +32,7 @@ module.exports = (app) => {
   app.use('/episodes', EpisodeRouter);
   app.use('/torrent', TorrentRouter);
   app.use('/nyaatorrents', NyaaTorrentRouter);
+  app.use('/ann', AnimeNewsNetworkRouter);
 
   // SUBGROUP ROUTES
   app.get('/subgroups', SubgroupController.list);
@@ -43,10 +44,6 @@ module.exports = (app) => {
   // SETTINGS ROUTES
   app.get('/settings', SettingsController.getSettings);
   app.post('/settings', SettingsController.setSettings);
-
-  // ANIME NEWS NETWORK ROUTES
-  app.get('/ann/search', CacheHelper.getCacheResponse, AnimeNewsNetworkController.search);
-  app.get('/ann/search/all', CacheHelper.getCacheResponse, AnimeNewsNetworkController.getListing);
 
   // DANBOORU ROUTES
   app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);

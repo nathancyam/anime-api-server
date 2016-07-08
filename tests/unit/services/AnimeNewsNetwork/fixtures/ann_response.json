@@ -1,0 +1,1673 @@
+{
+  "ann": {
+    "anime": [
+      {
+        "$": {
+          "id": "16133",
+          "gid": "924333116",
+          "type": "TV",
+          "name": "Amagi Brilliant Park",
+          "precision": "TV",
+          "generated-on": "2016-07-06T09:04:41Z"
+        },
+        "info": [
+          {
+            "$": {
+              "gid": "690058319",
+              "type": "Picture",
+              "src": "http://cdn.animenewsnetwork.com/thumbnails/fit200x200/encyc/A16133-690058319.1435474632.jpg",
+              "width": "144",
+              "height": "200"
+            },
+            "img": [
+              {
+                "$": {
+                  "src": "http://cdn.animenewsnetwork.com/thumbnails/fit200x200/encyc/A16133-690058319.1435474632.jpg",
+                  "width": "144",
+                  "height": "200"
+                }
+              },
+              {
+                "$": {
+                  "src": "http://cdn.animenewsnetwork.com/thumbnails/max500x600/encyc/A16133-690058319.1435474632.jpg",
+                  "width": "432",
+                  "height": "600"
+                }
+              },
+              {
+                "$": {
+                  "src": "http://cdn.animenewsnetwork.com/images/encyc/A16133-690058319.1435474632.jpg",
+                  "width": "540",
+                  "height": "750"
+                }
+              }
+            ]
+          },
+          {
+            "_": "Amagi Brilliant Park",
+            "$": {
+              "gid": "2852104345",
+              "type": "Main title",
+              "lang": "EN"
+            }
+          },
+          {
+            "_": "甘城ブリリアントパーク",
+            "$": {
+              "gid": "2323380768",
+              "type": "Alternative title",
+              "lang": "JA"
+            }
+          },
+          {
+            "_": "甘城輝煌樂園救世主",
+            "$": {
+              "gid": "3160699532",
+              "type": "Alternative title",
+              "lang": "ZH-TW"
+            }
+          },
+          {
+            "_": "comedy",
+            "$": {
+              "gid": "306838819",
+              "type": "Genres"
+            }
+          },
+          {
+            "_": "magic",
+            "$": {
+              "gid": "1506831180",
+              "type": "Genres"
+            }
+          },
+          {
+            "_": "OC",
+            "$": {
+              "gid": "2250911040",
+              "type": "Objectionable content"
+            }
+          },
+          {
+            "_": "Seiya was forced to accept an invitation to an amusement park by the mysterious and beautiful girl Isuzu. What he didn't know was that she would bring him to the decrepit Amagi Brilliant Park, Japan's most disappointing amusement park. Seiya is introduced to the leader of the Park, the \"real princess\" Latifah, who suddenly entrusts him with saving the park, which is in danger of shutting down. Amagi Brilliant Park, it turns out, is not just any amusement park, but rather one populated by fairies.",
+            "$": {
+              "gid": "1498887431",
+              "type": "Plot Summary"
+            }
+          },
+          {
+            "_": "13",
+            "$": {
+              "gid": "1248747931",
+              "type": "Number of episodes"
+            }
+          },
+          {
+            "_": "2014-10-02",
+            "$": {
+              "gid": "2071208907",
+              "type": "Vintage"
+            }
+          },
+          {
+            "_": "\"Extra Magic Hours\" by AKINO with bless4",
+            "$": {
+              "gid": "3266996405",
+              "type": "Opening Theme"
+            }
+          },
+          {
+            "_": "\"Erementario de Aimashō\" (エレメンタリオで会いましょう) by BRILLIANT4",
+            "$": {
+              "gid": "2050064812",
+              "type": "Ending Theme"
+            }
+          },
+          {
+            "_": "\"Subarashiki FUN!TASY\" (素晴ラシキFUN!TASY) by BRILLIANT4 (ep 9)",
+            "$": {
+              "gid": "1768853039",
+              "type": "Insert song"
+            }
+          },
+          {
+            "_": "Animation | 「甘城ブリリアントパーク」原作スペシャルサイト | アニメ化決定！潰れかけた遊園地を再建せよ−−！",
+            "$": {
+              "gid": "2375489771",
+              "type": "Official website",
+              "lang": "JA",
+              "href": "http://amaburi.jp/animation/"
+            }
+          },
+          {
+            "_": "『甘城ブリリアントパーク』広報室 (amaburiANIME) on Twitter",
+            "$": {
+              "gid": "3020813174",
+              "type": "Official website",
+              "lang": "JA",
+              "href": "http://twitter.com/amaburiANIME"
+            }
+          },
+          {
+            "_": "甘城ブリリアントパーク公式ホームページ｜TBSテレビ",
+            "$": {
+              "gid": "2696230562",
+              "type": "Official website",
+              "lang": "JA",
+              "href": "http://www.tbs.co.jp/anime/amaburi/"
+            }
+          }
+        ],
+        "ratings": [
+          {
+            "$": {
+              "nb_votes": "499",
+              "weighted_score": "7.661",
+              "bayesian_score": "7.65742"
+            }
+          }
+        ],
+        "episode": [
+          {
+            "$": {
+              "num": "1"
+            },
+            "title": [
+              {
+                "_": "Not Enough Visitors!",
+                "$": {
+                  "gid": "2368620147",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "2"
+            },
+            "title": [
+              {
+                "_": "Not Enough Time!",
+                "$": {
+                  "gid": "1604121224",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "3"
+            },
+            "title": [
+              {
+                "_": "Not Enough Reinforcement!",
+                "$": {
+                  "gid": "2971550259",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "4"
+            },
+            "title": [
+              {
+                "_": "Not Enough PA Productivity!",
+                "$": {
+                  "gid": "1792379748",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "5"
+            },
+            "title": [
+              {
+                "_": "Not Enough Money!",
+                "$": {
+                  "gid": "3248134487",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "6"
+            },
+            "title": [
+              {
+                "_": "Not Enough People!",
+                "$": {
+                  "gid": "2050428315",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "7"
+            },
+            "title": [
+              {
+                "_": "Not Enough Pool Safety!",
+                "$": {
+                  "gid": "1957340063",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "8"
+            },
+            "title": [
+              {
+                "_": "Not Enough Love!",
+                "$": {
+                  "gid": "1658787020",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "9"
+            },
+            "title": [
+              {
+                "_": "Not Enough Teamwork!",
+                "$": {
+                  "gid": "315301029",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "10"
+            },
+            "title": [
+              {
+                "_": "Nothing Can Be Done!",
+                "$": {
+                  "gid": "2280906213",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "11"
+            },
+            "title": [
+              {
+                "_": "Nothing to Worry About Now!",
+                "$": {
+                  "gid": "3452603020",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "12"
+            },
+            "title": [
+              {
+                "_": "Nobody Knows What the Future Holds!",
+                "$": {
+                  "gid": "1861396416",
+                  "lang": "EN"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "num": "13"
+            },
+            "title": [
+              {
+                "_": "Not a Good PV!",
+                "$": {
+                  "gid": "2195329432",
+                  "lang": "EN"
+                }
+              }
+            ]
+          }
+        ],
+        "review": [
+          {
+            "_": "Amagi Brilliant Park",
+            "$": {
+              "href": "http://www.animenewsnetwork.com/review/amagi-brilliant-park/episodes-1-12/.88892"
+            }
+          }
+        ],
+        "news": [
+          {
+            "_": "Shoji Gatoh Plans New Comedy Novel, 'Anticipated' Works",
+            "$": {
+              "datetime": "2012-01-01T14:00:00Z",
+              "href": "http://www.animenewsnetwork.com/news/2012-01-01/shoji-gatoh-plans-new-comedy-novel-anticipated-works"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park</cite> Novels Gets Anime by Kyoto Animation",
+            "$": {
+              "datetime": "2014-01-15T04:37:29Z",
+              "href": "http://www.animenewsnetwork.com/news/2014-01-14/amagi-brilliant-park-novels-gets-anime-by-kyoto-animation"
+            }
+          },
+          {
+            "_": "Shoji Gatoh's <cite>Amagi Brilliant Park</cite> Get Manga in <cite>Dragon Age</cite>",
+            "$": {
+              "datetime": "2014-02-02T17:00:23Z",
+              "href": "http://www.animenewsnetwork.com/news/2014-02-02/shoji-gatoh-amagi-brilliant-park-get-manga-in-dragon-age"
+            }
+          },
+          {
+            "_": "<cite>Full Metal Panic</cite> Director to Helm <cite>Amagi Brilliant Park</cite> Anime",
+            "$": {
+              "datetime": "2014-03-07T04:57:10Z",
+              "href": "http://www.animenewsnetwork.com/news/2014-03-06/full-metal-panic-director-to-helm-amagi-brilliant-park-anime"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park</cite> TV Anime's 1st Key Visual Shown",
+            "$": {
+              "datetime": "2014-03-30T03:57:00Z",
+              "href": "http://www.animenewsnetwork.com/news/2014-03-29/amagi-brilliant-park-tv-anime-1st-key-visual-shown"
+            }
+          },
+          {
+            "_": "Kyoto Animation's <em>Amagi Brilliant Park</em> Slated to Air This Fall",
+            "$": {
+              "datetime": "2014-04-25T07:00:00Z",
+              "href": "http://www.animenewsnetwork.com/news/2014-04-25/kyoto-animation-amagi-brilliant-park-slated-to-air-this-fall"
+            }
+          },
+          {
+            "_": "Kouki Uchiyama, Ai Kakuma, Yukiyo Fujii Star in KyoAni's <cite>Amagi Brilliant Park</cite> TV Anime",
+            "$": {
+              "datetime": "2014-08-09T18:00:04Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-08-10/kouki-uchiyama-ai-kakuma-yukiyo-fujii-star-in-kyoani-amagi-brilliant-park-tv-anime/.77470"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park</cite> 1st Promo Previews Opening Theme",
+            "$": {
+              "datetime": "2014-08-15T18:40:47Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-08-16/amagi-brilliant-park-1st-promo-previews-opening-theme/.77659"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park</cite> Anime's 1st Promo Streamed",
+            "$": {
+              "datetime": "2014-08-20T10:45:00Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-08-20/amagi-brilliant-park-anime-1st-promo-streamed/.77792"
+            }
+          },
+          {
+            "_": "Kyoto Animation's <cite>Amagi Brilliant Park</cite> Listed at 13 Episodes",
+            "$": {
+              "datetime": "2014-09-02T04:08:47Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-09-02/kyoto-animation-amagi-brilliant-park-listed-at-13-episodes/.78296"
+            }
+          },
+          {
+            "_": "Yuka Aisaka, Tomoyo Kurosawa, Shiori Mikami, Minami Tsuda Perfom <cite>Amagi Brilliant Park</cite> Ending Theme",
+            "$": {
+              "datetime": "2014-09-02T18:20:00Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-09-02/yuka-aisaka-tomoyo-kurosawa-shiori-mikami-minami-tsuda-perfom-amagi-brilliant-park-ending-theme/.78314"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park</cite> Anime's New TV Spot Features Theme Song",
+            "$": {
+              "datetime": "2014-09-24T12:00:00Z",
+              "href": "http://www.animenewsnetwork.com:/news/2014-09-24/amagi-brilliant-park-anime-new-tv-spot-features-theme-song/.79143"
+            }
+          },
+          {
+            "_": "<cite>Amagi Brilliant Park's</cite> 7th Blu-ray/DVD to Include Unaired Episode",
+            "$": {
+              "datetime": "2015-02-28T07:00:00Z",
+              "href": "http://www.animenewsnetwork.com:/news/2015-02-28/amagi-brilliant-park-7th-blu-ray-dvd-to-include-unaired-episode/.85459"
+            }
+          },
+          {
+            "_": "Crunchyroll to Stream Kyoto Animation's <cite>Amagi Brilliant Park</cite>",
+            "$": {
+              "datetime": "2015-05-21T02:05:53Z",
+              "href": "http://www.animenewsnetwork.com:/news/2015-05-20/crunchyroll-to-stream-kyoto-animation-amagi-brilliant-park/.88393"
+            }
+          },
+          {
+            "_": "Madman Announcements from SMASH! 2015",
+            "$": {
+              "datetime": "2015-08-09T17:27:16Z",
+              "href": "http://www.animenewsnetwork.com:/news/2015-08-10/madman-announcements-from-smash-2015/.91467"
+            }
+          },
+          {
+            "_": "Manga Entertainment and Animatsu News From London Comic Con",
+            "$": {
+              "datetime": "2015-10-23T17:02:00Z",
+              "href": "http://www.animenewsnetwork.com:/news/2015-10-23/manga-entertainment-and-animatsu-from-london-comic-con/.94557"
+            }
+          }
+        ],
+        "staff": [
+          {
+            "$": {
+              "gid": "750188079"
+            },
+            "task": [
+              "Director"
+            ],
+            "person": [
+              {
+                "_": "Yasuhiro Takemoto",
+                "$": {
+                  "id": "9153"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2861965943"
+            },
+            "task": [
+              "Series Composition"
+            ],
+            "person": [
+              {
+                "_": "Fumihiko Shimo",
+                "$": {
+                  "id": "8956"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3378065686"
+            },
+            "task": [
+              "Script"
+            ],
+            "person": [
+              {
+                "_": "Fumihiko Shimo",
+                "$": {
+                  "id": "8956"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3170072738"
+            },
+            "task": [
+              "Script"
+            ],
+            "person": [
+              {
+                "_": "Yasuhiro Takemoto",
+                "$": {
+                  "id": "9153"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1182918543"
+            },
+            "task": [
+              "Script"
+            ],
+            "person": [
+              {
+                "_": "Shoji Gatoh",
+                "$": {
+                  "id": "55641"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1915137601"
+            },
+            "task": [
+              "Script"
+            ],
+            "person": [
+              {
+                "_": "Maiko Nishioka",
+                "$": {
+                  "id": "76963"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1841141411"
+            },
+            "task": [
+              "Script"
+            ],
+            "person": [
+              {
+                "_": "Chika Ishikawa",
+                "$": {
+                  "id": "130610"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2844373223"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Tatsuya Ishihara",
+                "$": {
+                  "id": "9087"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3060499009"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Yasuhiro Takemoto",
+                "$": {
+                  "id": "9153"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1636873118"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Eisaku Kawanami",
+                "$": {
+                  "id": "37653"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3759707085"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Noriyuki Kitanohara",
+                "$": {
+                  "id": "39701"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1286948293"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Takuya Yamamura",
+                "$": {
+                  "id": "76915"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2176333687"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Taiichi Ogawa",
+                "$": {
+                  "id": "76983"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2212354654"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Ai Yukimura",
+                "$": {
+                  "id": "84041"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3559995253"
+            },
+            "task": [
+              "Storyboard"
+            ],
+            "person": [
+              {
+                "_": "Haruka Fujita",
+                "$": {
+                  "id": "100793"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2265488489"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Tatsuya Ishihara",
+                "$": {
+                  "id": "9087"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1958550574"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Yasuhiro Takemoto",
+                "$": {
+                  "id": "9153"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3001794193"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Eisaku Kawanami",
+                "$": {
+                  "id": "37653"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1200822434"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Noriyuki Kitanohara",
+                "$": {
+                  "id": "39701"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1099832034"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Takuya Yamamura",
+                "$": {
+                  "id": "76915"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1175164107"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Taiichi Ogawa",
+                "$": {
+                  "id": "76983"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2533231392"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Ai Yukimura",
+                "$": {
+                  "id": "84041"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2184081065"
+            },
+            "task": [
+              "Episode Director"
+            ],
+            "person": [
+              {
+                "_": "Haruka Fujita",
+                "$": {
+                  "id": "100793"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3822235116"
+            },
+            "task": [
+              "Unit Director"
+            ],
+            "person": [
+              {
+                "_": "Yasuhiro Takemoto",
+                "$": {
+                  "id": "9153"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1639277474"
+            },
+            "task": [
+              "Music"
+            ],
+            "person": [
+              {
+                "_": "Shinkichi Mitsumune",
+                "$": {
+                  "id": "382"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1709724491"
+            },
+            "task": [
+              "Original creator"
+            ],
+            "person": [
+              {
+                "_": "Shoji Gatoh",
+                "$": {
+                  "id": "55641"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2264248101"
+            },
+            "task": [
+              "Original Character Design"
+            ],
+            "person": [
+              {
+                "_": "Yuka Nakajima",
+                "$": {
+                  "id": "106778"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3172043054"
+            },
+            "task": [
+              "Character Design"
+            ],
+            "person": [
+              {
+                "_": "Miku Kadowaki",
+                "$": {
+                  "id": "74455"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2266796413"
+            },
+            "task": [
+              "Art Director"
+            ],
+            "person": [
+              {
+                "_": "Mikiko Watanabe",
+                "$": {
+                  "id": "76971"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2046843969"
+            },
+            "task": [
+              "Chief Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Nobuaki Maruki",
+                "$": {
+                  "id": "76920"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2371153232"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Hiroyuki Takahashi",
+                "$": {
+                  "id": "7692"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2102957925"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Kazumi Ikeda",
+                "$": {
+                  "id": "27993"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3204382693"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Futoshi Nishiya",
+                "$": {
+                  "id": "37457"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2124950073"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Chiyoko Ueno",
+                "$": {
+                  "id": "38075"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1610802947"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Kayo Hikiyama",
+                "$": {
+                  "id": "56340"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1405380610"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Rie Sezaki",
+                "$": {
+                  "id": "56766"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1992673240"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Nobuaki Maruki",
+                "$": {
+                  "id": "76920"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3038479082"
+            },
+            "task": [
+              "Animation Director"
+            ],
+            "person": [
+              {
+                "_": "Seiichi Akitake",
+                "$": {
+                  "id": "88726"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2255596483"
+            },
+            "task": [
+              "Sound Director"
+            ],
+            "person": [
+              {
+                "_": "Yota Tsuruoka",
+                "$": {
+                  "id": "254"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2903159240"
+            },
+            "task": [
+              "Director of Photography"
+            ],
+            "person": [
+              {
+                "_": "Norihiro Tomiita",
+                "$": {
+                  "id": "76959"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "711840350"
+            },
+            "task": [
+              "Producer"
+            ],
+            "person": [
+              {
+                "_": "Yoshihisa Nakayama",
+                "$": {
+                  "id": "15892"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1623423556"
+            },
+            "task": [
+              "Producer"
+            ],
+            "person": [
+              {
+                "_": "Yuichi Yamada",
+                "$": {
+                  "id": "52140"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1996192183"
+            },
+            "task": [
+              "Producer"
+            ],
+            "person": [
+              {
+                "_": "Shinji Horikiri",
+                "$": {
+                  "id": "61814"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1885549592"
+            },
+            "task": [
+              "Producer"
+            ],
+            "person": [
+              {
+                "_": "Shunsuke Matsumura",
+                "$": {
+                  "id": "94871"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2758078423"
+            },
+            "task": [
+              "Producer"
+            ],
+            "person": [
+              {
+                "_": "Tomohito Nagase",
+                "$": {
+                  "id": "119180"
+                }
+              }
+            ]
+          }
+        ],
+        "cast": [
+          {
+            "$": {
+              "gid": "1620011398",
+              "lang": "JA"
+            },
+            "role": [
+              "Moffle"
+            ],
+            "person": [
+              {
+                "_": "Ayako Kawasumi",
+                "$": {
+                  "id": "525"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3587628244",
+              "lang": "JA"
+            },
+            "role": [
+              "Rubrum the Red Dragon"
+            ],
+            "person": [
+              {
+                "_": "Jouji Nakata",
+                "$": {
+                  "id": "1030"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2912840696",
+              "lang": "JA"
+            },
+            "role": [
+              "Tirami"
+            ],
+            "person": [
+              {
+                "_": "Ai Nonaka",
+                "$": {
+                  "id": "13321"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "814944388",
+              "lang": "JA"
+            },
+            "role": [
+              "Macaron"
+            ],
+            "person": [
+              {
+                "_": "Ryoko Shiraishi",
+                "$": {
+                  "id": "16480"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "4069186308",
+              "lang": "JA"
+            },
+            "role": [
+              "Eiko Adachi"
+            ],
+            "person": [
+              {
+                "_": "Hiromi Igarashi",
+                "$": {
+                  "id": "34411"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3712391681",
+              "lang": "JA"
+            },
+            "role": [
+              "Takaya Kurisu"
+            ],
+            "person": [
+              {
+                "_": "Junichi Suwabe",
+                "$": {
+                  "id": "48696"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2500973418",
+              "lang": "JA"
+            },
+            "role": [
+              "Seiya Kanie"
+            ],
+            "person": [
+              {
+                "_": "Kouki Uchiyama",
+                "$": {
+                  "id": "56091"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3352514122",
+              "lang": "JA"
+            },
+            "role": [
+              "Kobori"
+            ],
+            "person": [
+              {
+                "_": "Shiori Mikami",
+                "$": {
+                  "id": "74584"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3254725778",
+              "lang": "JA"
+            },
+            "role": [
+              "Sylphy"
+            ],
+            "person": [
+              {
+                "_": "Tomoyo Kurosawa",
+                "$": {
+                  "id": "86495"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1756424523",
+              "lang": "JA"
+            },
+            "role": [
+              "Biino Bandou"
+            ],
+            "person": [
+              {
+                "_": "Natsumi Takamori",
+                "$": {
+                  "id": "87790"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2474045441",
+              "lang": "JA"
+            },
+            "role": [
+              "Latifah Fullanza"
+            ],
+            "person": [
+              {
+                "_": "Yukiyo Fujii",
+                "$": {
+                  "id": "87791"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1712178862",
+              "lang": "JA"
+            },
+            "role": [
+              "Salama"
+            ],
+            "person": [
+              {
+                "_": "Minami Tsuda",
+                "$": {
+                  "id": "94856"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2659898315",
+              "lang": "JA"
+            },
+            "role": [
+              "Isuzu Sento"
+            ],
+            "person": [
+              {
+                "_": "Ai Kakuma",
+                "$": {
+                  "id": "109103"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2322782423",
+              "lang": "JA"
+            },
+            "role": [
+              "Shiina Chūjō"
+            ],
+            "person": [
+              {
+                "_": "Haruka Chisuga",
+                "$": {
+                  "id": "117875"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3003680281",
+              "lang": "JA"
+            },
+            "role": [
+              "Muse"
+            ],
+            "person": [
+              {
+                "_": "Yuka Aisaka",
+                "$": {
+                  "id": "124966"
+                }
+              }
+            ]
+          }
+        ],
+        "credit": [
+          {
+            "$": {
+              "gid": "2629315026"
+            },
+            "task": [
+              "Animation Production"
+            ],
+            "company": [
+              {
+                "_": "Kyoto Animation",
+                "$": {
+                  "id": "235"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2203112484"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "TBS",
+                "$": {
+                  "id": "49"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "847405470"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "Kyoto Animation",
+                "$": {
+                  "id": "235"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2059055023"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "Dax Production",
+                "$": {
+                  "id": "2915"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "1300677723"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "Mobcast",
+                "$": {
+                  "id": "12838"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "3278703157"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "Avex Pictures",
+                "$": {
+                  "id": "13014"
+                }
+              }
+            ]
+          },
+          {
+            "$": {
+              "gid": "2600002916"
+            },
+            "task": [
+              "Production"
+            ],
+            "company": [
+              {
+                "_": "Amabri Rebirth Committee",
+                "$": {
+                  "id": "13225"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "main_title": [
+    "Amagi Brilliant Park"
+  ],
+  "genres": [
+    "comedy",
+    "magic"
+  ],
+  "themes": [],
+  "number_of_episodes": 13,
+  "plot_summary": [
+    "Seiya was forced to accept an invitation to an amusement park by the mysterious and beautiful girl Isuzu. What he didn't know was that she would bring him to the decrepit Amagi Brilliant Park, Japan's most disappointing amusement park. Seiya is introduced to the leader of the Park, the \"real princess\" Latifah, who suddenly entrusts him with saving the park, which is in danger of shutting down. Amagi Brilliant Park, it turns out, is not just any amusement park, but rather one populated by fairies."
+  ],
+  "cast": [
+    {
+      "character": "Moffle",
+      "seiyuu": "Ayako Kawasumi",
+      "seiyuu_id": "525"
+    },
+    {
+      "character": "Rubrum the Red Dragon",
+      "seiyuu": "Jouji Nakata",
+      "seiyuu_id": "1030"
+    },
+    {
+      "character": "Tirami",
+      "seiyuu": "Ai Nonaka",
+      "seiyuu_id": "13321"
+    },
+    {
+      "character": "Macaron",
+      "seiyuu": "Ryoko Shiraishi",
+      "seiyuu_id": "16480"
+    },
+    {
+      "character": "Eiko Adachi",
+      "seiyuu": "Hiromi Igarashi",
+      "seiyuu_id": "34411"
+    },
+    {
+      "character": "Takaya Kurisu",
+      "seiyuu": "Junichi Suwabe",
+      "seiyuu_id": "48696"
+    },
+    {
+      "character": "Seiya Kanie",
+      "seiyuu": "Kouki Uchiyama",
+      "seiyuu_id": "56091"
+    },
+    {
+      "character": "Kobori",
+      "seiyuu": "Shiori Mikami",
+      "seiyuu_id": "74584"
+    },
+    {
+      "character": "Sylphy",
+      "seiyuu": "Tomoyo Kurosawa",
+      "seiyuu_id": "86495"
+    },
+    {
+      "character": "Biino Bandou",
+      "seiyuu": "Natsumi Takamori",
+      "seiyuu_id": "87790"
+    },
+    {
+      "character": "Latifah Fullanza",
+      "seiyuu": "Yukiyo Fujii",
+      "seiyuu_id": "87791"
+    },
+    {
+      "character": "Salama",
+      "seiyuu": "Minami Tsuda",
+      "seiyuu_id": "94856"
+    },
+    {
+      "character": "Isuzu Sento",
+      "seiyuu": "Ai Kakuma",
+      "seiyuu_id": "109103"
+    },
+    {
+      "character": "Shiina Chūjō",
+      "seiyuu": "Haruka Chisuga",
+      "seiyuu_id": "117875"
+    },
+    {
+      "character": "Muse",
+      "seiyuu": "Yuka Aisaka",
+      "seiyuu_id": "124966"
+    }
+  ],
+  "opening_theme": [
+    "\"Extra Magic Hours\" by AKINO with bless4"
+  ],
+  "ending_theme": [
+    "\"Erementario de Aimashō\" (エレメンタリオで会いましょう) by BRILLIANT4"
+  ],
+  "images": [
+    "http://cdn.animenewsnetwork.com/thumbnails/fit200x200/encyc/A16133-690058319.1435474632.jpg",
+    "http://cdn.animenewsnetwork.com/thumbnails/fit200x200/encyc/A16133-690058319.1435474632.jpg",
+    "http://cdn.animenewsnetwork.com/thumbnails/max500x600/encyc/A16133-690058319.1435474632.jpg",
+    "http://cdn.animenewsnetwork.com/images/encyc/A16133-690058319.1435474632.jpg"
+  ]
+}
