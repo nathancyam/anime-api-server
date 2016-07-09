@@ -11,8 +11,8 @@ router.get('/search', (req, res) => {
   const searcher = req.app.get('ann_searcher');
 
   searcher.search(req.query)
-    .then(response => res.send(response))
-    .catch(err => res.send(err));
+    .then(response => res.json(response))
+    .catch(err => res.json(err));
 });
 
 router.get('/search/all', (req, res) => {

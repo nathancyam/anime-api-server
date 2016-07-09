@@ -15,10 +15,12 @@ class Searcher {
   /**
    * @param {NameSearcher} nameSearcher
    * @param {IdSearcher} idSearcher
+   * @param {AnnImageHandler} imageHandler
    */
-  constructor(nameSearcher, idSearcher) {
+  constructor(nameSearcher, idSearcher, imageHandler) {
     this.nameSearcher = nameSearcher;
     this.idSearcher = idSearcher;
+    this.imageHandler = imageHandler;
   }
 
   /**
@@ -27,14 +29,20 @@ class Searcher {
    */
   search(searchObj) {
     const { name, annId } = searchObj;
+    let searchFn;
 
     if (name && typeof annId === 'undefined') {
-      return this.nameSearcher.search(name);
+      searchFn = this.nameSearcher.search.bind(this.nameSearcher, name);
     }
 
     if (annId && typeof name === 'undefined') {
-      return this.idSearcher.search(annId);
+      searchFn = this.idSearcher.search.bind(this.idSearcher, annId);
     }
+
+    return searchFn()
+      .then(response => {
+        return this.imageHandler.handle(response);
+      });
   }
 }
 
@@ -106,6 +114,7 @@ class NameSearcher {
    */
   search(name) {
     return new Promise((resolve, reject) => {
+
       request.get(`${ANN_GENERAL_URI}&${qs.stringify({ name: name })}`, (err, resp, body) => {
         if (err) {
           return reject(err);

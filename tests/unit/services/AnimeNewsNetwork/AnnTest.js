@@ -14,7 +14,9 @@ const googleJsonResponse = JSON.parse(fs.readFileSync(__dirname + '/fixtures/goo
 const should = require('chai').should();
 const ResponseParser = require('../../../../src/services/AnimeNewsNetwork/parser');
 const AnimeNewsNetwork = require('../../../../src/services/AnimeNewsNetwork');
+const ImageHandler = require('../../../../src/services/AnimeNewsNetwork/image');
 const request = require('request');
+const stream = require('stream');
 const sinon = require('sinon');
 
 describe('UNIT: Anime News Network Test', () => {
@@ -29,9 +31,69 @@ describe('UNIT: Anime News Network Test', () => {
   });
 
   describe('Image Parser', () => {
-    it('should check if the image is in the directory');
-    it('should replace the Ann image property with the one in our filesystem and update the response')
-    it('should download the image if it does not exist on our file system and update the response');
+    let fsStub;
+    let requestStub;
+    let fsStream;
+
+    beforeEach(() => {
+      fsStub = sinon.stub(fs, 'readdir');
+      fsStream = sinon.stub(fs, 'createWriteStream');
+      requestStub = sinon.stub(request, 'get');
+    });
+
+    afterEach(() => {
+      fsStub.restore();
+      requestStub.restore();
+      fsStream.restore();
+    });
+
+    it('should check if the image is in the directory and update the response', () => {
+      const imageHandler = new ImageHandler('/tmp');
+
+      fsStub.yields(null, [ 'ann_title_full.jpg' ]);
+
+      return imageHandler.handle({
+        main_title: ['Title'],
+        images: [
+          'small_image.jpg',
+          'full_image.jpg',
+          'medium_image.jpg'
+        ]
+      })
+      .then(result => {
+        result.images.should.contain('/media/images/ann_title_full.jpg');
+      });
+    });
+
+    it('should download the image if it does not exist on our file system and update the response', () => {
+      const mockStream = new stream.Writable();
+      const imageHandler = new ImageHandler('/tmp');
+
+      fsStub.yields(null, []);
+      fsStream.returns(mockStream);
+
+      requestStub.returns(
+        {
+          pipe() {
+            setTimeout(() => {
+              mockStream.emit('close')
+            }, 10);
+          }
+        });
+
+      return imageHandler.handle({
+        main_title: ['Title'],
+        images: [
+          'small_image.jpg',
+          'full_image.jpg',
+          'medium_image.jpg'
+        ]
+      })
+        .then(result => {
+          requestStub.calledOnce.should.equal(true);
+          result.images.should.contain('/media/images/ann_title_full.jpg');
+        });
+    });
   });
   
   describe('AnimeNewsNetworkSearcher', () => {

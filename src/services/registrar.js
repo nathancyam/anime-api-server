@@ -12,6 +12,7 @@ const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
 
 const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
+const AnnImageHandler = require('./AnimeNewsNetwork/image');
 const GoogleHelper = require('./AnimeNewsNetwork/google');
 const ParserFactory = require('./AnimeNewsNetwork/parser');
 
@@ -31,6 +32,7 @@ module.exports = (app, httpServer) => {
   const transmissionServer = new TransmissionServer(torrentChannel);
   const nyaaTorrentSearcher = new NyaaTorrentSearcher();
 
+  const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
   const _nameSearcher = new NameSearcher(
     _idSearcher,
@@ -38,7 +40,7 @@ module.exports = (app, httpServer) => {
     ParserFactory.create()
   );
 
-  const annSearcher = new Searcher(_nameSearcher, _idSearcher);
+  const annSearcher = new Searcher(_nameSearcher, _idSearcher, _imageHandler);
 
   // Setup
   notificationManager.attachListener(pushBullet);
