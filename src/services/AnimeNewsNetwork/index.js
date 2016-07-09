@@ -43,18 +43,28 @@ class IdSearcher {
    * @param {ResponseParser} parser
    */
   constructor(parser) {
+    this._cache = {};
     this.parser = parser;
   }
 
   search(annId) {
     return new Promise((resolve, reject) => {
+      const cacheKey = `ann_${annId}`;
+
+      if (this._cache[cacheKey]) {
+        return resolve(this._cache[cacheKey]);
+      }
+
       request.get(`${ANN_SPECIFIC_URI}?${qs.stringify({ anime: annId })}`, (err, resp, body) => {
         if (err) {
           return reject(err);
         }
 
         this.parser.parse(body)
-          .then(result => resolve(result))
+          .then(result => {
+            this._cache[cacheKey] = result;
+            return resolve(result)
+          })
           .catch(err => reject(err));
       });
     });

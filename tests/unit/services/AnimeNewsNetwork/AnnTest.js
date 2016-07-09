@@ -50,6 +50,21 @@ describe('UNIT: Anime News Network Test', () => {
         });
     });
 
+    it('should cache a result for the Id searcher', () => {
+      stub.yields(null, {}, xmlResponse);
+      const searcher = new AnimeNewsNetwork.IdSearcher(ResponseParser.createWithParsers());
+      return searcher.search(100)
+        .then(result => {
+          stub.calledOnce.should.equal(true);
+          result.should.deep.equal(jsonResponse);
+          return searcher.search(100);
+        })
+        .then(result => {
+          stub.calledTwice.should.equal(false);
+          result.should.deep.equal(jsonResponse);
+        });
+    });
+
     it('should find the general anime based off a name', () => {
       const idSearcher = {
         search() {}
