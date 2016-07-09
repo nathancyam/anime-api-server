@@ -27,6 +27,12 @@ describe('UNIT: Anime News Network Test', () => {
         });
     });
   });
+
+  describe('Image Parser', () => {
+    it('should check if the image is in the directory');
+    it('should replace the Ann image property with the one in our filesystem and update the response')
+    it('should download the image if it does not exist on our file system and update the response');
+  });
   
   describe('AnimeNewsNetworkSearcher', () => {
     let stub;

@@ -10,12 +10,9 @@ const Cache = require('../modules/cache');
 router.get('/search', (req, res) => {
   const searcher = req.app.get('ann_searcher');
 
-  searcher.search(req.query).then(response => {
-    Cache.set(req.url, response);
-    return res.send(response);
-  }, err => {
-    return res.send(err);
-  });
+  searcher.search(req.query)
+    .then(response => res.send(response))
+    .catch(err => res.send(err));
 });
 
 router.get('/search/all', (req, res) => {
