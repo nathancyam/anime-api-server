@@ -27,8 +27,14 @@ class GoogleSearch {
       const request = https.request(url.parse(requestUrl), res => {
         var responseStr = '';
 
-        res.on('data', chunk => responseStr += chunk);
-        res.on('end', () => resolve(JSON.parse(responseStr)));
+        res.on('data', chunk => {
+          winston.info(`writing`);
+          responseStr += chunk
+        });
+        res.on('end', () => {
+          winston.info(`Finished`);
+          return resolve(JSON.parse(responseStr))
+        });
         res.on('error', err => {
           winston.error(err);
           return reject(err)
