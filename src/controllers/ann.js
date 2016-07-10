@@ -15,7 +15,8 @@ router.get('/search', (req, res) => {
 });
 
 router.post('/update', (req, res) => {
-  const { anime: { _id, name }, ann } = req.body;
+  const { anime: { _id, name }} = req.body;
+  const { ann } = req.body;
 
   if (!_id) {
     return res.status(404).json({ message: 'Anime entity not found' });
