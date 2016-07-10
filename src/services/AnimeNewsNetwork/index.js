@@ -6,6 +6,7 @@
 
 const qs = require('querystring');
 const request = require('request');
+const winston = require('winston');
 
 const ANN_GENERAL_URI = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime';
 const ANN_ALL_ANIME = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&nlist=all&type=anime';
@@ -28,6 +29,7 @@ class Searcher {
    * @returns {Promise}
    */
   search(searchObj) {
+    winston.info('Search Object: ' + JSON.stringify(searchObj));
     const { name, annId } = searchObj;
     let searchFn;
 
@@ -70,6 +72,7 @@ class IdSearcher {
 
         this.parser.parse(body)
           .then(result => {
+            winston.info(`Search Result for ${annId}`);
             this._cache[cacheKey] = result;
             return resolve(result)
           })
@@ -103,6 +106,7 @@ class NameSearcher {
           return link.indexOf('anime.php?id') !== -1;
         });
 
+        winston.info(`Google search: ${link}`);
         const [_, annId] = link.match(/php\?id=(\d*)$/);
         return this.idSearcher.search(parseInt(annId));
       });
@@ -113,6 +117,7 @@ class NameSearcher {
    * @returns {Promise}
    */
   search(name) {
+    winston.info(`Search name: ${name}`);
     return new Promise((resolve, reject) => {
 
       request.get(`${ANN_GENERAL_URI}&${qs.stringify({ name: name })}`, (err, resp, body) => {

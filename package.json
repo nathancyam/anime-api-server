@@ -45,6 +45,7 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "sinon": "*",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "winston": "^2.2.0"
   }
 }
