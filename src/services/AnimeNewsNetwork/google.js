@@ -4,6 +4,7 @@
 
 const https = require('https');
 const url = require('url');
+const winston = require('winston');
 
 class GoogleSearch {
   /**
@@ -24,6 +25,7 @@ class GoogleSearch {
         requestUrl = `${requestUrl}&queries=nextPage`;
       }
 
+      winston.info(`google url: ${requestUrl}`);
       const request = https.request(url.parse(requestUrl), res => {
         var responseStr = '';
 
@@ -44,9 +46,11 @@ class GoogleSearch {
     return this._makeRequest(searchTerm)
       .then(response => {
         const { items } = response;
+        winston.info(`Google items: ${items}`);
         const hasLink = items.some(({ link }) => link.includes('anime.php?id'));
 
         if (hasLink) {
+          winston.info(`found link`);
           return response;
         }
 
