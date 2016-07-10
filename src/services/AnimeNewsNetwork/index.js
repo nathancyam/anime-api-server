@@ -133,6 +133,10 @@ class NameSearcher {
             const { report: { item, args } } = result;
             const [{ name: [ animeName ] }] = args;
 
+            winston.info(`item: ${item}`);
+            winston.info(`args: ${args}`);
+            winston.info(`name: ${animeName}`);
+
             if (typeof item === 'undefined' && animeName) {
               return this._startGoogleSearch(animeName);
             }
