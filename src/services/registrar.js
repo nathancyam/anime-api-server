@@ -34,9 +34,10 @@ module.exports = (app, httpServer) => {
 
   const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
+  const _googleHelper = new GoogleHelper(appConfig.google);
   const _nameSearcher = new NameSearcher(
     _idSearcher,
-    new GoogleHelper(appConfig.google),
+    _googleHelper,
     ParserFactory.create()
   );
 

@@ -4,6 +4,7 @@
 
 const router = require('express').Router();
 const Cache = require('../modules/cache');
+const AnnCommand = require('../commands/ann');
 
 router.get('/search', (req, res) => {
   const searcher = req.app.get('ann_searcher');
@@ -11,6 +12,36 @@ router.get('/search', (req, res) => {
   searcher.search(req.query)
     .then(response => res.json(response))
     .catch(err => res.json(err));
+});
+
+router.post('/update', (req, res) => {
+  const { anime: { _id, name }, ann } = req.body;
+
+  if (!_id) {
+    return res.status(404).json({ message: 'Anime entity not found' });
+  }
+
+  let payload;
+  const searcher = req.app.get('ann_searcher');
+  
+  if (ann && ann.id) {
+    payload = { annId: ann.id };
+  } else {
+    payload = { name }
+  }
+  
+  req.app.getModel('anime')
+    .findById(_id)
+    .then(animeEntity => {
+      const command = AnnCommand.create(searcher, animeEntity, payload);
+      return command.handle();
+    })
+    .then(result => {
+      return res.json(result);
+    })
+    .catch(err => {
+      return res.status(500).json({ err });
+    });
 });
 
 router.get('/search/all', (req, res) => {
