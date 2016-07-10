@@ -15,14 +15,16 @@ class GoogleSearch {
     this.requestUrl = `https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=${apiKey}&cx=${cx}&q=`;
   }
 
-  /**
-   * @param {String} searchTerm
-   * @returns {Promise}
-   */
-  searchAnime(searchTerm) {
+  _makeRequest(searchTerm, nextPage) {
+    nextPage = nextPage || false;
+
     return new Promise((resolve, reject) => {
-      var requestUrl = this.requestUrl + searchTerm;
-      var request = https.request(url.parse(requestUrl), function (res) {
+      let requestUrl = `${this.requestUrl}${searchTerm}`;
+      if (nextPage) {
+        requestUrl = `${requestUrl}&queries=nextPage`;
+      }
+
+      const request = https.request(url.parse(requestUrl), res => {
         var responseStr = '';
 
         res.on('data', chunk => responseStr += chunk);
@@ -32,6 +34,24 @@ class GoogleSearch {
 
       request.end();
     });
+  }
+
+  /**
+   * @param {String} searchTerm
+   * @returns {Promise}
+   */
+  searchAnime(searchTerm) {
+    return this._makeRequest(searchTerm)
+      .then(response => {
+        const { items } = response;
+        const hasLink = items.some(({ link }) => link.includes('anime.php?id'));
+
+        if (hasLink) {
+          return response;
+        }
+
+        return this._makeRequest(searchTerm, true);
+      });
   }
 }
 
