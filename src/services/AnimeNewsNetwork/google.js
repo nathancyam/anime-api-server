@@ -47,10 +47,11 @@ class GoogleSearch {
 
   /**
    * @param {String} searchTerm
+   * @param {Number} counter
    * @returns {Promise}
    */
-  searchAnime(searchTerm) {
-    let counter = 0;
+  searchAnime(searchTerm, counter) {
+    counter = counter || 0;
     return this._makeRequest(searchTerm)
       .then(response => {
         const { items } = response;
@@ -62,8 +63,7 @@ class GoogleSearch {
           return response;
         }
 
-        counter++;
-        return this._makeRequest(searchTerm, counter * 10);
+        return this.searchAnime(searchTerm, (counter + 1) * 10);
       });
   }
 }
