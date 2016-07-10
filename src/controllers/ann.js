@@ -3,8 +3,6 @@
  */
 
 const router = require('express').Router();
-
-const AnimeNewsNetwork = require('../resources/ann');
 const Cache = require('../modules/cache');
 
 router.get('/search', (req, res) => {
