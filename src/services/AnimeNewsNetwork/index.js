@@ -121,12 +121,15 @@ class NameSearcher {
     return new Promise((resolve, reject) => {
 
       request.get(`${ANN_GENERAL_URI}&${qs.stringify({ name: name })}`, (err, resp, body) => {
+        winston.info(`Search name URI: ${ANN_GENERAL_URI}&${qs.stringify({ name: name })}`);
+
         if (err) {
           return reject(err);
         }
 
         return this.parser.parse(body)
           .then(result => {
+            winston.info(result);
             const { report: { item, args } } = result;
             const [{ name: [ animeName ] }] = args;
 
