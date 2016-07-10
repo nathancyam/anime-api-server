@@ -4,6 +4,7 @@
 
 const https = require('https');
 const url = require('url');
+const qs = require('qs');
 const winston = require('winston');
 
 class GoogleSearch {
@@ -13,17 +14,14 @@ class GoogleSearch {
   constructor(config) {
     const apiKey = config.custSearchAPI;
     const cx = config.custSearchCX;
-    this.requestUrl = `https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=${apiKey}&cx=${cx}&q=`;
+    this.requestUrl = `https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=${apiKey}&cx=${cx}`;
   }
 
-  _makeRequest(searchTerm, nextPage) {
-    nextPage = nextPage || false;
+  _makeRequest(searchTerm, counter) {
+    counter = counter || 0;
 
     return new Promise((resolve, reject) => {
-      let requestUrl = `${this.requestUrl}${searchTerm}`;
-      if (nextPage) {
-        requestUrl = `${requestUrl}&queries=nextPage`;
-      }
+      let requestUrl = `${this.requestUrl}&${qs.stringify({ q: searchTerm, startIndex: counter })}`;
 
       winston.info(`google url: ${requestUrl}`);
       const request = https.request(url.parse(requestUrl), res => {
@@ -31,7 +29,10 @@ class GoogleSearch {
 
         res.on('data', chunk => responseStr += chunk);
         res.on('end', () => resolve(JSON.parse(responseStr)));
-        res.on('error', err => reject(err));
+        res.on('error', err => {
+          winston.error(err);
+          return reject(err)
+        });
       });
 
       request.end();
@@ -43,6 +44,7 @@ class GoogleSearch {
    * @returns {Promise}
    */
   searchAnime(searchTerm) {
+    let counter = 0;
     return this._makeRequest(searchTerm)
       .then(response => {
         const { items } = response;
@@ -54,7 +56,8 @@ class GoogleSearch {
           return response;
         }
 
-        return this._makeRequest(searchTerm, true);
+        counter++;
+        return this._makeRequest(searchTerm, counter * 10);
       });
   }
 }
