@@ -15,9 +15,12 @@ const should = require('chai').should();
 const ResponseParser = require('../../../../src/services/AnimeNewsNetwork/parser');
 const AnimeNewsNetwork = require('../../../../src/services/AnimeNewsNetwork');
 const ImageHandler = require('../../../../src/services/AnimeNewsNetwork/image');
+const GoogleHelper = require('../../../../src/services/AnimeNewsNetwork/google');
+const EventEmitter = require('events').EventEmitter;
 const request = require('request');
 const stream = require('stream');
 const sinon = require('sinon');
+const https = require('https');
 
 describe('UNIT: Anime News Network Test', () => {
   describe('ResponseParser', () => {
@@ -213,5 +216,55 @@ describe('UNIT: Anime News Network Test', () => {
           idProp.called.should.equal(true);
         });
     });
-  })
+  });
+
+  describe('Google searcher', () => {
+    let requestStub;
+
+    beforeEach(() => {
+      requestStub = sinon.stub(https, 'request');
+    });
+
+    afterEach(() => {
+      requestStub.restore();
+    });
+
+    it('should use Google search pagination to find a result', () => {
+      const stubReturn =  new EventEmitter();
+      const searcher = new GoogleHelper({
+        custSearchAPI: 'testapi',
+        custSearchCX: 'example'
+      });
+
+      requestStub.onCall(0).yields(stubReturn);
+      requestStub.onCall(0).returns({ end() {
+
+          stubReturn.emit('data', JSON.stringify({
+            items: [ { link: "test1" }, { link: "test2" }, { link: "test3" } ]
+          }));
+
+          stubReturn.emit('end');
+
+      } });
+
+      requestStub.onCall(1).yields(stubReturn);
+      requestStub.onCall(1).returns({ end() {
+
+          stubReturn.emit('data', JSON.stringify({
+            items: [ { link: "anime.php?id=123" }, { link: "test2" }, { link: "test3" } ]
+          }));
+
+          stubReturn.emit('end');
+
+      } });
+
+      return searcher.searchAnime('Test')
+        .then(response => {
+          requestStub.calledTwice.should.equal(true);
+          response.should.deep.equal({
+            items: [ { link: "anime.php?id=123" }, { link: "test2" }, { link: "test3" } ]
+          })
+        });
+    });
+  });
 });

@@ -1,11 +1,12 @@
+
 /**
- * Created by nathanyam on 25/04/2014.
+ * @typedef {Object} GoogleCustomSearchResponse
+ * @property {Object[]} items
  */
 
 const https = require('https');
 const url = require('url');
 const qs = require('qs');
-const winston = require('winston');
 
 class GoogleSearch {
   /**
@@ -17,26 +18,29 @@ class GoogleSearch {
     this.requestUrl = `https://www.googleapis.com/customsearch/v1?googlehost=google.com&key=${apiKey}&cx=${cx}`;
   }
 
-  _makeRequest(searchTerm, counter) {
-    counter = counter || 0;
+  /**
+   * @param {String} searchTerm
+   * @param {Number} counter
+   * @returns {Promise.<GoogleCustomSearchResponse>}
+   * @private
+   */
+  _makeRequest(searchTerm, counter = 0) {
 
     return new Promise((resolve, reject) => {
       let requestUrl = `${this.requestUrl}&${qs.stringify({ q: searchTerm, startIndex: counter })}`;
 
-      winston.info(`google url: ${requestUrl}`);
       const request = https.request(url.parse(requestUrl), res => {
-        var responseStr = '';
+        let responseStr = '';
 
         res.on('data', chunk => {
-          winston.info(`writing`);
           responseStr += chunk
         });
         res.on('end', () => {
-          winston.info(`Finished`);
-          return resolve(JSON.parse(responseStr))
+          const result = JSON.parse(responseStr);
+          responseStr = '';
+          return resolve(result);
         });
         res.on('error', err => {
-          winston.error(err);
           return reject(err)
         });
       });
@@ -50,16 +54,13 @@ class GoogleSearch {
    * @param {Number} counter
    * @returns {Promise}
    */
-  searchAnime(searchTerm, counter) {
-    counter = counter || 0;
+  searchAnime(searchTerm, counter = 0) {
     return this._makeRequest(searchTerm)
       .then(response => {
         const { items } = response;
-        winston.info(`Google items: ${items}`);
         const hasLink = items.some(({ link }) => link.includes('anime.php?id'));
 
         if (hasLink) {
-          winston.info(`found link`);
           return response;
         }
 
