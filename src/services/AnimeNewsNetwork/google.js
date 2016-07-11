@@ -55,18 +55,60 @@ class GoogleSearch {
    * @returns {Promise}
    */
   searchAnime(searchTerm, counter = 0) {
-    return this._makeRequest(searchTerm)
+    return this._makeRequest(searchTerm, counter)
       .then(response => {
-        const { items } = response;
+        const { items, error } = response;
+
+        if (error) {
+          throw error;
+        }
+
         const hasLink = items.some(({ link }) => link.includes('anime.php?id'));
 
         if (hasLink) {
           return response;
+        } else {
+          return this.searchAnime(searchTerm, (counter + 1) * 10);
         }
-
-        return this.searchAnime(searchTerm, (counter + 1) * 10);
       });
   }
 }
 
-module.exports = GoogleSearch;
+class RedisGoogleSearch {
+
+  /**
+   * @param {RedisConnector} redisConn
+   * @param {GoogleSearch} googleHelper
+   */
+  constructor(redisConn, googleHelper) {
+    this.redisConn = redisConn;
+    this.googleHelper = googleHelper;
+  }
+
+  /**
+   * @param {String} searchTerm
+   * @returns {String}
+   */
+  setCacheKey(searchTerm) {
+    return `google_ann_id_${searchTerm}`;
+  }
+
+  /**
+   * @param searchTerm
+   * @returns {Promise.<Object>}
+   */
+  searchAnime(searchTerm) {
+    return this.googleHelper.searchAnime(searchTerm)
+      .then(response => {
+        return this.redisConn
+          .getConnection()
+          .set(this.setCacheKey(searchTerm), JSON.stringify(response))
+          .then(() => {
+            return response;
+          })
+      });
+  }
+}
+
+exports.GoogleSearch = GoogleSearch;
+exports.RedisGoogleSearch = RedisGoogleSearch;

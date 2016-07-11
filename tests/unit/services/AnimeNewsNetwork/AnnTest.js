@@ -231,7 +231,7 @@ describe('UNIT: Anime News Network Test', () => {
 
     it('should use Google search pagination to find a result', () => {
       const stubReturn =  new EventEmitter();
-      const searcher = new GoogleHelper({
+      const searcher = new GoogleHelper.GoogleSearch({
         custSearchAPI: 'testapi',
         custSearchCX: 'example'
       });

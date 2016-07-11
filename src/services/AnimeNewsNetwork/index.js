@@ -134,7 +134,10 @@ class NameSearcher {
 
             return this.idSearcher.search(parseInt(annId));
           })
-          .then(result => resolve(result));
+          .then(result => resolve(result))
+          .catch(err => {
+            console.error(err.message);
+          });
       });
     });
   }

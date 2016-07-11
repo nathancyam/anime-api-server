@@ -15,10 +15,16 @@ class RedisConnector {
     this.connection.subscribe(this.channels);
   }
 
+  /**
+   * @returns {Redis}
+   */
   getConnection() {
     return this.connection;
   }
 
+  /**
+   * @returns {Redis}
+   */
   createConnection() {
     return new Redis(this.connectionOptions);
   }
