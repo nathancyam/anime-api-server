@@ -8,6 +8,8 @@ const https = require('https');
 const url = require('url');
 const qs = require('qs');
 
+const GOOGLE_COUNTER_LIMIT = 30;
+
 class GoogleSearch {
   /**
    * @param {Object} config
@@ -67,6 +69,8 @@ class GoogleSearch {
 
         if (hasLink) {
           return response;
+        } else if (counter > GOOGLE_COUNTER_LIMIT) {
+          throw new Error(`Exceeded Google Counter limit of ${GOOGLE_COUNTER_LIMIT}`);
         } else {
           return this.searchAnime(searchTerm, (counter + 1) * 10);
         }
