@@ -81,7 +81,7 @@ class GoogleSearch {
 class RedisGoogleSearch {
 
   /**
-   * @param {RedisConnector} redisConn
+   * @param {RedisConnection} redisConn
    * @param {GoogleSearch} googleHelper
    */
   constructor(redisConn, googleHelper) {
@@ -93,8 +93,8 @@ class RedisGoogleSearch {
    * @param {String} searchTerm
    * @returns {String}
    */
-  setCacheKey(searchTerm) {
-    return `google_ann_id_${searchTerm}`;
+  getCacheKey(searchTerm) {
+    return `google_ann_id_${searchTerm.toLowerCase().replace(/\s/gi, '_')}`;
   }
 
   /**
@@ -102,11 +102,20 @@ class RedisGoogleSearch {
    * @returns {Promise.<Object>}
    */
   searchAnime(searchTerm) {
-    return this.googleHelper.searchAnime(searchTerm)
+    return this.redisConn
+      .getConnection()
+      .get(this.getCacheKey(searchTerm))
+      .then(response => {
+        if (response) {
+          return JSON.parse(response);
+        } else {
+          return this.googleHelper.searchAnime(searchTerm);
+        }
+      })
       .then(response => {
         return this.redisConn
           .getConnection()
-          .set(this.setCacheKey(searchTerm), JSON.stringify(response))
+          .set(this.getCacheKey(searchTerm), JSON.stringify(response))
           .then(() => {
             return response;
           })

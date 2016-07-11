@@ -7,7 +7,7 @@ const SocketHandler = require('./SocketHandler').SocketHandler;
 const NotificationManager = require('./NotificationManager');
 const PushBullet = require('./NotificationManager/PushBullet');
 const TransmissionServer = require('./TransmissionServer');
-const RedisConnector = require('./Redis');
+const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
 
@@ -26,16 +26,17 @@ module.exports = (app, httpServer) => {
   const appConfig = app.get('app_config');
   const notificationManager = new NotificationManager();
   const pushBullet = new PushBullet(appConfig);
-  const redis = new RedisConnector(appConfig.redis);
+  const redisSub = new Redis.RedisSubscriber(appConfig.redis);
+  const redisConn = new Redis.RedisConnection(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
-  const torrentChannel = new TorrentChannel(redis);
+  const torrentChannel = new TorrentChannel(redisSub);
   const transmissionServer = new TransmissionServer(torrentChannel);
   const nyaaTorrentSearcher = new NyaaTorrentSearcher();
 
   const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
   const _googleHelper = new GoogleHelper.RedisGoogleSearch(
-    redis,
+    redisConn,
     new GoogleHelper.GoogleSearch(appConfig.google)
   );
   const _nameSearcher = new NameSearcher(
@@ -52,7 +53,7 @@ module.exports = (app, httpServer) => {
 
   // Registration
   app.set('notification_manager', notificationManager);
-  app.set('redis', redis);
+  app.set('redis', redisSub);
   app.set('socket_handler', socketHandler);
   app.set('torrent_server', transmissionServer);
   app.set('nyaatorrents', nyaaTorrentSearcher);

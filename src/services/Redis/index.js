@@ -6,11 +6,34 @@
 
 const Redis = require('ioredis');
 
-class RedisConnector {
-  constructor(connectionOptions, channels) {
+class RedisConnection {
+
+  /**
+   * @param {Object} connectionOptions
+   */
+  constructor(connectionOptions) {
     this.connectionOptions = connectionOptions;
     this.connection = new Redis(connectionOptions);
-    this.channels = channels || ['meta'];
+  }
+
+  /**
+   * @returns {Redis|*}
+   */
+  getConnection() {
+    return this.connection;
+  }
+}
+
+class RedisSubscriber {
+
+  /**
+   * @param {Object} connectionOptions
+   * @param {String[]} channels
+   */
+  constructor(connectionOptions, channels = ['meta']) {
+    this.connectionOptions = connectionOptions;
+    this.connection = new Redis(connectionOptions);
+    this.channels = channels;
     this.publishConn = null;
     this.connection.subscribe(this.channels);
   }
@@ -38,4 +61,5 @@ class RedisConnector {
   }
 }
 
-module.exports = RedisConnector;
+exports.RedisSubscriber = RedisSubscriber;
+exports.RedisConnection = RedisConnection;
