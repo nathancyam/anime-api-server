@@ -103,14 +103,14 @@ router.post('/:id', (req, res) => {
       }
 
       const updateAnime = Object.assign(anime, req.body);
-      updateAnime.save((err, result) => {
-        if (err) {
-          return res.status(500)
-            .json({ message: 'Failed to save anime model' });
-        }
-
-        return res.status(200).json(result);
-      })
+      return updateAnime.save()
+    })
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(err => {
+      return res.status(500)
+        .json({ message: 'Failed to save anime model', error: err.message });
     });
 });
 

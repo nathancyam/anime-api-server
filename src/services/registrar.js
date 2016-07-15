@@ -58,6 +58,7 @@ module.exports = (app, httpServer) => {
   app.set('torrent_server', transmissionServer);
   app.set('nyaatorrents', nyaaTorrentSearcher);
   app.set('ann_searcher', annSearcher);
+  app.set('ann_google_searcher', _googleHelper);
 
   app.set('auto_updater', new AutoUpdaterServiceFactory(
     new EpisodeUpdaterFactory(),

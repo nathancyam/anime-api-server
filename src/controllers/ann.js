@@ -14,6 +14,14 @@ router.get('/search', (req, res) => {
     .catch(err => res.json(err));
 });
 
+router.get('/google/search', (req, res) => {
+  const searcher = req.app.get('ann_google_searcher');
+
+  searcher.searchAnime(req.query.q)
+    .then(response => res.json(response))
+    .catch(err => res.status(500).json(err));
+});
+
 router.post('/update', (req, res) => {
   const { anime: { _id, name }} = req.body;
   const { ann } = req.body;
