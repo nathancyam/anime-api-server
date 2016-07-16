@@ -99,26 +99,40 @@ class RedisGoogleSearch {
 
   /**
    * @param searchTerm
+   * @returns {Promise.<{canCache: boolean, res: Object}>}
+   * @private
+   */
+  _searchGoogle(searchTerm) {
+    return this.googleHelper.searchAnime(searchTerm)
+      .then(res => ({ canCache: true, res }));
+  }
+
+  /**
+   * @param searchTerm
    * @returns {Promise.<Object>}
    */
   searchAnime(searchTerm) {
     return this.redisConn
       .getConnection()
       .get(this.getCacheKey(searchTerm))
-      .then(response => {
-        if (response) {
-          return JSON.parse(response);
+      .then(res => {
+        if (res) {
+          return { canCache: false, res: JSON.parse(res) };
         } else {
-          return this.googleHelper.searchAnime(searchTerm);
+          return this._searchGoogle(searchTerm);
         }
       })
       .then(response => {
-        return this.redisConn
-          .getConnection()
-          .set(this.getCacheKey(searchTerm), JSON.stringify(response))
-          .then(() => {
-            return response;
-          })
+        if (response.canCache) {
+          return this.redisConn
+            .getConnection()
+            .set(this.getCacheKey(searchTerm), JSON.stringify(response.res))
+            .then(() => {
+              return response.res;
+            })
+        } else {
+          return response.res;
+        }
       });
   }
 }

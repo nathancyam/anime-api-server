@@ -14,9 +14,6 @@ const googleJsonResponse = JSON.parse(fs.readFileSync(__dirname + '/fixtures/goo
 const should = require('chai').should();
 const ResponseParser = require('../../../../src/services/AnimeNewsNetwork/parser');
 const AnimeNewsNetwork = require('../../../../src/services/AnimeNewsNetwork');
-const ImageHandler = require('../../../../src/services/AnimeNewsNetwork/image');
-const GoogleHelper = require('../../../../src/services/AnimeNewsNetwork/google');
-const EventEmitter = require('events').EventEmitter;
 const request = require('request');
 const stream = require('stream');
 const sinon = require('sinon');
@@ -33,72 +30,6 @@ describe('UNIT: Anime News Network Test', () => {
     });
   });
 
-  describe('Image Parser', () => {
-    let fsStub;
-    let requestStub;
-    let fsStream;
-
-    beforeEach(() => {
-      fsStub = sinon.stub(fs, 'readdir');
-      fsStream = sinon.stub(fs, 'createWriteStream');
-      requestStub = sinon.stub(request, 'get');
-    });
-
-    afterEach(() => {
-      fsStub.restore();
-      requestStub.restore();
-      fsStream.restore();
-    });
-
-    it('should check if the image is in the directory and update the response', () => {
-      const imageHandler = new ImageHandler('/tmp');
-
-      fsStub.yields(null, [ 'ann_title_full.jpg' ]);
-
-      return imageHandler.handle({
-        main_title: ['Title'],
-        images: [
-          'small_image.jpg',
-          'full_image.jpg',
-          'medium_image.jpg'
-        ]
-      })
-      .then(result => {
-        result.images.should.contain('/media/images/ann_title_full.jpg');
-      });
-    });
-
-    it('should download the image if it does not exist on our file system and update the response', () => {
-      const mockStream = new stream.Writable();
-      const imageHandler = new ImageHandler('/tmp');
-
-      fsStub.yields(null, []);
-      fsStream.returns(mockStream);
-
-      requestStub.returns(
-        {
-          pipe() {
-            setTimeout(() => {
-              mockStream.emit('close')
-            }, 10);
-          }
-        });
-
-      return imageHandler.handle({
-        main_title: ['Title'],
-        images: [
-          'small_image.jpg',
-          'full_image.jpg',
-          'medium_image.jpg'
-        ]
-      })
-        .then(result => {
-          requestStub.calledOnce.should.equal(true);
-          result.images.should.contain('/media/images/ann_title_full.jpg');
-        });
-    });
-  });
-  
   describe('AnimeNewsNetworkSearcher', () => {
     let stub;
 
@@ -225,71 +156,4 @@ describe('UNIT: Anime News Network Test', () => {
     });
   });
 
-  describe('Google searcher', () => {
-    let requestStub;
-
-    beforeEach(() => {
-      requestStub = sinon.stub(https, 'request');
-    });
-
-    afterEach(() => {
-      requestStub.restore();
-    });
-
-    it('should use Google search pagination to find a result', () => {
-      const stubReturn =  new EventEmitter();
-      const searcher = new GoogleHelper.GoogleSearch({
-        custSearchAPI: 'testapi',
-        custSearchCX: 'example'
-      });
-
-      requestStub.onCall(0).yields(stubReturn);
-      requestStub.onCall(0).returns({ end() {
-
-          stubReturn.emit('data', JSON.stringify({
-            items: [ { link: "test1" }, { link: "test2" }, { link: "test3" } ]
-          }));
-
-          stubReturn.emit('end');
-
-      } });
-
-      requestStub.onCall(1).yields(stubReturn);
-      requestStub.onCall(1).returns({ end() {
-
-          stubReturn.emit('data', JSON.stringify({
-            items: [ { link: "anime.php?id=123" }, { link: "test2" }, { link: "test3" } ]
-          }));
-
-          stubReturn.emit('end');
-
-      } });
-
-      return searcher.searchAnime('Test')
-        .then(response => {
-          requestStub.calledTwice.should.equal(true);
-          response.should.deep.equal({
-            items: [ { link: "anime.php?id=123" }, { link: "test2" }, { link: "test3" } ]
-          })
-        });
-    });
-
-    it('should throw an exception if it can not make a request', () => {
-      const stubReturn =  new EventEmitter();
-      const searcher = new GoogleHelper.GoogleSearch({
-        custSearchAPI: 'testapi',
-        custSearchCX: 'example'
-      });
-
-      requestStub.onCall(0).yields(stubReturn);
-      requestStub.onCall(0).returns({ end() {
-        stubReturn.emit('error', new Error('test error'));
-      }});
-
-      return searcher.searchAnime('Test')
-        .catch(err => {
-          err.message.should.equal('test error');
-        });
-    });
-  });
 });
