@@ -199,20 +199,27 @@ describe('UNIT: Anime News Network Test', () => {
         search() {}
       };
 
+      const spy = sinon.spy();
+      const imageHandler = {
+        handle: spy
+      };
+
       const nameProp = sinon.stub(nameSearcher, 'search');
       nameProp.returns(Promise.resolve({}));
       const idProp = sinon.stub(idSearcher, 'search');
       idProp.returns(Promise.resolve({}));
 
-      const searcher = new AnimeNewsNetwork.Searcher(nameSearcher, idSearcher);
-      searcher.search({ name: 'test' })
+      const searcher = new AnimeNewsNetwork.Searcher(nameSearcher, idSearcher, imageHandler);
+      return searcher.search({ name: 'test' })
         .then(() => {
           nameProp.called.should.equal(true);
           idProp.called.should.equal(false);
-          const newSearcher = new AnimeNewsNetwork.Searcher(nameSearcher, idSearcher);
+          spy.calledOnce.should.equal(true);
+          const newSearcher = new AnimeNewsNetwork.Searcher(nameSearcher, idSearcher, imageHandler);
           return newSearcher.search({ annId: 1234 });
         })
         .then(() => {
+          spy.calledTwice.should.equal(true);
           idProp.called.should.equal(true);
         });
     });
@@ -264,6 +271,24 @@ describe('UNIT: Anime News Network Test', () => {
           response.should.deep.equal({
             items: [ { link: "anime.php?id=123" }, { link: "test2" }, { link: "test3" } ]
           })
+        });
+    });
+
+    it('should throw an exception if it can not make a request', () => {
+      const stubReturn =  new EventEmitter();
+      const searcher = new GoogleHelper.GoogleSearch({
+        custSearchAPI: 'testapi',
+        custSearchCX: 'example'
+      });
+
+      requestStub.onCall(0).yields(stubReturn);
+      requestStub.onCall(0).returns({ end() {
+        stubReturn.emit('error', new Error('test error'));
+      }});
+
+      return searcher.searchAnime('Test')
+        .catch(err => {
+          err.message.should.equal('test error');
         });
     });
   });
