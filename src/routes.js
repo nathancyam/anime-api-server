@@ -8,7 +8,6 @@ var path = require('path');
 
 // CONTROLLERS
 const SubgroupController = require('./controllers/subgroup');
-const DanbooruController = require('./controllers/danbooru');
 const SettingsController = require('./controllers/settings');
 const NotificationController = require('./controllers/notification');
 
@@ -44,8 +43,5 @@ module.exports = (app) => {
   // SETTINGS ROUTES
   app.get('/settings', SettingsController.getSettings);
   app.post('/settings', SettingsController.setSettings);
-
-  // DANBOORU ROUTES
-  app.get('/danbooru/search', CacheHelper.getCacheResponse, DanbooruController.getImages);
 };
 
