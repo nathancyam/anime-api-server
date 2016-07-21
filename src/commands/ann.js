@@ -8,24 +8,26 @@ class AnnCommand {
 
   /**
    * @param {AnimeNewsNetwork.Searcher} annSearcher
-   * @param {Anime} animeEntity
-   * @param {Object} searchObj
    */
-  constructor(annSearcher, animeEntity, searchObj) {
+  constructor(annSearcher) {
     this.annSearcher = annSearcher;
-    this.animeEntity = animeEntity;
-    this.searchObj = searchObj;
+  }
+
+  static create(container) {
+    return new AnnCommand(container.get('ann_searcher'));
   }
 
   /**
+   * @param {Anime} animeEntity
+   * @param {Object} searchObj
    * @returns {Promise.<Object>}
    */
-  handle() {
-    return this.annSearcher.search(this.searchObj)
+  execute(animeEntity, searchObj) {
+    return this.annSearcher.search(searchObj)
       .then(response => {
         const [ image ] = response.images;
-        this.animeEntity.image_url = image;
-        return this.animeEntity.save();
+        animeEntity.image_url = image;
+        return animeEntity.save();
       })
       .then(() => {
         return {
@@ -36,20 +38,4 @@ class AnnCommand {
   }
 }
 
-class AnnCommandFactory {
-  /**
-   * @param {AnimeNewsNetwork.Searcher} annSearcher
-   * @param {Anime} animeEntity
-   * @param {Object} searchObj
-   * @returns {AnnCommand}
-   */
-  static create(
-    annSearcher,
-    animeEntity,
-    searchObj
-  ) {
-    return new AnnCommand(annSearcher, animeEntity, searchObj);
-  }
-}
-
-module.exports = AnnCommandFactory;
+module.exports = AnnCommand;

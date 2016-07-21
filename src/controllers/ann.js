@@ -31,8 +31,7 @@ router.post('/update', (req, res) => {
   }
 
   let payload;
-  const searcher = req.app.get('ann_searcher');
-  
+
   if (ann && ann.id) {
     payload = { annId: ann.id };
   } else {
@@ -42,8 +41,9 @@ router.post('/update', (req, res) => {
   req.app.getModel('anime')
     .findById(_id)
     .then(animeEntity => {
-      const command = AnnCommand.create(searcher, animeEntity, payload);
-      return command.handle();
+      const commandManager = req.app.get('command');
+      const command = commandManager.create('ann_search');
+      return command.execute(animeEntity, payload);
     })
     .then(result => {
       return res.json(result);

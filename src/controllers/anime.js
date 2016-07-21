@@ -55,28 +55,19 @@ router.post('/image/:id', (req, res) => {
 });
 
 router.get('/update', (req, res) => {
-  req.app.getModel('anime')
-    .find({is_watching: true}, (err, animeCollection) => {
-      if (err) {
-        console.error(err);
-        return res.statusCode(500).send(`Error: ${err}`);
-      }
+  const commandManager = req.app.get('command');
+  const updateCommand = commandManager.create('anime_update');
 
-      const updaters = req.app.get('auto_updater')
-        .createCollection(
-          animeCollection,
-          req.app.get('nyaatorrents'),
-          req.app.get('torrent_server')
-        );
-
-      Promise.all(updaters.map(updater => updater.postTorrentsToServer()))
-        .then(() => {
-          return res.json({status: 'SUCCESS', message: 'Anime updated '});
-        })
-        .catch(err => {
-          console.error(err);
-          return res.statusCode(500).send(`Error: ${err}`);
-        })
+  return updateCommand.execute({ is_watching: true })
+    .then(() => {
+      return res.json({
+        status: 'SUCCESS',
+        message: 'Anime updated'
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      return res.statusCode(500).send(`Error: ${err}`);
     });
 });
 

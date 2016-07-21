@@ -10,6 +10,7 @@ const TransmissionServer = require('./TransmissionServer');
 const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
+const CommandFactory = require('./CommandFactory');
 
 const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
 const AnnImageHandler = require('./AnimeNewsNetwork/image');
@@ -25,13 +26,15 @@ module.exports = (app, httpServer) => {
   // Declarations
   const appConfig = app.get('app_config');
   const notificationManager = new NotificationManager();
+  const nyaaTorrentSearcher = new NyaaTorrentSearcher();
   const pushBullet = new PushBullet(appConfig);
   const redisSub = new Redis.RedisSubscriber(appConfig.redis);
   const redisConn = new Redis.RedisConnection(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
   const torrentChannel = new TorrentChannel(redisSub);
   const transmissionServer = new TransmissionServer(torrentChannel);
-  const nyaaTorrentSearcher = new NyaaTorrentSearcher();
+  const animeEntity = app.getModel('anime');
+  const episodeEntity = app.getModel('episode');
 
   const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
@@ -47,21 +50,41 @@ module.exports = (app, httpServer) => {
 
   const annSearcher = new Searcher(_nameSearcher, _idSearcher, _imageHandler);
 
+  const autoUpdater = new AutoUpdaterServiceFactory(
+    new EpisodeUpdaterFactory(),
+    episodeEntity
+  );
+
   // Setup
   notificationManager.attachListener(pushBullet);
   require('./Auth')(app, appConfig);
 
   // Registration
-  app.set('notification_manager', notificationManager);
-  app.set('redis', redisSub);
-  app.set('socket_handler', socketHandler);
-  app.set('torrent_server', transmissionServer);
-  app.set('nyaatorrents', nyaaTorrentSearcher);
-  app.set('ann_searcher', annSearcher);
-  app.set('ann_google_searcher', _googleHelper);
+  const container = {
+    anime: animeEntity,
+    auto_updater: autoUpdater,
+    ann_searcher: annSearcher,
+    ann_google_searcher: _googleHelper,
+    notification_manager: notificationManager,
+    nyaatorrents: nyaaTorrentSearcher,
+    redis: redisSub,
+    socket_handler: socketHandler,
+    torrent_server: transmissionServer,
+  };
 
-  app.set('auto_updater', new AutoUpdaterServiceFactory(
-    new EpisodeUpdaterFactory(),
-    app.getModel('episode')
-  ));
+  const command = {
+    get(alias) {
+      if (!Object.keys(container).includes(alias)) {
+        throw new Error(`Dependency alias '${alias}' not defined.`);
+      }
+
+      return container[alias];
+    }
+  };
+
+  const commandManager = new CommandFactory(command);
+
+  app.set('command', commandManager);
+  Object.keys(container)
+    .forEach(alias => app.set(alias, container[alias]));
 };
