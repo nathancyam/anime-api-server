@@ -26,7 +26,7 @@ class GoogleSearch {
    * @returns {Promise.<GoogleCustomSearchResponse>}
    * @private
    */
-  _makeRequest(searchTerm, counter = 0) {
+  _makeRequest(searchTerm, counter) {
 
     return new Promise((resolve, reject) => {
       let requestUrl = `${this.requestUrl}&${qs.stringify({ q: searchTerm, startIndex: counter })}`;
@@ -69,10 +69,10 @@ class GoogleSearch {
 
         if (hasLink) {
           return response;
-        } else if (counter > GOOGLE_COUNTER_LIMIT) {
+        } else if (counter >= GOOGLE_COUNTER_LIMIT) {
           throw new Error(`Exceeded Google Counter limit of ${GOOGLE_COUNTER_LIMIT}`);
         } else {
-          return this.searchAnime(searchTerm, (counter + 1) * 10);
+          return this.searchAnime(searchTerm, (counter + 10));
         }
       });
   }

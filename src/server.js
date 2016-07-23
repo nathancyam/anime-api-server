@@ -7,8 +7,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
 const httpServer = module.exports = require('http').createServer(app);
-const NotificationManager = require('./services/NotificationManager');
-const PushBullet = require('./services/NotificationManager/PushBullet');
 
 // all environments
 app.use(express.static(__dirname + '/../../public'));
@@ -17,6 +15,7 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+
 app.set('console', (message, type) => {
   type = type || 'log';
   if (process.env.NODE_ENV === 'development') {
@@ -35,9 +34,26 @@ var ProcessHandler = require('./modules/anime_updater_process_handler');
 var processHandler = new ProcessHandler();
 processHandler.startProcess();
 
-httpServer.listen(app.get('port'), function () {
-  app.get('console')('Server ready for requests on port: ' + app.get('port'));
-});
+const cluster = require('cluster');
+
+if (process.env.NODE_ENV === 'production') {
+  if (cluster.isMaster) {
+    cluster.fork();
+    cluster.fork();
+
+    cluster.on('exit', (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died`);
+    });
+  } else {
+    httpServer.listen(app.get('port'), function () {
+      app.get('console')('Server ready for requests on port: ' + app.get('port'));
+    });
+  }
+} else {
+  httpServer.listen(app.get('port'), function () {
+    app.get('console')('Server ready for requests on port: ' + app.get('port'));
+  });
+}
 
 process.on('SIGTERM', function() {
   console.log("Terminating server...");

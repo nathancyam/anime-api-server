@@ -116,6 +116,15 @@ describe('Google searcher', () => {
       stubReturn.emit('end');
     } });
 
+    requestStub.onCall(3).yields(stubReturn);
+    requestStub.onCall(3).returns({ end() {
+      stubReturn.emit('data', JSON.stringify({
+        items: [ { link: "test2" } ]
+      }));
+
+      stubReturn.emit('end');
+    } });
+
     return searcher.searchAnime('Test')
       .catch(err => {
         err.message.should.equal('Exceeded Google Counter limit of 30');
