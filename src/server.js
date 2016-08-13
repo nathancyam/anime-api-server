@@ -34,26 +34,9 @@ var ProcessHandler = require('./modules/anime_updater_process_handler');
 var processHandler = new ProcessHandler();
 processHandler.startProcess();
 
-const cluster = require('cluster');
-
-if (process.env.NODE_ENV === 'production') {
-  if (cluster.isMaster) {
-    cluster.fork();
-    cluster.fork();
-
-    cluster.on('exit', (worker, code, signal) => {
-      console.log(`Worker ${worker.process.pid} died`);
-    });
-  } else {
-    httpServer.listen(app.get('port'), function () {
-      app.get('console')('Server ready for requests on port: ' + app.get('port'));
-    });
-  }
-} else {
-  httpServer.listen(app.get('port'), function () {
-    app.get('console')('Server ready for requests on port: ' + app.get('port'));
-  });
-}
+httpServer.listen(app.get('port'), function () {
+  app.get('console')('Server ready for requests on port: ' + app.get('port'));
+});
 
 process.on('SIGTERM', function() {
   console.log("Terminating server...");
