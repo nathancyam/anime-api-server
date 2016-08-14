@@ -16,30 +16,16 @@ router.get('/anime/:id', (req, res) => {
 });
 
 router.post('/download', (req, res) => {
-  /** @var NotificationManager notificationManager */
-  const notificationManager = req.app.get('notification_manager');
-  const filename = req.body.filename;
-  const episodeFileRegexp = /^\[([\w\W]{0,})\]\s(.*)\s-\s(\d{2,3})/;
-  const filenameElements = filename.replace(/_/g, ' ').match(episodeFileRegexp);
-  const episodeAttributes = {
-    subgroup: filenameElements[1],
-    animeTitle: filenameElements[2],
-    number: filenameElements[3],
-    filename: filename
-  };
 
-  EpisodeHelper.setEpisodeModelToAnime(episodeAttributes)
+  const commandManager = req.app.get('command');
+  const episodeCmd = commandManager.create('episode_download');
+
+  return episodeCmd.execute(req.body.filename)
     .then(episode => {
-      notificationManager.emit('notification:new', {
-        type: 'note',
-        title: `New Episode: ${episodeAttributes.animeTitle}`,
-        message: `${episodeAttributes.filename}`,
-        body: `Download finish: ${episodeAttributes.filename}`
-      });
       return res.json({ status: 'SUCCESS', message: 'Episode saved', episode: episode });
     })
-    .catch(() => {
-      return res.statusCode(500).send("Failed to create episode model.");
+    .catch(err => {
+      return res.statusCode(500).json({ status: 'ERROR', err: err.message });
     });
 });
 

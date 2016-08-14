@@ -73,12 +73,25 @@ module.exports = (app, httpServer) => {
   };
 
   const command = {
+
+    /**
+     * @param {String} alias
+     * @returns {Object}
+     */
     get(alias) {
       if (!Object.keys(container).includes(alias)) {
         throw new Error(`Dependency alias '${alias}' not defined.`);
       }
 
       return container[alias];
+    },
+
+    /**
+     * @param {String} helperAlias
+     * @returns {Object}
+     */
+    helper(helperAlias) {
+      return app.getHelper(helperAlias);
     }
   };
 
