@@ -20,7 +20,7 @@ router.post('/download', (req, res) => {
   const notificationManager = req.app.get('notification_manager');
   const filename = req.body.filename;
   const episodeFileRegexp = /^\[([\w\W]{0,})\]\s(.*)\s-\s(\d{2,3})/;
-  const filenameElements = filename.match(episodeFileRegexp);
+  const filenameElements = filename.replace(/_/g, ' ').match(episodeFileRegexp);
   const episodeAttributes = {
     subgroup: filenameElements[1],
     animeTitle: filenameElements[2],

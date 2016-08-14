@@ -109,7 +109,6 @@ module.exports = {
               resolve(result);
             }
           });
-
         })
         .catch(err => {
           if (err.message === 'Anime not found') {
