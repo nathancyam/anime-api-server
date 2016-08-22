@@ -56,9 +56,9 @@ router.post('/image/:id', (req, res) => {
 
 router.get('/update', (req, res) => {
   const commandManager = req.app.get('command');
-  const updateCommand = commandManager.create('anime_update');
+  const updateCommand = commandManager.create('anime_update', { is_watching: true });
 
-  return updateCommand.execute({ is_watching: true })
+  return req.app.get('bus').handle(updateCommand)
     .then(() => {
       return res.json({
         status: 'SUCCESS',

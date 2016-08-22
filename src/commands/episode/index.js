@@ -11,30 +11,37 @@ class EpisodeCommand {
   /**
    * @param {NotificationManager} notificationManager
    * @param {{setEpisodeModelToAnime: Function}} episodeHelper
+   * @param {String} filename
    */
-  constructor(notificationManager, episodeHelper) {
+  constructor(notificationManager, episodeHelper, filename) {
     this.notificationManager = notificationManager;
     this.episodeHelper = episodeHelper;
+    this.filename = filename;
   }
 
-  static create(container) {
+  /**
+   * @param {{ get(): Function }} container
+   * @param {String} filename
+   * @returns {EpisodeCommand}
+   */
+  static create(container, filename) {
     return new EpisodeCommand(
       container.get('notification_manager'),
-      container.helper('episode')
+      container.helper('episode'),
+      filename
     );
   }
 
   /**
-   * @param {String} filename
    * @returns {Promise.<Episode>}
    */
-  execute(filename) {
-    const filenameElements = filename.replace(/_/g, ' ').match(episodeFileRegexp);
+  execute() {
+    const filenameElements = this.filename.replace(/_/g, ' ').match(episodeFileRegexp);
     const episodeAttributes = {
       subgroup: filenameElements[1],
       animeTitle: filenameElements[2],
       number: filenameElements[3],
-      filename: filename
+      filename: this.filename
     };
 
     return this.episodeHelper.setEpisodeModelToAnime(episodeAttributes)

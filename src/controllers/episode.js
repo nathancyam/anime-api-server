@@ -5,7 +5,6 @@
 "use strict";
 
 const router = require('express').Router();
-const EpisodeHelper = require('../helpers/episode');
 
 router.get('/anime/:id', (req, res) => {
   var animeId = req.params.id;
@@ -16,11 +15,11 @@ router.get('/anime/:id', (req, res) => {
 });
 
 router.post('/download', (req, res) => {
+  const cmdFactory = req.app.get('command');
+  const episodeCmd = cmdFactory.create('episode_download', req.body.filename);
 
-  const commandManager = req.app.get('command');
-  const episodeCmd = commandManager.create('episode_download');
-
-  return episodeCmd.execute(req.body.filename)
+  return req.app.get('bus')
+    .handle(episodeCmd)
     .then(episode => {
       return res.json({ status: 'SUCCESS', message: 'Episode saved', episode: episode });
     })

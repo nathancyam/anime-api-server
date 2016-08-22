@@ -10,7 +10,6 @@ const TransmissionServer = require('./TransmissionServer');
 const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
-const CommandFactory = require('./CommandFactory');
 
 const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
 const AnnImageHandler = require('./AnimeNewsNetwork/image');
@@ -20,6 +19,8 @@ const ParserFactory = require('./AnimeNewsNetwork/parser');
 // Factory definitions
 const AutoUpdaterServiceFactory = require('./AutoUpdater');
 const EpisodeUpdaterFactory = require('./EpisodeUpdater');
+const CommandFactory = require('./CommandFactory').CommandFactory;
+const CommandBus = require('./CommandFactory').CommandBus;
 
 module.exports = (app, httpServer) => {
 
@@ -35,6 +36,7 @@ module.exports = (app, httpServer) => {
   const transmissionServer = new TransmissionServer(torrentChannel);
   const animeEntity = app.getModel('anime');
   const episodeEntity = app.getModel('episode');
+
 
   const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
@@ -59,6 +61,22 @@ module.exports = (app, httpServer) => {
   notificationManager.attachListener(pushBullet);
   require('./Auth')(app, appConfig);
 
+  // const commandBus = new CommandBus([
+  //   function* (cmd, next) {
+  //     console.log('start a');
+  //     yield next(cmd);
+  //     console.log('end a');
+  //   },
+  //   function* (cmd, next) {
+  //     console.log('start b');
+  //     yield next(cmd);
+  //     console.log('end b');
+  //   }
+  // ]);
+
+  const commandBus = new CommandBus([]);
+
+
   // Registration
   const container = {
     anime: animeEntity,
@@ -70,9 +88,10 @@ module.exports = (app, httpServer) => {
     redis: redisSub,
     socket_handler: socketHandler,
     torrent_server: transmissionServer,
+    command_bus: commandBus
   };
 
-  const command = {
+  const containerHandler = {
 
     /**
      * @param {String} alias
@@ -95,9 +114,10 @@ module.exports = (app, httpServer) => {
     }
   };
 
-  const commandManager = new CommandFactory(command);
+  const commandManager = new CommandFactory(containerHandler);
 
   app.set('command', commandManager);
+  app.set('bus', commandBus);
   Object.keys(container)
     .forEach(alias => app.set(alias, container[alias]));
 };

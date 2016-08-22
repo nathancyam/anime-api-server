@@ -4,12 +4,13 @@
 
 "use strict";
 
+const co = require('co');
 const AnnSearcherCommand = require('../../commands/ann');
 const AnimeUpdateCommand = require('../../commands/anime/update');
 const EpisodeDownloadCommand = require('../../commands/episode');
 
 const commands = {
-  ann_search: AnnSearcherCommand,
+  ann_searcher: AnnSearcherCommand,
   anime_update: AnimeUpdateCommand,
   episode_download: EpisodeDownloadCommand
 };
@@ -37,4 +38,34 @@ class CommandFactory {
   }
 }
 
-module.exports = CommandFactory;
+class CommandBus {
+
+  /**
+   * @param {Function[]} middleware
+   */
+  constructor(middleware = []) {
+    middleware.push(function* (cmd) { return yield cmd.execute(); });
+    this.middleware = middleware;
+    this.chain = this.createExecutionChain();
+  }
+
+  createExecutionChain() {
+    let _middleware = this.middleware.slice().reverse();
+
+    return _middleware.reduce((carry, item) => {
+      return cmd => co(item(cmd, carry));
+    });
+  }
+
+  /**
+   * @param {{ execute: Function }} cmd
+   */
+  handle(cmd) {
+    this.chain(cmd);
+  }
+}
+
+module.exports = {
+  CommandBus: CommandBus,
+  CommandFactory: CommandFactory
+};

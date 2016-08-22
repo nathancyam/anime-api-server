@@ -4,7 +4,6 @@
 
 const router = require('express').Router();
 const Cache = require('../modules/cache');
-const AnnCommand = require('../commands/ann');
 
 router.get('/search', (req, res) => {
   const searcher = req.app.get('ann_searcher');
@@ -41,9 +40,10 @@ router.post('/update', (req, res) => {
   req.app.getModel('anime')
     .findById(_id)
     .then(animeEntity => {
-      const commandManager = req.app.get('command');
-      const command = commandManager.create('ann_search');
-      return command.execute(animeEntity, payload);
+      const cmdFactory = req.app.get('command');
+      const command = cmdFactory.create('ann_searcher', animeEntity, payload);
+
+      return req.app.get('bus').handle(command);
     })
     .then(result => {
       return res.json(result);

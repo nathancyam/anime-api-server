@@ -24,9 +24,9 @@ describe('Episode Command', () => {
       helper() {
         return episodeHelper
       }
-    });
+    }, '[gg]_Macross_Delta_-_13_[B2027CA9].mkv');
 
-    return command.execute('[gg]_Macross_Delta_-_13_[B2027CA9].mkv')
+    return command.execute()
       .then(() => {
         notificationStub.calledOnce.should.equal(true);
         notificationStub.calledWith('notification:new', {

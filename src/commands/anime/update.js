@@ -9,29 +9,36 @@ class AnimeUpdateCommand {
    * @param {AutoUpdaterDirectorFactory} autoUpdater
    * @param {NyaaTorrentSearcher} nyaaTorrents
    * @param {TransmissionServer} torrentServer
+   * @param queryObj
    */
-  constructor(animeRepository, autoUpdater, nyaaTorrents, torrentServer) {
+  constructor(animeRepository, autoUpdater, nyaaTorrents, torrentServer, queryObj) {
     this.animeRepository = animeRepository;
     this.autoUpdater = autoUpdater;
     this.nyaaTorrents = nyaaTorrents;
     this.torrentServer = torrentServer;
+    this.queryObj = queryObj;
   }
 
-  static create(container) {
+  /**
+   * @param {{ get(): Function }} container
+   * @param {Object} queryObj
+   * @returns {AnimeUpdateCommand}
+   */
+  static create(container, queryObj) {
     return new AnimeUpdateCommand(
       container.get('anime'),
       container.get('auto_updater'),
       container.get('nyaatorrents'),
-      container.get('torrent_server')
+      container.get('torrent_server'),
+      queryObj
     );
   }
 
   /**
-   * @param {Object} queryObj
    * @returns {Promise.<Object>}
    */
-  execute(queryObj) {
-    return this.animeRepository.find(queryObj)
+  execute() {
+    return this.animeRepository.find(this.queryObj)
       .then(animeCollection => {
         const updaters = this.autoUpdater.createCollection(
           animeCollection,
