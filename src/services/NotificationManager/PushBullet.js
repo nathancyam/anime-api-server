@@ -31,7 +31,6 @@ class PushBullet {
   callPushBullet(data) {
     const pushBulletOptions = {
       url: PUSHBULLET_URI,
-      method: 'POST',
       json: true,
       headers: {
         'Access-Token': `${this.config.notifications.pushbullet_api_key}`
@@ -40,7 +39,7 @@ class PushBullet {
     };
 
     return new Promise((resolve, reject) => {
-      request(pushBulletOptions, (err, res, body) => {
+      request.post(pushBulletOptions, (err, res, body) => {
         if (err) {
           return reject(err)
         }
@@ -57,7 +56,7 @@ class PushBullet {
    * @param {Object} data
    * @returns {Object}
    */
-  toPushBullet(data) {
+  toPushBullet(data = { type: 'note', title: 'title' }) {
     if (data.message && data.type) {
       data.body = data.message;
       data.type = 'note';
@@ -67,7 +66,7 @@ class PushBullet {
     var pushBulletDefault = {
       type: 'note',
       title: 'title',
-      body: 'body'
+      body: data.message ? data.message : 'body'
     };
 
     // Get a list of the acceptable keys for PB data
@@ -75,9 +74,9 @@ class PushBullet {
     data = Object.assign({}, pushBulletDefault, data);
 
     // Remove any keys that shouldn't be a part of PB data
-    Object.keys(data).forEach((value, key) => {
-      if (acceptableKeys.indexOf(key) === -1) {
-        delete data[key];
+    Object.keys(data).forEach(value => {
+      if (!acceptableKeys.includes(value)) {
+        delete data[value];
       }
     });
 
