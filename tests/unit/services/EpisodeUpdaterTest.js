@@ -49,7 +49,11 @@ describe('UNIT: Episode Updater Service', () => {
 
     const factory = new EpisodeUpdaterFactory();
     const episodeUpdater = factory.create(mediator, episodeModel);
-    let expected = { name: "[Commie] Nisekoi - 02 [ASDF].mkv", episodeNumber: 2 };
-    episodeUpdater.getMissingEpisodes(anime).should.eventually.include(expected);
+    let expected = { name: "[Commie] Nisekoi - 02 [1453ASDF].mkv", episodeNumber: 2 };
+
+    return episodeUpdater.getMissingEpisodes(anime)
+      .then(([ result ]) => {
+        result.should.deep.equal(expected);
+      });
   });
 });
