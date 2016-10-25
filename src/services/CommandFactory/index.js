@@ -27,14 +27,14 @@ class CommandFactory {
   /**
    * @param {String} commandAlias
    */
-  create(commandAlias) {
+  create(commandAlias, ...args) {
     if (!Object.keys(commands).includes(commandAlias)) {
       throw new Error(`Command ${commandAlias} not found.`);
     }
 
     const commandClass = commands[commandAlias];
 
-    return commandClass.create(this.container);
+    return commandClass.create.apply(null, [].concat(this.container, args));
   }
 }
 
@@ -44,7 +44,10 @@ class CommandBus {
    * @param {Function[]} middleware
    */
   constructor(middleware = []) {
-    middleware.push(function* (cmd) { return yield cmd.execute(); });
+    middleware.push(function* (cmd) {
+      const result = yield cmd.execute();
+      return result;
+    });
     this.middleware = middleware;
     this.chain = this.createExecutionChain();
   }
@@ -61,7 +64,7 @@ class CommandBus {
    * @param {{ execute: Function }} cmd
    */
   handle(cmd) {
-    this.chain(cmd);
+    return co(this.chain(cmd));
   }
 }
 
