@@ -74,7 +74,7 @@ class AnnImageHandler {
     return new Promise((resolve, reject) => {
       const picStream = fs.createWriteStream(downloadPath);
       picStream.on('close', () => resolve());
-      picStream.on('error', () => reject(err));
+      picStream.on('error', err => reject(err));
 
       return request.get(url)
         .pipe(picStream);
