@@ -71,6 +71,8 @@ class AnnImageHandler {
    * @private
    */
   _downloadImage(url, downloadPath) {
+    console.log(`Image URL Download: ${url}`);
+
     return new Promise((resolve, reject) => {
       const picStream = fs.createWriteStream(downloadPath);
       picStream.on('close', () => resolve());
