@@ -74,7 +74,7 @@ class AnnImageHandler {
    * @private
    */
   _downloadImage(url, downloadPath) {
-    console.log(`Image URL Download: ${url}`);
+    console.log(`Image URL Download: ${url} to ${downloadPath}`);
 
     return new Promise((resolve, reject) => {
       request.get(url, (err, res, body) => {
