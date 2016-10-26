@@ -6,7 +6,7 @@
 
 const https = require('https');
 const url = require('url');
-const qs = require('qs');
+const qs = require('querystring');
 
 const GOOGLE_COUNTER_LIMIT = 30;
 
