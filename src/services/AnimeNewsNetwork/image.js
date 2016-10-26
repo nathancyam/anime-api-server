@@ -81,7 +81,9 @@ class AnnImageHandler {
       picStream.on('close', () => resolve());
       picStream.on('error', err => reject(err));
 
+      console.log('Before pipe');
       request.get(url).pipe(picStream);
+      console.log('After pipe');
     });
   }
 }
