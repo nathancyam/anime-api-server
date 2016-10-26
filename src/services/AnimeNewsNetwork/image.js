@@ -37,6 +37,7 @@ class AnnImageHandler {
     const title = main_title[0];
     const largestImageUrl = images.find(el => el.includes('full') || el.includes('max'));
     const annImageName = this._formatFileName(title, largestImageUrl);
+    console.log(largestImageUrl);
 
     return readDir(this.imageDir)
       .then(files => {
