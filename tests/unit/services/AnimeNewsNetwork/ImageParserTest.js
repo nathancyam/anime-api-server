@@ -59,7 +59,7 @@ describe('ANN: Image Parser', () => {
       {
         pipe() {
           setTimeout(() => {
-            mockStream.emit('close')
+            mockStream.emit('finish')
           }, 10);
         }
       });

@@ -38,7 +38,6 @@ class AnnImageHandler {
     const title = main_title[0];
     const largestImageUrl = images.find(el => el.includes('full') || el.includes('max'));
     const annImageName = this._formatFileName(title, largestImageUrl);
-    console.log(largestImageUrl);
 
     return readDir(this.imageDir)
       .then(files => {
@@ -51,7 +50,6 @@ class AnnImageHandler {
         return this._downloadImage(largestImageUrl, path.resolve(this.imageDir, annImageName));
       })
       .then(() => {
-        console.log('Downloaded image');
         return Object.assign({}, annResponse, { images: [`/media/images/${annImageName}`] });
       });
   }
@@ -75,16 +73,13 @@ class AnnImageHandler {
    * @private
    */
   _downloadImage(url, downloadPath) {
-    console.log(`Image URL Download: ${url} to ${downloadPath}`);
-
     return new Promise((resolve, reject) => {
       const writeStream = fs.createWriteStream(downloadPath);
+
       writeStream.on('error', err => {
-        console.error(err);
         return reject(err)
       });
       writeStream.on('finish', () => {
-        console.log('Finished writing file');
         return resolve()
       });
 
