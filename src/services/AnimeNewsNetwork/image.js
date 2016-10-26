@@ -33,7 +33,8 @@ class AnnImageHandler {
    * @returns {Promise.<Object>}
    */
   handle(annResponse) {
-    const { images, main_title: [ title ] } = annResponse;
+    const { images, main_title } = annResponse;
+    const title = main_title[0];
     const largestImageUrl = images.find(el => el.includes('full') || el.includes('max'));
     const annImageName = this._formatFileName(title, largestImageUrl);
 
