@@ -77,13 +77,17 @@ class AnnImageHandler {
     console.log(`Image URL Download: ${url}`);
 
     return new Promise((resolve, reject) => {
-      const picStream = fs.createWriteStream(downloadPath);
-      picStream.on('close', () => resolve());
-      picStream.on('error', err => reject(err));
-
-      console.log('Before pipe');
-      request.get(url).pipe(picStream);
-      console.log('After pipe');
+      request.get(url, (err, res, body) => {
+        console.log(body.length);
+        console.log('writing file');
+        fs.writeFile(downloadPath, body, (err) => {
+          console.log('wrote file');
+          if (err) {
+            return reject(err);
+          }
+          return resolve();
+        });
+      });
     });
   }
 }
