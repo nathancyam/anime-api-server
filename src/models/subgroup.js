@@ -3,6 +3,7 @@
  */
 
 var Mongoose = require('mongoose');
+Mongoose.Promise = global.Promise;
 var Schema = Mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var Cache = require('../modules/cache');

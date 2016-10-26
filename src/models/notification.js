@@ -5,6 +5,8 @@
 var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema;
 
+Mongoose.Promise = global.Promise;
+
 var NotificationSchema = new Schema({
     type: String,
     msg: String,

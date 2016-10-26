@@ -5,6 +5,7 @@
 "use strict";
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const uuid = require('node-uuid');

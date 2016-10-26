@@ -6,6 +6,7 @@ const ObjectId = Schema.ObjectId;
 const Q = require('q');
 const FS = require('fs');
 const Episode = require('./episode');
+Mongoose.Promise = global.Promise;
 
 const ANN_IMAGE_DIR = require('../config').image_dir;
 const PUBLIC_DIR = '/media/images';
