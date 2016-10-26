@@ -50,6 +50,7 @@ class AnnImageHandler {
         return this._downloadImage(largestImageUrl, path.resolve(this.imageDir, annImageName));
       })
       .then(() => {
+        console.log('Downloaded image');
         return Object.assign({}, annResponse, { images: [`/media/images/${annImageName}`] });
       });
   }
@@ -80,8 +81,7 @@ class AnnImageHandler {
       picStream.on('close', () => resolve());
       picStream.on('error', err => reject(err));
 
-      return request.get(url)
-        .pipe(picStream);
+      request.get(url).pipe(picStream);
     });
   }
 }

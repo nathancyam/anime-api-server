@@ -64,7 +64,10 @@ class CommandBus {
    * @param {{ execute: Function }} cmd
    */
   handle(cmd) {
-    return co(this.chain(cmd));
+    return co(this.chain(cmd)).catch(err => {
+      console.error(err);
+      throw err;
+    });
   }
 }
 
