@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+const http = require('http');
 
 function readDir(path) {
   return new Promise((resolve, reject) => {
@@ -77,17 +78,17 @@ class AnnImageHandler {
     console.log(`Image URL Download: ${url} to ${downloadPath}`);
 
     return new Promise((resolve, reject) => {
-      request.get(url, (err, res, body) => {
-        console.log(body.length);
-        console.log('writing file');
-        fs.writeFile(downloadPath, body, (err) => {
-          console.log('wrote file');
-          if (err) {
-            return reject(err);
-          }
-          return resolve();
-        });
+      const writeStream = fs.createWriteStream(downloadPath);
+      writeStream.on('error', err => {
+        console.error(err);
+        return reject(err)
       });
+      writeStream.on('finish', () => {
+        console.log('Finished writing file');
+        return resolve()
+      });
+
+      request.get(url).pipe(writeStream);
     });
   }
 }
