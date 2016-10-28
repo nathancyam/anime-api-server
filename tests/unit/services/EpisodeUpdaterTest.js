@@ -11,6 +11,7 @@ const should = chai.should();
 chai.use(chaiAsPromised);
 
 const EpisodeUpdaterFactory = require('../../../src/services/EpisodeUpdater');
+const config = require('../../../src/config');
 
 describe('UNIT: Episode Updater Service', () => {
 
