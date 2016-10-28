@@ -15,7 +15,7 @@ test:
 
 deployment:
   production:
-    branch: config_file
+    branch: master
     commands:
       - chmod +x ./deploy/prod.sh
       - ./deploy/prod.sh
