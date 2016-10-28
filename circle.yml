@@ -7,6 +7,9 @@ dependencies:
   pre:
     - echo "{}" > /tmp/config.json
 
+hosts:
+  circlehost: 127.0.0.1
+
 test:
   override:
     - npm run unittest
