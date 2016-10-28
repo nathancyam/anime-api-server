@@ -10,3 +10,9 @@ dependencies:
 test:
   override:
     - npm run unittest
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./deploy/prod.sh
