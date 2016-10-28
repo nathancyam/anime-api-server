@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production; node ./src/server.js",
     "test": "NODE_ENV=testing;PORT=3333 mocha './tests/**/*Test.js'",
     "test:tap": "mocha -R tap -- './tests/**/*Test.js'",
-    "unittest": "NODE_ENV=testing;PORT=3333 mocha './tests/unit/**/*Test.js'",
+    "unittest": "NODE_ENV=testing;PORT=3333 mocha --config=/tmp/config.json './tests/unit/**/*Test.js'",
     "test:watch": "NODE_ENV=testing;PORT=3333 mocha --watch --reporter dot './tests/unit/**/*Test.js'",
     "unittest:watch": "NODE_ENV=testing;PORT=3333 mocha --watch --reporter dot './tests/unit/**/*Test.js'",
     "ci:test": "NODE_ENV=testing_ci;PORT=3333 ./node_modules/.bin/istanbul cover npm run test:tap > test.tap && ./node_modules/.bin/istanbul report clover"

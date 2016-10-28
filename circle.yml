@@ -1,9 +1,11 @@
 machine:
-
   timezone: Australia/Melbourne
-
   node:
     version: 6.9.1
+
+dependencies:
+  pre:
+    - echo "{}" > /tmp/config.json
 
 test:
   override:
