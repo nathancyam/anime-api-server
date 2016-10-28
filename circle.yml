@@ -15,4 +15,5 @@ deployment:
   production:
     branch: config_file
     commands:
+      - chmod +x ./deploy/prod.sh
       - ./deploy/prod.sh
