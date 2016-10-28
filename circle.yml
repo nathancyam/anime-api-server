@@ -1,4 +1,6 @@
 machine:
+  pre:
+    - hostname circlehost
   timezone: Australia/Melbourne
   node:
     version: 6.9.1
