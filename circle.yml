@@ -13,6 +13,6 @@ test:
 
 deployment:
   production:
-    branch: master
+    branch: config_file
     commands:
       - ./deploy/prod.sh
