@@ -1,6 +1,6 @@
 #!/bin/bash
 
 SRC_DIR="./src"
-DEST_DIR="~"
+DEST_DIR="/var/www/node-anime-directory/"
 
-rsync -avz -e "ssh -p ${SSH_PORT}" $SRC_DIR $REMOTE_USER@$REMOTE_HOST:$DEST_DIR
+rsync -avz --progress -e "ssh -p ${SSH_PORT}" $SRC_DIR $REMOTE_USER@$REMOTE_HOST:$DEST_DIR
