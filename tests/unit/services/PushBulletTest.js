@@ -11,10 +11,12 @@ const request = require('request');
 
 describe('PushBullet', () => {
   let requestStub;
+  let pb;
 
   beforeEach(done => {
     requestStub = sinon.stub(request, 'post');
     requestStub.yields(null, {}, {});
+    pb = new PushBullet({ notifications: { pushbullet_api_key: 'asdf' } });
     done();
   });
 
@@ -24,12 +26,14 @@ describe('PushBullet', () => {
   });
 
   it('should call Pushbullet with a custom body', () => {
-    const pb = new PushBullet({ notifications: { pushbullet_api_key: 'asdf' } });
-
-    return pb.callPushBullet({
+    return pb.emit(null, {
       message: 'message',
       invalid: 'invalid',
       title: 'Some Title'
+    }).then(() => {
+      return new Promise(resolve => {
+        setTimeout(resolve, 700);
+      });
     }).then(() => {
       const expected = {
         url: 'https://api.pushbullet.com/v2/pushes',
@@ -50,24 +54,58 @@ describe('PushBullet', () => {
   });
 
   it('should call Pushbullet with a default body', () => {
-    const pb = new PushBullet({ notifications: { pushbullet_api_key: 'asdf' } });
+    return pb.emit(null, {})
+      .then(() => {
+        return new Promise(resolve => {
+          setTimeout(resolve, 700);
+        })
+      })
+      .then(() => {
+        const expected = {
+          url: 'https://api.pushbullet.com/v2/pushes',
+          json: true,
+          headers: {
+            'Access-Token': 'asdf'
+          },
+          body: {
+            type: 'note',
+            title: 'title',
+            body: 'body'
+          }
+        };
 
-    return pb.callPushBullet({}).then(() => {
-      const expected = {
-        url: 'https://api.pushbullet.com/v2/pushes',
-        json: true,
-        headers: {
-          'Access-Token': 'asdf'
-        },
-        body: {
-          type: 'note',
-          title: 'title',
-          body: 'body'
-        }
-      };
+        const actual = requestStub.getCall(0).args[0];
+        actual.should.deep.equal(expected);
+      });
+  });
 
-      const actual = requestStub.getCall(0).args[0];
-      actual.should.deep.equal(expected);
-    });
+  it('should debounce multiple emitters to push to Pushbullet', () => {
+    const expected = {
+      url: 'https://api.pushbullet.com/v2/pushes',
+      json: true,
+      headers: {
+        'Access-Token': 'asdf'
+      },
+      body: {
+        type: 'note',
+        title: 'Multiple Notifications',
+        body: "Message 1\nMessage 2\nMessage 3"
+      }
+    };
+
+    return pb.emit(null, { body: 'Message 1' })
+      .then(() => pb.emit(null, { body: 'Message 2' }))
+      .then(() => pb.emit(null, { body: 'Message 3' }))
+      .then(() => {
+        return new Promise(resolve => setTimeout(resolve, 750));
+      })
+      .then(() => {
+        requestStub.calledOnce.should.equal(true);
+        requestStub.calledTwice.should.equal(false);
+        requestStub.calledThrice.should.equal(false);
+        const actual = requestStub.getCall(0).args[0];
+
+        actual.should.deep.equal(expected);
+      });
   });
 });

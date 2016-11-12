@@ -5,6 +5,7 @@
 "use strict";
 
 const request = require('request');
+const debounce = require('lodash').debounce;
 const PUSHBULLET_URI = 'https://api.pushbullet.com/v2/pushes';
 
 class PushBullet {
@@ -13,27 +14,41 @@ class PushBullet {
    * @param config
    */
   constructor(config) {
-    this.config = config;
+    const apiKey = config.notifications.pushbullet_api_key;
+    if (!apiKey) {
+      throw new Error("PushBullet API key not specified.");
+    }
+
+    this._apiKey = apiKey;
+    this._queue = [];
+    this._debounceCall = debounce(this._call, 500);
   }
 
   /**
-   * @param {String} action
+   * @param {String} _
    * @param {Object} data
    */
-  emit(action, data) {
-    this.callPushBullet(data);
+  emit(_, data) {
+    this._queue.push(data);
+    return Promise.resolve(this._debounceCall(data));
   }
 
   /**
    * @param {Object} data
-   * @returns {Promise}
+   * @param {Boolean} isQueueFlushed
+   * @return {Promise}
+   * @private
    */
-  callPushBullet(data) {
+  _call(data, isQueueFlushed = false) {
+    if (!isQueueFlushed && this._queue.length > 1) {
+      return this._flushQueue();
+    }
+
     const pushBulletOptions = {
       url: PUSHBULLET_URI,
       json: true,
       headers: {
-        'Access-Token': `${this.config.notifications.pushbullet_api_key}`
+        'Access-Token': `${this._apiKey}`
       },
       body: this.toPushBullet(data)
     };
@@ -89,6 +104,20 @@ class PushBullet {
     } else {
       throw new Error("Can not parse the data to a PushBullet format");
     }
+  }
+
+  /**
+   * @return {Promise}
+   * @private
+   */
+  _flushQueue() {
+    let messages = this._queue.map(queueObj => this.toPushBullet(queueObj));
+    let body = messages.map(msg => msg.body).join("\n");
+    let title = 'Multiple Notifications';
+    let type = 'note';
+
+    this._queue = [];
+    return this._call({ body, title, type }, true);
   }
 }
 
