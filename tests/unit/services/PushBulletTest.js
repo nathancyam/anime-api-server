@@ -6,6 +6,7 @@
 
 const sinon = require('sinon');
 const PushBullet = require('../../../src/services/NotificationManager/PushBullet');
+const NotificationManager = require('../../../src/services/NotificationManager');
 const should = require('chai').should();
 const request = require('request');
 
@@ -107,5 +108,41 @@ describe('PushBullet', () => {
 
         actual.should.deep.equal(expected);
       });
+  });
+
+  it('should attach to the notification manager', () => {
+    const notifyMgr = new NotificationManager();
+    const body = {
+      type: 'note',
+      title: 'New Torrent Added',
+      message: `Torrent Added`,
+      body: `Torrent Added`
+    };
+
+    const expected = {
+      url: 'https://api.pushbullet.com/v2/pushes',
+      json: true,
+      headers: {
+        'Access-Token': 'asdf'
+      },
+      body: {
+        type: 'note',
+        title: 'Multiple Notifications',
+        body: "Torrent Added\nTorrent Added\nTorrent Added"
+      }
+    };
+
+    notifyMgr.attachListener(pb);
+    notifyMgr.emit('notification:new', body);
+    notifyMgr.emit('notification:new', body);
+    notifyMgr.emit('notification:new', body);
+
+    return new Promise(resolve => setTimeout(resolve, 800))
+      .then(() => {
+        requestStub.calledOnce.should.equal(true);
+        requestStub.calledTwice.should.equal(false);
+        requestStub.calledThrice.should.equal(false);
+        expected.should.deep.equal(requestStub.getCall(0).args[0]);
+      })
   });
 });

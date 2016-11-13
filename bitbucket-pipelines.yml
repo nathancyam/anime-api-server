@@ -4,7 +4,7 @@
 # # -----
 # # You can specify a custom docker image from Dockerhub as your build environment.
 
-image: node:6.3
+image: node:6.9.1
 
 pipelines:
   default:
@@ -12,4 +12,4 @@ pipelines:
         script:
           - npm --version
           - npm install
-          - npm test
+          - npm unittest
