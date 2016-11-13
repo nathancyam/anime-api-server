@@ -12,4 +12,5 @@ pipelines:
         script:
           - npm --version
           - npm install
+          - echo '{}' >> /tmp/config.json
           - npm run unittest
