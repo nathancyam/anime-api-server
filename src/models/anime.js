@@ -11,7 +11,7 @@ Mongoose.Promise = global.Promise;
 const ANN_IMAGE_DIR = require('../config').image_dir;
 const PUBLIC_DIR = '/media/images';
 
-var AnimeSchema = new Schema({
+const AnimeSchema = new Schema({
   designated_subgroup: String,
   title: String,
   normalizedName: String,
@@ -21,16 +21,18 @@ var AnimeSchema = new Schema({
   ann_id: Number,
   image_url: String,
   is_watching: Boolean,
-  is_complete: Boolean
+  is_complete: Boolean,
+  screen_resolution: String,
+  include_gte_screen_resolution: Boolean,
 });
 
 function readAnimeDirectory(done) {
-  var AnimeDirectory = require('./anime_directory');
+  const AnimeDirectory = require('./anime_directory');
   AnimeDirectory.generateModels(done);
 }
 
 function getSubGroups(done) {
-  var SubGroups = require('./subgroup');
+  const SubGroups = require('./subgroup');
   SubGroups.build(done);
 }
 
@@ -97,7 +99,7 @@ AnimeSchema.methods.getPictureUrl = function (callback) {
     return callback(null, this.image_url);
   }
 
-  var readDir = Q.denodeify(FS.readdir);
+  const readDir = Q.denodeify(FS.readdir);
 
   readDir(ANN_IMAGE_DIR)
     .then(files => {
@@ -105,7 +107,7 @@ AnimeSchema.methods.getPictureUrl = function (callback) {
         return callback(null);
       }
 
-      var imageFileName = files.filter(e => e.indexOf(self.normalizedName) !== -1).pop();
+      const imageFileName = files.filter(e => e.indexOf(self.normalizedName) !== -1).pop();
 
       if (!this.image_url && imageFileName) {
         this.image_url = PUBLIC_DIR + '/' + imageFileName;

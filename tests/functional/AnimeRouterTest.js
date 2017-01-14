@@ -60,8 +60,23 @@ describe('API: Anime Router', () => {
       })
   });
 
-  it('should reject save attempts that specify invalid fields', function (done) {
+  it('should reject save attempts that add invalid fields', function (done) {
     const invalidBody = { fake_field: "should not be saved", title: "Watch Dogs 2" };
+    const errorMsg = 'Your request contains fields that are not supported by this endpoint.';
+
+    request(app)
+      .post(`/anime/${TestID}`)
+      .set('Accept', 'application/json')
+      .send(invalidBody)
+      .expect(400)
+      .end((err, res) => {
+        res.body.message.should.equal(errorMsg);
+        done();
+      });
+  });
+
+  it('should reject save attempts that specify invalid fields types', function (done) {
+    const invalidBody = { title: "Watch Dogs 2", "is_complete": "yes" };
     const errorMsg = 'Your request contains fields that are not supported by this endpoint.';
 
     request(app)
