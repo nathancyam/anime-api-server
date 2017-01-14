@@ -9,6 +9,10 @@ const app = require('../../src/server');
 const should = require('chai').should();
 const expect = require('chai').expect;
 
+const TestID = process.env.NODE_ENV === 'testing'
+  ? '545cb3e1657685e90c9457f7'
+  : '545cb3e1657685e90c9457f7';
+
 describe('API: Anime Router', () => {
   it('should get a list of anime', function(done) {
     this.timeout(5000);
@@ -54,5 +58,20 @@ describe('API: Anime Router', () => {
         anime.should.have.property('title');
         done();
       })
-  })
+  });
+
+  it('should reject save attempts that specify invalid fields', function (done) {
+    const invalidBody = { fake_field: "should not be saved", title: "Watch Dogs 2" };
+    const errorMsg = 'Your request contains fields that are not supported by this endpoint.';
+
+    request(app)
+      .post(`/anime/${TestID}`)
+      .set('Accept', 'application/json')
+      .send(invalidBody)
+      .expect(400)
+      .end((err, res) => {
+        res.body.message.should.equal(errorMsg);
+        done();
+      });
+  });
 });

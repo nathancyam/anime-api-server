@@ -10,7 +10,8 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 
 describe('API: Episode Router', () => {
-  it('should get a list of episodes', (done) => {
+  it('should get a list of episodes', function (done) {
+    this.timeout(5000);
     request(app)
       .get('/episodes')
       .set('Accept', 'application/json')

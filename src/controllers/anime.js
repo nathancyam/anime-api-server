@@ -5,6 +5,7 @@
 "use strict";
 
 const router = require('express').Router();
+const animeValidation = require('./middleware/anime').validation;
 
 router.get('/search', (req, res) => {
   req.app.getModel('anime')
@@ -81,11 +82,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/:id', (req, res) => {
-  if (!req.params.id || Object.keys(req.body).length === 0) {
-    return res.status(400).json({ message: 'Anime ID is required.' });
-  }
-
+router.post('/:id', animeValidation, (req, res) => {
   req.app.getModel('anime')
     .findById(req.params.id, (err, anime) => {
       if (err) {
