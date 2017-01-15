@@ -7,7 +7,8 @@ module.exports = function () {
     ],
 
     tests: [
-      'tests/unit/**/*Test.js'
+      'tests/unit/**/*Test.js',
+      '!tests/unit/services/EpisodeUpdaterTest.js'
     ],
 
     testFramework: 'mocha',

@@ -34,6 +34,11 @@ describe('UNIT: AutoUpdater Service', () => {
       test.searchTorrents();
       stub.calledWith('[Commie] Nisekoi').should.equal(true);
       stub.called.should.equal(true);
+
+      const animeWithResolution = Object.assign({}, anime, { screen_resolution: '720p' })
+      let resolutionTest = factory.create(animeWithResolution, searcher, {});
+      resolutionTest.searchTorrents();
+      stub.calledWith('[Commie] Nisekoi 720p').should.equal(true);
     });
 
     it('should call the missing episodes', () => {

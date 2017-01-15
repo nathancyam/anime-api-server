@@ -25,6 +25,10 @@ class AutoUpdaterDirector {
    */
   searchTorrents() {
     let searchTerm = `[${this.anime.designated_subgroup}] ${this.anime.title}`;
+    if (this.anime.screen_resolution) {
+      searchTerm = `${searchTerm} ${this.anime.screen_resolution}`;
+    }
+
     return this.torrentSearcher.search(searchTerm);
   }
 
