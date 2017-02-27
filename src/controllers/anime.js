@@ -19,7 +19,7 @@ router.get('/search', (req, res) => {
 });
 
 router.get('/image/:id', (req, res) => {
-  var id = req.params.id;
+  const id = req.params.id;
 
   req.app.getModel('anime')
     .findById(id, (err, result) => {
@@ -38,9 +38,10 @@ router.get('/image/:id', (req, res) => {
 });
 
 router.post('/image/:id', (req, res) => {
-  var body = req.body,
-    animeId = body.animeId,
-    imageUrl = body.imageUrl;
+  const { animeId, imageUrl } = req.body;
+  if (!animeId || !imageUrl) {
+    return res.status(400).send({ status: 'Request do not include an anime ID and/or image URL'});
+  }
 
   req.app.getModel('anime')
     .findById(animeId, (err, result) => {
