@@ -10,6 +10,7 @@ const TransmissionServer = require('./TransmissionServer');
 const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
+const TokyoTosho = require('./TokyoTosho');
 
 const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
 const AnnImageHandler = require('./AnimeNewsNetwork/image');
@@ -50,6 +51,8 @@ module.exports = (app, httpServer) => {
     ParserFactory.create()
   );
 
+  const tokyoTosho = new TokyoTosho();
+
   const annSearcher = new Searcher(_nameSearcher, _idSearcher, _imageHandler);
 
   const autoUpdater = new AutoUpdaterServiceFactory(
@@ -88,7 +91,8 @@ module.exports = (app, httpServer) => {
     redis: redisSub,
     socket_handler: socketHandler,
     torrent_server: transmissionServer,
-    command_bus: commandBus
+    command_bus: commandBus,
+    tokyo_tosho: tokyoTosho,
   };
 
   const containerHandler = {

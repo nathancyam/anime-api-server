@@ -17,6 +17,7 @@ const AuthRouter = require('./services/Auth/router');
 const UserRouter = require('./controllers/user');
 const TorrentRouter = require('./controllers/torrents');
 const NyaaTorrentRouter = require('./controllers/nyaatorrents');
+const TokyoToshoRouter = require('./controllers/tokyotosho');
 const AnimeNewsNetworkRouter = require('./controllers/ann');
 
 module.exports = (app) => {
@@ -24,13 +25,14 @@ module.exports = (app) => {
     req.logout();
     return res.json({ status: 'success' });
   });
-  
+
   app.use('/auth', AuthRouter(app));
   app.use('/user', UserRouter);
   app.use('/anime', AnimeRouter);
   app.use('/episodes', EpisodeRouter);
   app.use('/torrent', TorrentRouter);
   app.use('/nyaatorrents', NyaaTorrentRouter);
+  app.use('/tokyotosho', TokyoToshoRouter);
   app.use('/ann', AnimeNewsNetworkRouter);
 
   // SUBGROUP ROUTES

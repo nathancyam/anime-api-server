@@ -23,6 +23,8 @@
     "cookie-parser": "^1.4.1",
     "express": "4.*",
     "express-session": "^1.13.0",
+    "feedparser": "^2.2.0",
+    "fuse.js": "^3.0.0",
     "google": "*",
     "ioredis": "^1.15.1",
     "isomorphic-fetch": "^2.2.1",
