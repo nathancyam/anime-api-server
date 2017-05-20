@@ -4,7 +4,7 @@
 
 "use strict";
 
-const NT = require('nyaatorrents');
+const NT = require('./search');
 
 /**
  * Searches a torrent resource such as NyaaTorrents for anime.
@@ -23,15 +23,7 @@ class AnimeTorrentSearcher {
    * @returns {Promise}
    */
   searchNyaaTorrents(searchObj) {
-    return new Promise((resolve, reject) => {
-      this.nyaaTorrents.search(searchObj, (err, result) => {
-        if (err) {
-          console.error(err);
-          return reject(err);
-        }
-        return resolve(result);
-      })
-    });
+    return this.nyaaTorrents.search(searchObj);
   }
 
   /**

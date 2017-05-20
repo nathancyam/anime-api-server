@@ -9,22 +9,17 @@
  * @constructor
  */
 module.exports = (function () {
-    var torrentServerListing = [];
+    const torrentServerListing = [];
 
     return function (torrent) {
         this.addNewAttributes = function () {
-            this.setReadableSize();
+          torrent.readableSize = torrent.size;
             this.setStatus();
             return torrent;
         };
 
-        this.setReadableSize = function () {
-            if (torrent.size === 0) return '0 Bytes';
-            torrent.readableSize = Math.round(torrent.size / Math.pow(1024, 2), 2) + ' MB';
-        };
-
         this.setStatus = function () {
-            var isOnServer = torrentServerListing.some(function (e) {
+            const isOnServer = torrentServerListing.some(e => {
                 return e.name === torrent.name;
             });
             if (isOnServer) {

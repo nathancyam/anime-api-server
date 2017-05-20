@@ -38,14 +38,14 @@ const handleErr = function handleErr(err, searchTerms, cb, attempts) {
 
 
 router.get('/search', (req, res) => {
-  var search = req.query.name;
-  var searcher = req.app.get('nyaatorrents');
+  const search = req.query.name;
+  const searcher = req.app.get('nyaatorrents');
 
   searcher.search(search).then(
     // Success callback
     results => {
       res.send(results.filter(item => {
-        return item.categories.indexOf('english-translated') > 0;
+        return item.categories.indexOf('anime - english-translated') > 0;
       }).map(e => {
         var tHelper = new TorrentHelper(e);
         return tHelper.addNewAttributes();
