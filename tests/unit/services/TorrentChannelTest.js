@@ -22,11 +22,11 @@ describe('UNIT: Torrent Channel', () => {
   });
 
   it('should publish a add_torrent event', () => {
-    let status = channel.addTorrent('url');
+    let status = channel.addTorrent('url', 'name');
     status.status.should.equal('success');
     status.message.should.equal('Success publish of action: add_torrent');
     spy.called.should.equal(true);
-    spy.calledWith('torrent', JSON.stringify({ action: 'add_torrent', torrentUrl: 'url' })).should.equal(true);
+    spy.calledWith('torrent', JSON.stringify({ action: 'add_torrent', torrentUrl: 'url', name: 'name' })).should.equal(true);
   });
 
   it('should publish a move_torrent event', () => {
