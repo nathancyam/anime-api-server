@@ -19,28 +19,20 @@ class TransmissionServer {
    * @returns {Promise.<Object[]>}
    */
   addMultipleTorrents(torrents) {
-    return new Promise((resolve, reject) => {
-      Promise.all(torrents.map(e => this.add(e)))
-        .then(results => {
-          return resolve(results);
-        })
-        .catch(err => {
-          console.error(err);
-          return reject(err);
-        })
-    });
+    return Promise.all(torrents.map(({ url, name }) => this.add(url, name)));
   }
 
   /**
    * @param {Object|Object[]} url
+   * @param {String} name
    * @returns {Promise.<Object|Object[]>}
    */
-  add(url) {
+  add(url, name = '') {
     if (Array.isArray(url)) {
       return this.addMultipleTorrents(url);
     }
 
-    return Promise.resolve(this.redisConn.addTorrent(url));
+    return Promise.resolve(this.redisConn.addTorrent(url, name));
   }
 
   /**

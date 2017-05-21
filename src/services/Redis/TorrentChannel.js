@@ -26,10 +26,11 @@ class TorrentChannel {
     return { status: 'success', message: message };
   }
 
-  addTorrent(torrentUrl) {
+  addTorrent(torrentUrl, name = '') {
     const torrentPayload = {
       action: ACTION_ADD_TORRENT,
-      torrentUrl: torrentUrl
+      torrentUrl,
+      name
     };
 
     return this.publish(torrentPayload);
@@ -59,7 +60,7 @@ class TorrentChannel {
       action: ACTION_RESUME_TORRENT,
       torrentId: torrentId
     };
-    
+
     return this.publish(payload);
   }
 

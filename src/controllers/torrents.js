@@ -18,14 +18,20 @@ router.post('/add', (req, res) => {
   const socketHandler = req.app.get('socket_handler');
   const torrentServer = req.app.get('torrent_server');
   const notificationManager = req.app.get('notification_manager');
+  const { torrentUrl, meta: { name } } = req.body;
 
-  torrentServer.add(req.body.torrentUrl).then(result => {
+  if (!torrentUrl) {
+    return res.send(400, { error: 'Torrent URL not specified.' });
+  }
+
+  torrentServer.add(torrentUrl, name)
+    .then(result => {
       socketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
       notificationManager.emit('notification:new', {
         type: 'note',
         title: 'New Torrent Added',
-        message: `Torrent Added ${req.body.meta.name}`,
-        body: `Torrent Added ${req.body.meta.name}`
+        message: `Torrent Added ${name}`,
+        body: `Torrent Added ${name}`
       });
 
       return res.send(result);
@@ -67,7 +73,7 @@ router.post('/move/:torrentId/anime/:animeId', (req, res) => {
       if (err) {
         return res.status(400).json({ message: 'Anime not found' });
       }
-      
+
       torrentServer
         .moveTorrentFiles(req.params.torrentId, anime.filepath)
         .then(res => {
