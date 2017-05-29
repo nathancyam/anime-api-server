@@ -89,10 +89,10 @@ class Searcher {
           return reject(err);
         }
 
-        const { rss: { channel: [ { item } ]}} = js;
+        const { item } = js.rss.channel[0];
 
         const torrents = item.map(torrent => {
-          const { category } = torrent;
+          const category = torrent['nyaa:category'];
           const categories = category.concat(category.map(cat => cat.toLowerCase()));
 
           return {
@@ -100,10 +100,10 @@ class Searcher {
             href: torrent.link[0],
             name: torrent.title[0],
             categories,
-            size: torrent.size[0],
-            seeds: torrent.seeders[0],
-            leeches: torrent.leechers[0],
-            downloads: torrent.downloads[0],
+            size: torrent['nyaa:size'][0],
+            seeds: torrent['nyaa:seeders'][0],
+            leeches: torrent['nyaa:leechers'][0],
+            downloads: torrent['nyaa:downloads'][0],
           }
 
         });
