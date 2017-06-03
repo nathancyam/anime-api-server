@@ -21,10 +21,6 @@ class SocketHandler {
     this.io.sockets.on('connection', socket => {
       this.attachSocketListeners(socket);
     });
-
-    this.torrentNsp.on('connection', socket => {
-      console.log(`Torrent Client: ${socket.id} established.`);
-    });
   }
 
   emitToTorrentNamespace(eventName, payload) {
@@ -35,10 +31,6 @@ class SocketHandler {
    * @param {Socket} socket
    */
   attachSocketListeners(socket) {
-    socket.on('client_torrent', function (data) {
-      console.log(data);
-    });
-
     socket.on('disconnect', () => {
       console.log('User disconnected');
     });

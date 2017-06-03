@@ -72,21 +72,22 @@ class TorrentChannel {
   }
 
   attachTorrentClientListeners(notificationMgr) {
-    const torrentChannel = this.socketHandler.torrentNsp;
-    torrentChannel.on('torrent_client', ({ action, message, status }) => {
-      let title = status !== 'ok'
-        ? `Failed Operation (${action})`
-        : `Successful Operation (${action})`;
+    this.socketHandler.torrentNsp.on('connection', socket => {
+      socket.on('torrent_client', ({ action, message, status }) => {
+        let title = status !== 'ok'
+          ? `Failed Operation (${action})`
+          : `Successful Operation (${action})`;
 
-      // Only notify use if the torrent server is down or if the action involves adding a torrent.
-      if ([ACTION_ADD_TORRENT, ACTION_TORRENT_SERVER_DOWN].includes(action)) {
-        notificationMgr.emit('notification:new', {
-          type: 'note',
-          title,
-          message,
-          body: message,
-        });
-      }
+        // Only notify use if the torrent server is down or if the action involves adding a torrent.
+        if ([ACTION_ADD_TORRENT, ACTION_TORRENT_SERVER_DOWN].includes(action)) {
+          notificationMgr.emit('notification:new', {
+            type: 'note',
+            title,
+            message,
+            body: message,
+          });
+        }
+      });
     });
   }
 }
