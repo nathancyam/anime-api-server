@@ -85,7 +85,7 @@ class RedisGoogleSearch {
    * @param {GoogleSearch} googleHelper
    */
   constructor(redisConn, googleHelper) {
-    this.redisConn = redisConn;
+    this.socketHandler = redisConn;
     this.googleHelper = googleHelper;
   }
 
@@ -112,7 +112,7 @@ class RedisGoogleSearch {
    * @returns {Promise.<Object>}
    */
   searchAnime(searchTerm) {
-    return this.redisConn
+    return this.socketHandler
       .getConnection()
       .get(this.getCacheKey(searchTerm))
       .then(res => {
@@ -124,7 +124,7 @@ class RedisGoogleSearch {
       })
       .then(response => {
         if (response.canCache) {
-          return this.redisConn
+          return this.socketHandler
             .getConnection()
             .set(this.getCacheKey(searchTerm), JSON.stringify(response.res))
             .then(() => {

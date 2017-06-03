@@ -3,6 +3,7 @@
  */
 
 "use strict";
+const io = require('socket.io');
 
 class SocketHandler {
 
@@ -11,7 +12,8 @@ class SocketHandler {
    */
   constructor(app) {
     this.app = app;
-    this.io = require('socket.io').listen(this.app);
+    this.io = io.listen(this.app);
+    this.torrentNsp = this.io.of('/torrent_channel');
     this.initConnection();
   }
 
@@ -19,6 +21,14 @@ class SocketHandler {
     this.io.sockets.on('connection', socket => {
       this.attachSocketListeners(socket);
     });
+
+    this.torrentNsp.on('connection', socket => {
+      console.log(`Torrent Client: ${socket.id} established.`);
+    });
+  }
+
+  emitToTorrentNamespace(eventName, payload) {
+    this.torrentNsp.emit(eventName, payload);
   }
 
   /**

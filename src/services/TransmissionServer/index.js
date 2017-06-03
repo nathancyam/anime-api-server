@@ -11,7 +11,7 @@ class TransmissionServer {
    * @param {TorrentChannel} redisConn
    */
   constructor(redisConn) {
-    this.redisConn = redisConn;
+    this.socketHandler = redisConn;
   }
 
   /**
@@ -32,7 +32,7 @@ class TransmissionServer {
       return this.addMultipleTorrents(url);
     }
 
-    return Promise.resolve(this.redisConn.addTorrent(url, name));
+    return Promise.resolve(this.socketHandler.addTorrent(url, name));
   }
 
   /**
@@ -41,19 +41,19 @@ class TransmissionServer {
    * @returns {Promise.<{status, message}>}
    */
   moveTorrentFiles(torrentId, destination) {
-    return Promise.resolve(this.redisConn.moveTorrentFiles(torrentId, destination));
+    return Promise.resolve(this.socketHandler.moveTorrentFiles(torrentId, destination));
   }
 
   resumeTorrent(torrentId) {
-    return Promise.resolve(this.redisConn.resumeTorrent(torrentId));
+    return Promise.resolve(this.socketHandler.resumeTorrent(torrentId));
   }
 
   pauseTorrent(torrentId) {
-    return Promise.resolve(this.redisConn.pauseTorrent(torrentId));
+    return Promise.resolve(this.socketHandler.pauseTorrent(torrentId));
   }
 
   forceUpdate() {
-    return Promise.resolve(this.redisConn.forceUpdateListing());
+    return Promise.resolve(this.socketHandler.forceUpdateListing());
   }
 }
 

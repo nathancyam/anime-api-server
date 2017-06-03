@@ -14,15 +14,15 @@ const ACTION_FORCE_UPDATE = 'force_update';
 class TorrentChannel {
 
   /**
-   * @param {RedisConnector} redisConn
+   * @param {SocketHandler} socketHandler
    */
-  constructor(redisConn) {
-    this.redisConn = redisConn;
+  constructor(socketHandler) {
+    this.socketHandler = socketHandler;
   }
 
   publish(payload, message) {
     message = message || `Success publish of action: ${payload.action}`;
-    this.redisConn.publish(TORRENT_CHANNEL, JSON.stringify(payload));
+    this.socketHandler.emitToTorrentNamespace(TORRENT_CHANNEL, payload);
     return { status: 'success', message: message };
   }
 

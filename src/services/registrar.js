@@ -33,7 +33,7 @@ module.exports = (app, httpServer) => {
   const redisSub = new Redis.RedisSubscriber(appConfig.redis);
   const redisConn = new Redis.RedisConnection(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
-  const torrentChannel = new TorrentChannel(redisSub);
+  const torrentChannel = new TorrentChannel(socketHandler);
   const transmissionServer = new TransmissionServer(torrentChannel);
   const animeEntity = app.getModel('anime');
   const episodeEntity = app.getModel('episode');

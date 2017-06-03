@@ -15,9 +15,9 @@ describe('UNIT: Torrent Channel', () => {
 
   beforeEach(() => {
     redisConn = {
-      publish(channel, payload) {}
+      emitToTorrentNamespace(eventName, payload) {}
     };
-    spy = sinon.spy(redisConn, 'publish');
+    spy = sinon.spy(redisConn, 'emitToTorrentNamespace');
     channel = new TorrentChannel(redisConn);
   });
 
@@ -26,7 +26,7 @@ describe('UNIT: Torrent Channel', () => {
     status.status.should.equal('success');
     status.message.should.equal('Success publish of action: add_torrent');
     spy.called.should.equal(true);
-    spy.calledWith('torrent', JSON.stringify({ action: 'add_torrent', torrentUrl: 'url', name: 'name' })).should.equal(true);
+    spy.calledWith('torrent', { action: 'add_torrent', torrentUrl: 'url', name: 'name' }).should.equal(true);
   });
 
   it('should publish a move_torrent event', () => {
@@ -49,7 +49,7 @@ describe('UNIT: Torrent Channel', () => {
     status.status.should.equal('success');
     status.message.should.equal('Success publish of action: pause_torrent');
     spy.called.should.equal(true);
-    spy.calledWith('torrent', JSON.stringify({ action: 'pause_torrent', torrentId: 123 })).should.equal(true);
+    spy.calledWith('torrent', { action: 'pause_torrent', torrentId: 123 }).should.equal(true);
   });
 
   it('should publish a resume_torrent event', () => {
@@ -57,6 +57,6 @@ describe('UNIT: Torrent Channel', () => {
     status.status.should.equal('success');
     status.message.should.equal('Success publish of action: resume_torrent');
     spy.called.should.equal(true);
-    spy.calledWith('torrent', JSON.stringify({ action: 'resume_torrent', torrentId: 123 })).should.equal(true);
+    spy.calledWith('torrent', { action: 'resume_torrent', torrentId: 123 }).should.equal(true);
   });
 });
