@@ -73,7 +73,10 @@ class TorrentChannel {
 
   attachTorrentClientListeners(notificationMgr) {
     this.socketHandler.torrentNsp.on('connection', socket => {
+      console.log('Torrent Channel connection', socket.id);
       socket.on('torrent_client', ({ action, message, status }) => {
+        console.log('Torrent Channel payload', action, status);
+
         let title = status !== 'ok'
           ? `Failed Operation (${action})`
           : `Successful Operation (${action})`;
