@@ -29,3 +29,4 @@ bower_components/
 coverage/
 *.tap
 src/config.json
+config.test.json
