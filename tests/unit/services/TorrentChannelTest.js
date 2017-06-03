@@ -15,10 +15,13 @@ describe('UNIT: Torrent Channel', () => {
 
   beforeEach(() => {
     redisConn = {
+      torrentNsp: {
+        on() {}
+      },
       emitToTorrentNamespace(eventName, payload) {}
     };
     spy = sinon.spy(redisConn, 'emitToTorrentNamespace');
-    channel = new TorrentChannel(redisConn);
+    channel = new TorrentChannel(redisConn, { on() {}, emit() {}});
   });
 
   it('should publish a add_torrent event', () => {

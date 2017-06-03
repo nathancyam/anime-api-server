@@ -5,6 +5,13 @@
 /*jslint node: true */
 "use strict";
 
+const ACTION_ADD_TORRENT = 'add_torrent';
+const ACTION_NEW_FILE = 'new_file';
+const ACTION_PAUSE_TORRENT = 'pause_torrent';
+const ACTION_RESUME_TORRENT = 'resume_torrent';
+const ACTION_FORCE_UPDATE = 'force_update';
+const ACTION_TORRENT_SERVER_DOWN = 'torrent_server_down';
+
 class TransmissionServer {
 
   /**

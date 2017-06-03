@@ -27,13 +27,16 @@ module.exports = (app, httpServer) => {
 
   // Declarations
   const appConfig = app.get('app_config');
+
   const notificationManager = new NotificationManager();
-  const nyaaTorrentSearcher = new NyaaTorrentSearcher();
   const pushBullet = new PushBullet(appConfig);
+  notificationManager.attachListener(pushBullet);
+
+  const nyaaTorrentSearcher = new NyaaTorrentSearcher();
   const redisSub = new Redis.RedisSubscriber(appConfig.redis);
   const redisConn = new Redis.RedisConnection(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
-  const torrentChannel = new TorrentChannel(socketHandler);
+  const torrentChannel = new TorrentChannel(socketHandler, notificationManager);
   const transmissionServer = new TransmissionServer(torrentChannel);
   const animeEntity = app.getModel('anime');
   const episodeEntity = app.getModel('episode');
@@ -61,7 +64,6 @@ module.exports = (app, httpServer) => {
   );
 
   // Setup
-  notificationManager.attachListener(pushBullet);
   require('./Auth')(app, appConfig);
 
   // const commandBus = new CommandBus([

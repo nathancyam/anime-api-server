@@ -78,14 +78,14 @@ class PushBullet {
     }
 
     // Set the default PB JSON format
-    var pushBulletDefault = {
+    const pushBulletDefault = {
       type: 'note',
       title: 'title',
       body: data.message ? data.message : 'body'
     };
 
     // Get a list of the acceptable keys for PB data
-    var acceptableKeys = Object.keys(pushBulletDefault);
+    const acceptableKeys = Object.keys(pushBulletDefault);
     data = Object.assign({}, pushBulletDefault, data);
 
     // Remove any keys that shouldn't be a part of PB data
@@ -95,7 +95,7 @@ class PushBullet {
       }
     });
 
-    var isFormatted = acceptableKeys.every(function (elem) {
+    const isFormatted = acceptableKeys.every(function (elem) {
       return data[elem] && data[elem] !== 'undefined';
     });
 
