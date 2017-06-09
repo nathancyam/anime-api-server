@@ -110,7 +110,7 @@ describe('PushBullet', () => {
       });
   });
 
-  it('should attach to the notification manager', () => {
+  it('should attach to the notification manager and retain debouncing', () => {
     const notifyMgr = new NotificationManager();
     const body = {
       type: 'note',
