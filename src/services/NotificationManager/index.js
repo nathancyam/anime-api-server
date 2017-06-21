@@ -1,22 +1,8 @@
 "use strict";
 
-var EventEmitter = require('events').EventEmitter;
+var { EventEmitter } = require('events');
 
-class NotificationManager extends EventEmitter {
-
-  constructor() {
-    super();
-    this.listeners = [];
-  }
-
-  attachListener(listener) {
-    this.listeners.push(listener);
-  }
-
-  emit(action, data) {
-    this.listeners.forEach(listener => listener.emit(action, data));
-  }
-}
+class NotificationManager extends EventEmitter {}
 
 module.exports = NotificationManager;
 

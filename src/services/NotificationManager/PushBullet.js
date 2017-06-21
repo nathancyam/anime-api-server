@@ -25,10 +25,9 @@ class PushBullet {
   }
 
   /**
-   * @param {String} _
    * @param {Object} data
    */
-  emit(_, data) {
+  emit(data) {
     this._queue.push(data);
     return Promise.resolve(this._debounceCall(data));
   }

@@ -27,7 +27,7 @@ describe('PushBullet', () => {
   });
 
   it('should call Pushbullet with a custom body', () => {
-    return pb.emit(null, {
+    return pb.emit({
       message: 'message',
       invalid: 'invalid',
       title: 'Some Title'
@@ -55,7 +55,7 @@ describe('PushBullet', () => {
   });
 
   it('should call Pushbullet with a default body', () => {
-    return pb.emit(null, {})
+    return pb.emit({})
       .then(() => {
         return new Promise(resolve => {
           setTimeout(resolve, 700);
@@ -94,9 +94,9 @@ describe('PushBullet', () => {
       }
     };
 
-    return pb.emit(null, { body: 'Message 1' })
-      .then(() => pb.emit(null, { body: 'Message 2' }))
-      .then(() => pb.emit(null, { body: 'Message 3' }))
+    return pb.emit({ body: 'Message 1' })
+      .then(() => pb.emit({ body: 'Message 2' }))
+      .then(() => pb.emit({ body: 'Message 3' }))
       .then(() => {
         return new Promise(resolve => setTimeout(resolve, 750));
       })
@@ -132,10 +132,10 @@ describe('PushBullet', () => {
       }
     };
 
-    notifyMgr.attachListener(pb);
-    notifyMgr.emit('notification:new', body);
-    notifyMgr.emit('notification:new', body);
-    notifyMgr.emit('notification:new', body);
+    notifyMgr.on('message', pb.emit.bind(pb));
+    notifyMgr.emit('message', body);
+    notifyMgr.emit('message', body);
+    notifyMgr.emit('message', body);
 
     return new Promise(resolve => setTimeout(resolve, 800))
       .then(() => {

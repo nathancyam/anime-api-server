@@ -27,7 +27,7 @@ router.post('/add', (req, res) => {
   torrentServer.add(torrentUrl, name)
     .then(result => {
       socketHandler.emit('notification:success', { title: 'Added torrent', message: 'Great Success' });
-      notificationManager.emit('notification:new', {
+      notificationManager.emit('message', {
         type: 'note',
         title: 'New Torrent Added',
         message: `Torrent Added ${name}`,

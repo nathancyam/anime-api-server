@@ -43,6 +43,7 @@
     "q": "*",
     "request": "^2.34.0",
     "socket.io": "^1.4.5",
+    "web-push": "^3.2.2",
     "xml2js": "*"
   },
   "devDependencies": {

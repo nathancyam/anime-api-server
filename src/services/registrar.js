@@ -11,6 +11,7 @@ const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
 const TokyoTosho = require('./TokyoTosho');
+const WebPusher = require('./NotificationManager/WebPush');
 
 const { Searcher, NameSearcher, IdSearcher } = require('./AnimeNewsNetwork');
 const AnnImageHandler = require('./AnimeNewsNetwork/image');
@@ -30,7 +31,7 @@ module.exports = (app, httpServer) => {
 
   const notificationManager = new NotificationManager();
   const pushBullet = new PushBullet(appConfig);
-  notificationManager.attachListener(pushBullet);
+  // notificationManager.on('message', pushBullet.emit.bind(pushBullet));
 
   const nyaaTorrentSearcher = new NyaaTorrentSearcher();
   const redisSub = new Redis.RedisSubscriber(appConfig.redis);
@@ -41,6 +42,8 @@ module.exports = (app, httpServer) => {
   const animeEntity = app.getModel('anime');
   const episodeEntity = app.getModel('episode');
 
+  const webPusher = new WebPusher(appConfig.webpush);
+  notificationManager.on('message', webPusher.pushNotification.bind(webPusher, app.getModel('user')));
 
   const _imageHandler = new AnnImageHandler(appConfig.image_dir);
   const _idSearcher = new IdSearcher(ParserFactory.createWithParsers());
@@ -95,6 +98,7 @@ module.exports = (app, httpServer) => {
     torrent_server: transmissionServer,
     command_bus: commandBus,
     tokyo_tosho: tokyoTosho,
+    webpush: webPusher,
   };
 
   const containerHandler = {

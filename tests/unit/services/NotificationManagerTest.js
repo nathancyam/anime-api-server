@@ -10,16 +10,12 @@ const should = require('chai').should();
 
 describe('NotificationManager', () => {
   it('should call the attached listener', () => {
-    const callback = {
-      emit() {}
-    };
-
-    const stub = sinon.stub(callback, 'emit');
+    const spy = sinon.spy();
     const manager = new NotificationManager();
-    manager.attachListener(callback);
-    manager.emit('some action', 'some data');
+    manager.on('message', spy);
+    manager.emit('message', 'some data');
 
-    stub.calledOnce.should.equal(true);
-    stub.calledWith('some action', 'some data').should.equal(true);
+    spy.calledOnce.should.equal(true);
+    spy.calledWith('some data').should.equal(true);
   });
 });

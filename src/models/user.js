@@ -15,7 +15,12 @@ const userSchema = new Schema({
   email: { type: String, unique: true },
   password: String,
   settings: {
-    redisApiKey: { type: String, unique: true }
+    redisApiKey: { type: String, unique: true },
+    keys: {
+      authSecret: { type: String },
+      endpoint: { type: String },
+      key: { type: String },
+    }
   },
   anilistId: { type: Number, unique: true },
   anilistAccessToken: String,

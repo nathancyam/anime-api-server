@@ -83,7 +83,7 @@ class TorrentChannel {
 
         // Only notify use if the torrent server is down or if the action involves adding a torrent.
         if ([ACTION_ADD_TORRENT, ACTION_TORRENT_SERVER_DOWN].includes(action)) {
-          notificationMgr.emit('notification:new', {
+          notificationMgr.emit('message', {
             type: 'note',
             title,
             message,
