@@ -70,6 +70,6 @@ module.exports = (app) => {
   //   });
   // });
   //
-  // return router;
+  return router;
 
 };

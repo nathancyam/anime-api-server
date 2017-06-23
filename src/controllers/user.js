@@ -5,32 +5,8 @@
 "use strict";
 
 const router = require('express').Router();
+const loggedInMiddleware = require('./middleware/auth').loggedInMiddleware;
 const jwtFactory = require('../services/Auth/Strategies/Jwt');
-
-const loggedInMiddleware = (req, res, next) => {
-  const jwt = jwtFactory(req.app, req.app.get('app_config'));
-  const jwtPayload = jwt.verify(req.headers.jwt);
-
-  if (!jwtPayload._id) {
-    return res.status(401)
-      .json({ message: 'Not authorised' });
-  }
-
-  req.app.getModel('user')
-    .findOne({ _id: jwtPayload._id }, (err, user) => {
-      if (err) {
-        return res.status(404)
-          .json({ message: 'User not found' });
-      }
-
-      if (!err && user) {
-        req.user = user;
-        req.isLoggedIn = true;
-      }
-
-      return next();
-    });
-};
 
 router.get('/', (req, res) => {
   let response = {
