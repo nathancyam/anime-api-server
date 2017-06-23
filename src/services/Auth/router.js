@@ -49,27 +49,27 @@ module.exports = (app) => {
           })
       });
   });
-  
+
   router.post('/jwt/login', passport.authenticate('jwt'), (req, res) => {
     return res.json(req.user);
   });
 
-  router.post('/register', (req, res) => {
-
-    req.app.getModel('user').create({
-      email: req.body.email,
-      password: req.body.password
-    }, err => {
-      if (err) {
-        return res.status(500).json({ message: err });
-      }
-
-      passport.authenticate('local')(req, res, () => {
-        return res.json({ message: 'Registered' });
-      });
-    });
-  });
-
-  return router;
+  // router.post('/register', (req, res) => {
+  //
+  //   req.app.getModel('user').create({
+  //     email: req.body.email,
+  //     password: req.body.password
+  //   }, err => {
+  //     if (err) {
+  //       return res.status(500).json({ message: err });
+  //     }
+  //
+  //     passport.authenticate('local')(req, res, () => {
+  //       return res.json({ message: 'Registered' });
+  //     });
+  //   });
+  // });
+  //
+  // return router;
 
 };
