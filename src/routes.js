@@ -25,7 +25,7 @@ module.exports = (app) => {
   app.use('/user', authMiddleware, UserRouter);
   app.use('/anime', authMiddleware, AnimeRouter);
   app.use('/episodes', authMiddleware, EpisodeRouter);
-  app.use('/torrent', authMiddleware, TorrentRouter);
+  app.use('/torrent', TorrentRouter);
   app.use('/nyaatorrents', authMiddleware, NyaaTorrentRouter);
   app.use('/tokyotosho', authMiddleware, TokyoToshoRouter);
   app.use('/ann', AnimeNewsNetworkRouter);
