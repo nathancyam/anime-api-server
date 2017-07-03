@@ -30,4 +30,25 @@ const loggedInMiddleware = (req, res, next) => {
     });
 };
 
-module.exports = { loggedInMiddleware };
+const apiMiddleware = (req, res, next) => {
+  if (!req.headers['api-token']) {
+    return res.status(401).json({ message: 'Not authorised' });
+  }
+
+  const User = req.app.getModel('user');
+  User.findOne({ 'settings.redisApiKey': req.headers['api-token'] })
+    .then(user => {
+      if (!user) {
+        throw new Error(`Could not find user with API key`);
+      }
+
+      req.user = user;
+      req.isLoggedIn = true;
+      return next();
+    })
+    .catch(() => {
+      return res.status(401).json({ message: 'Not authorised' });
+    });
+};
+
+module.exports = { loggedInMiddleware, apiMiddleware };

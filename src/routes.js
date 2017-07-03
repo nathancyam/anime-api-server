@@ -14,6 +14,7 @@ const NyaaTorrentRouter = require('./controllers/nyaatorrents');
 const TokyoToshoRouter = require('./controllers/tokyotosho');
 const AnimeNewsNetworkRouter = require('./controllers/ann');
 const authMiddleware = require('./controllers/middleware/auth').loggedInMiddleware;
+const apiMiddleware = require('./controllers/middleware/auth').apiMiddleware;
 
 module.exports = (app) => {
   app.get('/logout', (req, res) => {
@@ -24,7 +25,7 @@ module.exports = (app) => {
   app.use('/auth', AuthRouter(app));
   app.use('/user', authMiddleware, UserRouter);
   app.use('/anime', authMiddleware, AnimeRouter);
-  app.use('/episodes', authMiddleware, EpisodeRouter);
+  app.use('/episodes', EpisodeRouter(authMiddleware, apiMiddleware));
   app.use('/torrent', TorrentRouter);
   app.use('/nyaatorrents', authMiddleware, NyaaTorrentRouter);
   app.use('/tokyotosho', authMiddleware, TokyoToshoRouter);
