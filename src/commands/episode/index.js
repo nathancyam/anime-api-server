@@ -48,7 +48,7 @@ class EpisodeCommand {
       .then(episode => {
         const { animeTitle, filename } = episodeAttributes;
 
-        this.notificationManager.emit('notification:new', {
+        this.notificationManager.emit('message', {
           type: 'note',
           title: `New Episode: ${animeTitle}`,
           message: `${filename}`,
