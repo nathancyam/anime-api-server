@@ -2,6 +2,8 @@
  * Created by nathanyam on 21/07/2016.
  */
 
+const wait = (time) => new Promise(resolve => setTimeout(() => resolve(), time));
+
 class AnimeUpdateCommand {
 
   /**
@@ -35,19 +37,32 @@ class AnimeUpdateCommand {
   }
 
   /**
+   * @param {AutoUpdaterDirector[]} updates
+   * @return {Promise.<*>}
+   */
+  async staggerRequests(updates) {
+    if (updates.length === 0) {
+      return await true;
+    }
+
+    const [first, ...tail] = updates;
+    await first.postTorrentsToServer();
+    await wait(3000);
+    return await this.staggerRequests(tail);
+  }
+
+  /**
    * @returns {Promise.<Object>}
    */
-  execute() {
-    return this.animeRepository.find(this.queryObj)
-      .then(animeCollection => {
-        const updaters = this.autoUpdater.createCollection(
-          animeCollection,
-          this.nyaaTorrents,
-          this.torrentServer
-        );
+  async execute() {
+    const animeCollection = await this.animeRepository.find(this.queryObj);
+    const updaters = this.autoUpdater.createCollection(
+      animeCollection,
+      this.nyaaTorrents,
+      this.torrentServer
+    );
 
-        return Promise.all(updaters.map(updater => updater.postTorrentsToServer()));
-      })
+    return await this.staggerRequests(updaters);
   }
 }
 

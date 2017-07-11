@@ -88,8 +88,6 @@ class Searcher {
    * @returns {Promise.<Torrent>}
    */
   parseRssXml(body) {
-
-
     return new Promise((resolve, reject) => {
       xml2js.parseString(body.toString(), (err, js) => {
         if (err) {
