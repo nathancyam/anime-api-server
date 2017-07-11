@@ -27,12 +27,8 @@ app.get('console')('Setting app configuration');
 app.set('app_config', require('./config'));
 
 require('./bootstrap')(app, httpServer);
-
-// Start the regular checker
-app.get('console')('Initialising process handlers and child process...');
-var ProcessHandler = require('./modules/anime_updater_process_handler');
-var processHandler = new ProcessHandler();
-processHandler.startProcess();
+app.get('console')('Creating background jobs...');
+require('./background')(app);
 
 httpServer.listen(app.get('port'), function () {
   app.get('console')('Server ready for requests on port: ' + app.get('port'));

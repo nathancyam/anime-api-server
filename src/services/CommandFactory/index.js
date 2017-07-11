@@ -26,6 +26,7 @@ class CommandFactory {
 
   /**
    * @param {String} commandAlias
+   * @param args
    */
   create(commandAlias, ...args) {
     if (!Object.keys(commands).includes(commandAlias)) {

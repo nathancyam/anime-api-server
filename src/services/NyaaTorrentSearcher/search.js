@@ -17,6 +17,7 @@ const _requestGet = (url) => new Promise((resolve, reject) => {
     if (err) {
       return reject(err);
     }
+
     return resolve(body);
   });
 });
@@ -67,6 +68,10 @@ class Searcher {
           };
 
           return this.search(searchObj);
+        })
+        .catch(err => {
+          console.error('Issue detected for search', searchUrl);
+          console.error(err);
         });
     }
 
@@ -83,10 +88,16 @@ class Searcher {
    * @returns {Promise.<Torrent>}
    */
   parseRssXml(body) {
+
+
     return new Promise((resolve, reject) => {
       xml2js.parseString(body.toString(), (err, js) => {
         if (err) {
           return reject(err);
+        }
+
+        if (!js) {
+          return reject('Empty response')
         }
 
         const { item } = js.rss.channel[0];
