@@ -25,7 +25,7 @@ describe('Anime Update Command', () => {
     stub.getCall(3).args[0].should.equal('torrent_server');
   });
 
-  it('should post torrents to the server', () => {
+  it('should post torrents to the server', function() {
 
     const animeResult = [{ _id: '1234', title: 'Nisekoi' }];
     const stubRepo = sinon.stub(repo, 'find');
@@ -43,6 +43,7 @@ describe('Anime Update Command', () => {
       { name: 'Nisekoi' }
     );
 
+    this.timeout(5000);
     return cmd.execute()
       .then(() => {
         stubRepo.calledWith({ name: 'Nisekoi' }).should.equal(true);
