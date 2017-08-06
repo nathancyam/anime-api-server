@@ -29,6 +29,7 @@ class AutoUpdaterDirector {
       searchTerm = `${searchTerm} ${this.anime.screen_resolution}`;
     }
 
+    console.log(`${Date.now()} [Auto Update] Searching for ${searchTerm}`);
     return this.torrentSearcher.search(searchTerm);
   }
 

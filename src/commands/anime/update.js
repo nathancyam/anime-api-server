@@ -55,6 +55,7 @@ class AnimeUpdateCommand {
    * @returns {Promise.<Object>}
    */
   async execute() {
+    console.log(`${Date.now()} [Auto Update] Running automated update.`);
     const animeCollection = await this.animeRepository.find(this.queryObj);
     const updaters = this.autoUpdater.createCollection(
       animeCollection,
