@@ -40,8 +40,9 @@ const _requestGet = (url) => new Promise((resolve, reject) => {
 
 class Searcher {
 
-  constructor() {
+  constructor(options = { useCache: true }) {
     this.cache = {};
+    this.options = options;
   }
 
   /**

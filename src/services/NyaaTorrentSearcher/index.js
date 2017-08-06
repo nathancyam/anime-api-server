@@ -1,9 +1,3 @@
-/**
- * Created by nathanyam on 10/03/2016.
- */
-
-"use strict";
-
 const NT = require('./search');
 
 /**
@@ -19,14 +13,6 @@ class AnimeTorrentSearcher {
   }
 
   /**
-   * @param searchObj
-   * @returns {Promise}
-   */
-  searchNyaaTorrents(searchObj) {
-    return this.nyaaTorrents.search(searchObj);
-  }
-
-  /**
    * Returns a promise for the results of the torrent search (i.e. NyaaTorrents).
    *
    * @param searchTerms Search terms to be used to search the torrent resource
@@ -34,7 +20,7 @@ class AnimeTorrentSearcher {
    * @private
    */
   search(searchTerms) {
-    return this.searchNyaaTorrents({ term: searchTerms });
+    return this.nyaaTorrents.search({ term: searchTerms });
   }
 }
 

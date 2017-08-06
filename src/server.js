@@ -5,7 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const session = require('express-session');
 const httpServer = module.exports = require('http').createServer(app);
 
 // all environments
@@ -14,7 +13,6 @@ app.set('port', process.env.PORT || 3000);
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 
 app.set('console', (message, type) => {
   type = type || 'log';

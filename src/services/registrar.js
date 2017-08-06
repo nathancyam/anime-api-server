@@ -5,7 +5,6 @@
 "use strict";
 const SocketHandler = require('./SocketHandler').SocketHandler;
 const NotificationManager = require('./NotificationManager');
-const PushBullet = require('./NotificationManager/PushBullet');
 const TransmissionServer = require('./TransmissionServer');
 const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
@@ -30,9 +29,6 @@ module.exports = (app, httpServer) => {
   const appConfig = app.get('app_config');
 
   const notificationManager = new NotificationManager();
-  const pushBullet = new PushBullet(appConfig);
-  // notificationManager.on('message', pushBullet.emit.bind(pushBullet));
-
   const nyaaTorrentSearcher = new NyaaTorrentSearcher();
   const redisSub = new Redis.RedisSubscriber(appConfig.redis);
   const redisConn = new Redis.RedisConnection(appConfig.redis);
@@ -83,7 +79,6 @@ module.exports = (app, httpServer) => {
   // ]);
 
   const commandBus = new CommandBus([]);
-
 
   // Registration
   const container = {
