@@ -1,15 +1,9 @@
-/**
- * Created by nathanyam on 4/07/2016.
- */
-
-"use strict";
-
 const qs = require('querystring');
 const request = require('request');
 
-const ANN_GENERAL_URI = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime';
-const ANN_ALL_ANIME = 'http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&nlist=all&type=anime';
-const ANN_SPECIFIC_URI = 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml';
+const ANN_GENERAL_URI = 'http://www.animenewsnetwork.cc/encyclopedia/reports.xml?id=155&type=anime';
+const ANN_ALL_ANIME = 'http://www.animenewsnetwork.cc/encyclopedia/reports.xml?id=155&nlist=all&type=anime';
+const ANN_SPECIFIC_URI = 'http://cdn.animenewsnetwork.cc/encyclopedia/api.xml';
 
 class Searcher {
   /**

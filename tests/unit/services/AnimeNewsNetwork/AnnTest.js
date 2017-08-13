@@ -46,7 +46,7 @@ describe('UNIT: Anime News Network Test', () => {
       const searcher = new AnimeNewsNetwork.IdSearcher(ResponseParser.createWithParsers());
       return searcher.search(100)
         .then(result => {
-          stub.calledWith('http://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=100')
+          stub.calledWith('http://cdn.animenewsnetwork.cc/encyclopedia/api.xml?anime=100')
             .should.equal(true);
           result.should.deep.equal(jsonResponse);
         });
@@ -84,7 +84,7 @@ describe('UNIT: Anime News Network Test', () => {
 
       return searcher.search('Amagi Brilliant Park')
         .then(result => {
-          stub.calledWith('http://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime&name=Amagi%20Brilliant%20Park')
+          stub.calledWith('http://www.animenewsnetwork.cc/encyclopedia/reports.xml?id=155&type=anime&name=Amagi%20Brilliant%20Park')
             .should.equal(true);
 
           idStub.calledWith(16133).should.equal(true);
@@ -92,7 +92,7 @@ describe('UNIT: Anime News Network Test', () => {
           idStub.restore();
         })
     });
-    
+
     it('should use Google if it can\'t find an anime', () => {
       const googleHelper = {
         searchAnime() {}
@@ -110,7 +110,7 @@ describe('UNIT: Anime News Network Test', () => {
       googleHelperStub.returns(Promise.resolve(googleJsonResponse));
 
       const searcher = new AnimeNewsNetwork.NameSearcher(idSearcher, googleHelper, ResponseParser.create());
-      
+
       return searcher.search('Whatever')
         .then(result => {
           googleHelperStub.calledWith('Nisekoi').should.equal(true);
