@@ -12,6 +12,6 @@ DEPLOY_CMD="cd /var/www/node-anime-directory/builds \
 && yarn \
 && ln -nfs /var/www/node-anime-directory/current ."
 
-echo tar -zcvf $ARCHIVE_FILE_NAME --exclude=./.git --exclude=./*.tar.gz --exclude=./.idea --exclude=./node_modules --exclude=./tests --exclude=./media --exclude=./config.json .
-echo rsync -rvz --progress -e "ssh -p ${SSH_PORT}" $ARCHIVE_FILE_NAME $REMOTE_USER@$REMOTE_HOST:$DEST_DIR
-echo ssh -t -p $SSH_PORT $REMOTE_USER@$REMOTE_HOST $DEPLOY_CMD
+tar -zcvf $ARCHIVE_FILE_NAME --exclude=./.git --exclude=./*.tar.gz --exclude=./.idea --exclude=./node_modules --exclude=./tests --exclude=./media --exclude=./config.json .
+rsync -rvz --progress -e "ssh -p ${SSH_PORT}" $ARCHIVE_FILE_NAME $REMOTE_USER@$REMOTE_HOST:$DEST_DIR
+ssh -t -p $SSH_PORT $REMOTE_USER@$REMOTE_HOST $DEPLOY_CMD
