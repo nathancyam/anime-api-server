@@ -7,7 +7,8 @@ ARCHIVE_DIR="api_server"_$(date +"%Y%m%d%H%M")
 ARCHIVE_FILE_NAME=$ARCHIVE_DIR.tar.gz
 
 DEPLOY_CMD="cd /var/www/node-anime-directory/builds \
-&& tar -zxvf $ARCHIVE_FILE_NAME \
+&& mkdir $ARCHIVE_DIR \
+&& tar -zxvf $ARCHIVE_FILE_NAME -C $ARCHIVE_DIR \
 && cd $ARCHIVE_DIR \
 && yarn \
 && ln -nfs . /var/www/node-anime-directory/current"
