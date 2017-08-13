@@ -1,7 +1,7 @@
 machine:
   timezone: Australia/Melbourne
   node:
-    version: 8.1.0
+    version: 8.3.0
   hosts:
     circlehost: 127.0.0.1
 
