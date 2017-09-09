@@ -24,6 +24,7 @@ class SocketHandler {
   }
 
   emitToTorrentNamespace(eventName, payload) {
+    console.log(`[${(new Date()).toLocaleString('en-GB', { timeZone: 'Australia/Melbourne' })}] Socket Emit:`, payload)
     this.torrentNsp.emit(eventName, payload);
   }
 
