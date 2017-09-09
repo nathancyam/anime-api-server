@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const NYAA_URL = `https://nyaa.si`;
-const CACHE_TTL_MIN = 1000 * 60 * 2;
+const CACHE_TTL_MIN = 1000 * 60 * 5;
 
 /**
  * @param {String} url

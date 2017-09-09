@@ -47,7 +47,7 @@ class AnimeUpdateCommand {
 
     const [first, ...tail] = updates;
     await first.postTorrentsToServer();
-    await wait(3000);
+    await wait(1000 * 60 * 2);
     return await this.staggerRequests(tail);
   }
 
