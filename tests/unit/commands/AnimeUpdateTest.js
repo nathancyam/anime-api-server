@@ -24,6 +24,7 @@ describe('Anime Update Command', () => {
     stub.getCall(2).args[0].should.equal('nyaatorrents');
     stub.getCall(3).args[0].should.equal('torrent_server');
     command.queryObj.should.deep.equal({ is_watching: true });
+    command.staggerTimeout.should.equal(1000 * 60 * 2);
   });
 
   it('should post torrents to the server', function() {
@@ -41,7 +42,8 @@ describe('Anime Update Command', () => {
       autoUpdater,
       torrent,
       server,
-      { name: 'Nisekoi' }
+      { name: 'Nisekoi' },
+      1000,
     );
 
     this.timeout(5000);

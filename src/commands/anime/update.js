@@ -13,26 +13,29 @@ class AnimeUpdateCommand {
    * @param {TransmissionServer} torrentServer
    * @param queryObj
    */
-  constructor(animeRepository, autoUpdater, nyaaTorrents, torrentServer, queryObj) {
+  constructor(animeRepository, autoUpdater, nyaaTorrents, torrentServer, queryObj, stagger) {
     this.animeRepository = animeRepository;
     this.autoUpdater = autoUpdater;
     this.nyaaTorrents = nyaaTorrents;
     this.torrentServer = torrentServer;
     this.queryObj = queryObj;
+    this.staggerTimeout = stagger;
   }
 
   /**
    * @param {{ get(): Function }} container
    * @param {Object} queryObj
+   * @param {Number} stagger
    * @returns {AnimeUpdateCommand}
    */
-  static create(container, queryObj) {
+  static create(container, queryObj, stagger = 1000 * 60 * 2) {
     return new AnimeUpdateCommand(
       container.get('anime'),
       container.get('auto_updater'),
       container.get('nyaatorrents'),
       container.get('torrent_server'),
-      queryObj
+      queryObj,
+      stagger
     );
   }
 
@@ -47,7 +50,7 @@ class AnimeUpdateCommand {
 
     const [first, ...tail] = updates;
     await first.postTorrentsToServer();
-    await wait(1000 * 60 * 2);
+    await wait(this.staggerTimeout);
     return await this.staggerRequests(tail);
   }
 
