@@ -77,7 +77,7 @@ class EpisodeUpdater {
 
     let episodesOnDisk = episodeCollection.map(ep => ep.number);
     let torrentArray = setTorrentEpisodeNumbers(torrentResults);
-    return torrentArray.filter(e => e.episodeNumber && episodesOnDisk.indexOf(e.episodeNumber) === -1);
+    return torrentArray.filter(e => e.episodeNumber && !episodesOnDisk.includes(e.episodeNumber));
   }
 }
 

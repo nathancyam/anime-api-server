@@ -46,6 +46,7 @@ class AutoUpdaterDirector {
   postTorrentsToServer() {
     return this.getMissingEpisodes()
       .then(results => {
+        results.forEach(result => console.log(`> [${Date.now()}] Sending ${result.name} (${result.href})`));
         let torrentLinks = results.map(e => e.href);
         return this.torrentServer.add(torrentLinks);
       })

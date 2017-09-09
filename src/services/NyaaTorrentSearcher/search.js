@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const NYAA_URL = `https://nyaa.si`;
-const CACHE_TTL_MIN = 1000 * 60 * 5;
+const CACHE_TTL_MIN = 1000 * 60 * 2;
 
 /**
  * @param {String} url
@@ -52,12 +52,14 @@ class Searcher {
   search(searchObj) {
     const queryObj = {
       page: 'rss',
-      term: searchObj.term,
+      q: searchObj.term,
+      c: '1_2',
+      f: 0,
     };
 
-    const now = new Date();
+    const now = Date.now();
     const searchUrl = `${NYAA_URL}/?${qs.stringify(queryObj)}`;
-    const hash = crypto.createHash('md5').update(queryObj.term).digest("hex");
+    const hash = crypto.createHash('md5').update(queryObj.q).digest("hex");
 
     if (!this.cache[hash]) {
       return _requestGet(searchUrl)
@@ -76,7 +78,7 @@ class Searcher {
         });
     }
 
-    if (this.cache[hash].expiry < (new Date())) {
+    if (this.cache[hash].expiry < now){
       delete this.cache[hash];
       return this.search(searchObj);
     }

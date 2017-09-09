@@ -17,12 +17,13 @@ describe('Anime Update Command', () => {
   it('should create the command from the container', () => {
     const container = { get() {} };
     const stub = sinon.stub(container, 'get');
-    AnimeUpdateCommand.create(container);
+    const command = AnimeUpdateCommand.create(container, { is_watching: true });
 
     stub.getCall(0).args[0].should.equal('anime');
     stub.getCall(1).args[0].should.equal('auto_updater');
     stub.getCall(2).args[0].should.equal('nyaatorrents');
     stub.getCall(3).args[0].should.equal('torrent_server');
+    command.queryObj.should.deep.equal({ is_watching: true });
   });
 
   it('should post torrents to the server', function() {

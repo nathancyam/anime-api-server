@@ -4,9 +4,16 @@ module.exports = (app) => {
   const commandManager = app.get('command');
   const bus = app.get('bus');
 
-  setInterval(() => {
-    console.log(`${Date.now()} [Auto Update] Starting background interval.`);
+  function run() {
+    console.log(`[${(new Date()).toLocaleString('en-GB', { timeZone: 'Australia/Melbourne' })}] [Auto Update] Starting background interval.`);
+    /** @var {AnimeUpdateCommand} updateCommand */
     const updateCommand = commandManager.create('anime_update', { is_watching: true });
     bus.handle(updateCommand);
+  }
+
+  setInterval(() => {
+    run();
   }, HOUR_INTERVAL * 3);
+
+  run();
 };
