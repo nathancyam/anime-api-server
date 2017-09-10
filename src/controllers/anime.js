@@ -85,21 +85,13 @@ router.get('/:id', (req, res) => {
 
 router.post('/:id', animeValidation, (req, res) => {
   req.app.getModel('anime')
-    .findById(req.params.id, (err, anime) => {
-      if (err) {
-        return res.status(500)
-          .json({ message: 'Failed to load anime model' });
-      }
-
-      const updateAnime = Object.assign(anime, req.body);
-      return updateAnime.save()
-    })
+    .findByIdAndUpdate(req.params.id, req.body, { upsert: true, 'new': true })
     .then(result => {
       return res.status(200).json(result);
     })
     .catch(err => {
       return res.status(500)
-        .json({ message: 'Failed to save anime model', error: err.message });
+        .json({ message: 'Failed to load anime model', err: err.message });
     });
 });
 
