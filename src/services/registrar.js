@@ -8,6 +8,7 @@ const NotificationManager = require('./NotificationManager');
 const TransmissionServer = require('./TransmissionServer');
 const Redis = require('./Redis');
 const TorrentChannel = require('./Redis/TorrentChannel');
+const FigurineChannel = require('./Redis/FigurineChannel');
 const NyaaTorrentSearcher = require('./NyaaTorrentSearcher');
 const TokyoTosho = require('./TokyoTosho');
 const WebPusher = require('./NotificationManager/WebPush');
@@ -34,6 +35,7 @@ module.exports = (app, httpServer) => {
   const redisConn = new Redis.RedisConnection(appConfig.redis);
   const socketHandler = new SocketHandler(httpServer);
   const torrentChannel = new TorrentChannel(socketHandler, notificationManager);
+  const figurineChannel = new FigurineChannel(socketHandler, notificationManager);
   const transmissionServer = new TransmissionServer(torrentChannel);
   const animeEntity = app.getModel('anime');
   const episodeEntity = app.getModel('episode');
